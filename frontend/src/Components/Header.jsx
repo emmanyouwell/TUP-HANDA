@@ -35,8 +35,8 @@ export default function Example() {
             <li>
               <details>
                 <summary>Disasters</summary>
-                <ul className="p-2">
-                  <li><a>Fire Outbreaks</a></li>
+                <ul className="p-2 z-10">
+                  <li><Link to="/modules/fires">Fire Outbreaks</Link></li>
                   <li><Link to="/modules/typhoons">Typhoons</Link></li>
                   <li><a>Floods</a></li>
                   <li><a>Earthquakes</a></li>

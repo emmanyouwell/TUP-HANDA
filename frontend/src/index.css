@@ -11,13 +11,23 @@ html{
 
 
 @tailwind utilities;
-.box{
+.typhoon{
     @apply relative; 
 }
-.box::before{
+.typhoon::before{
     @apply content-[''] absolute w-[100%] h-[100%] bg-gradient-to-r from-success via-secondary to-accent top-0 left-0 scale-x-0 transition-transform ease-in-out origin-left duration-500 rounded-md;
 }
 
-.box:hover::before{
+.typhoon:hover::before{
+    @apply scale-x-100 origin-left;
+}
+.fire{
+    @apply relative; 
+}
+.fire::before{
+    @apply content-[''] absolute w-[100%] h-[100%] bg-gradient-to-r from-pink-600 via-red-500 to-yellow-500 top-0 left-0 scale-x-0 transition-transform ease-in-out origin-left duration-500 rounded-md;
+}
+
+.fire:hover::before{
     @apply scale-x-100 origin-left;
 }
