@@ -90,44 +90,44 @@ const FireModule = () => {
                 <div className="relative min-h-screen p-10">
                     <div className="absolute inset-0 filter brightness-50 bg-fireDuring bg-no-repeat bg-cover bg-center bg-fixed"></div>
                     <h1 className="font-black text-6xl text-end text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">During</h1>
-                    <div className="grid grid-auto-flow:column grid-cols-4 gap-4 z-10 relative">
-                        <div className="row-span-3 col-span-1 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 z-10 relative">
+                        <div className="md:col-span-1 lg:row-span-1 xl:row-span-1 2xl:row-span-3 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <img src={img2} className="h-auto w-100" alt="Guidelines during a typhoon/flood by Philstar" />
 
                         </div>
-                        <div className="row-span-3 col-span-1 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="md:col-span-1 lg:row-span-1 xl:row-span-1 2xl:row-span-3  col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <img src={img3} className="" alt="Guidelines during a typhoon/flood by Philstar" />
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="font-bold text-4xl mb-2 z-10">Stay calm.</h1>
                             <p className="text-xl z-10"> Keep a clear head and try not to panic. Remaining calm will help you make rational decisions and act more effectively.</p>
                         </div>
 
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="font-bold text-4xl mb-2 z-10">Evacuate immediately.</h1>
                             <p className="text-xl mb-4 z-10">Leave the building as quickly and safely as possible. Use the nearest exit, but if it's blocked by smoke or flames, use an alternate route. Crawl low under smoke to minimize inhalation of toxic fumes.</p>
 
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="z-10 font-bold text-4xl">Cover your nose and mouth.</h1>
                             <p className="z-10 text-xl">
                                 If smoke is present, cover your nose and mouth with a cloth or clothing to reduce inhalation of smoke and toxic gases.
                             </p>
 
                         </div>
-                        <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="z-10 font-bold text-4xl mb-2">Stay low.</h1>
                             <p className="z-10 text-xl">Smoke rises, so stay as low to the ground as possible while evacuating to minimize smoke inhalation.</p>
 
                         </div>
-                        <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="z-10 font-bold text-4xl mb-2">Alert others.</h1>
                             <p className="z-10 text-xl">If you're in a building with others, alert them to the fire by shouting or activating the fire alarm if available. Warn others as you evacuate.</p>
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="z-10 font-bold text-4xl mb-2">Feel doors before opening.</h1>
                             <p className="z-10 text-xl">Before opening any doors, feel the doorknob and the door itself with the back of your hand. If it's hot, do not open it as there may be fire on the other side. Use another escape route if possible.</p>
 
