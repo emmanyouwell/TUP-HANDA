@@ -2,7 +2,7 @@ import React from 'react'
 
 const ChecklistCard = ({ img, title, description, percent, color}) => {
     return (
-        <div className="card max-w-96 bg-base-100 drop-shadow-xl">
+        <div className="card min-w-24 max-w-96 bg-base-100 drop-shadow-xl">
             <div className="relative">
 
                 <figure className="bg-base-200">
