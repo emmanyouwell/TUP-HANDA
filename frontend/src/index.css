@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+
+html{
+    scroll-behavior: smooth;
+}
+*{
+    box-sizing: border-box;
+}
+
+
+
+@tailwind utilities;
+.box{
+    @apply relative; 
+}
+.box::before{
+    @apply content-[''] absolute w-[100%] h-[100%] bg-gradient-to-r from-success via-secondary to-accent top-0 left-0 scale-x-0 transition-transform ease-in-out origin-left duration-500 rounded-md;
+}
+
+.box:hover::before{
+    @apply scale-x-100 origin-left;
+}
