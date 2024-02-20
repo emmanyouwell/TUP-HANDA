@@ -96,14 +96,14 @@ const WaterModule = () => {
 
                             
                         </div>
-                        <div className="box col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="box col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
                             <h1 className="z-10 font-bold text-4xl">Stay away from windows.</h1>
                             <p className="z-10 text-xl">
                             Avoid standing near windows or glass doors, as they can shatter due to high winds or flying debris. Seek shelter in an interior room or a basement if possible.
                             </p>
                             
                         </div>
-                        <div className="box flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="box flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
                             <h1 className="z-10 font-bold text-4xl mb-2">Avoid using electrical appliances.</h1>
                             <p className="z-10 text-xl">Unplug electrical appliances and avoid using them during the storm to reduce the risk of electrical fires or damage from power surges.</p>
 
@@ -114,13 +114,13 @@ const WaterModule = () => {
 
                         </div>
                         <div className="box col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
-                            <h1 className="z-10 font-bold text-4xl mb-2">Evacuation plan</h1>
-                            <p className="z-10 text-xl"> Know your evacuation routes and have a plan in place in case you need to evacuate. Follow instructions from local authorities regarding evacuation orders and shelter locations.</p>
+                            <h1 className="z-10 font-bold text-4xl mb-2">Use flashlights</h1>
+                            <p className="z-10 text-xl">Use flashlights instead of candles or open flames if you experience a power outage. Candles can pose a fire hazard, especially during a storm.</p>
 
                         </div>
                         <div className="box col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
-                            <h1 className="z-10 font-bold text-4xl mb-2">Protect important documents</h1>
-                            <p className="z-10 text-xl">Keep important documents such as identification, insurance papers, and medical records in a waterproof and portable container. Consider making digital copies as well.</p>
+                            <h1 className="z-10 font-bold text-4xl mb-2">Evacuate Calmly</h1>
+                            <p className="z-10 text-xl">When asked by authorities to evacuate, please do so calmly. Bring all essential items, shut off the main electrical source, and secure your home before evacuating.</p>
 
                         </div>
                     </div>
