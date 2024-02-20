@@ -29,22 +29,23 @@ const FireModule = () => {
                 <div className="relative min-h-screen p-10">
                     <div className="absolute inset-0 filter brightness-50 bg-fireBefore bg-no-repeat bg-cover bg-center bg-fixed"></div>
                     <h1 className="font-black text-6xl text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-right">Before</h1>
-                    <div className="grid grid-auto-flow:column grid-cols-4 gap-4 z-10 relative">
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 z-10 relative">
+                        <div className="lg:row-span-2 row-span-3 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
+                            <img src={img1} alt="Tips for preventing fires" />
+
+                        </div>
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Develop an evacuation plan.</h1>
                             <p className="z-10 text-xl">Create a detailed plan outlining escape routes from different areas of your home or building. Practice this plan regularly with all occupants.</p>
                         </div>
-                        <div className="row-span-3 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
-                            <img src={img1} alt="Guidelines before a typhoon/flood by Philstar" />
 
-                        </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Install smoke alarms.</h1>
                             <p className="z-10 text-xl mb-4">Ensure that smoke alarms are installed in every room and on every floor of your home or building. Test them monthly to ensure they're working correctly.</p>
 
                             {/* <a href="#checklist" className="z-10 text-end">Don't know what to include in your kit? Visit our checklist.<i class="fa-solid fa-arrow-right ms-2"></i></a> */}
                         </div>
-                        <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl">Keep fire extinguishers.</h1>
                             {/* <ul className="steps steps-vertical text-white text-xl relative z-10" data-aos="fade-right">
                                 <li className="step step-primary">Reinforce Windows and Doors</li>
@@ -55,27 +56,27 @@ const FireModule = () => {
                             </ul> */}
                             <p className="z-10 text-xl">Place fire extinguishers in accessible locations throughout your home or building, especially in areas prone to fire hazards like the kitchen or workshop.</p>
                         </div>
-                        <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Clear fire exits.</h1>
                             <p className="z-10 text-xl">Keep exits clear of obstructions to ensure easy evacuation in case of a fire. Windows should open easily, and doors should not be blocked.</p>
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Educate occupants.</h1>
                             <p className="z-10 text-xl">Teach everyone in your household or building about fire safety, including how to respond in the event of a fire and how to use fire extinguishers properly.</p>
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1  fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Store flammable materials safely.</h1>
                             <p className="z-10 text-xl">Keep flammable materials like gasoline, paint, and cleaning products stored in well-ventilated areas away from heat sources.</p>
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Designate a meeting point.</h1>
                             <p className="z-10 text-xl">Choose a safe location outside the home or building where everyone can gather after evacuating. This helps account for all occupants and prevents unnecessary risks.</p>
 
                         </div>
-                        <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl mb-2">Stay informed.</h1>
                             <p className="z-10 text-xl">Stay informed about local fire hazards, weather conditions, and emergency procedures. Follow advice from authorities during fire outbreaks.</p>
 
@@ -112,7 +113,7 @@ const FireModule = () => {
                         <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
                             <h1 className="z-10 font-bold text-4xl">Cover your nose and mouth.</h1>
                             <p className="z-10 text-xl">
-                            If smoke is present, cover your nose and mouth with a cloth or clothing to reduce inhalation of smoke and toxic gases.
+                                If smoke is present, cover your nose and mouth with a cloth or clothing to reduce inhalation of smoke and toxic gases.
                             </p>
 
                         </div>
@@ -131,7 +132,7 @@ const FireModule = () => {
                             <p className="z-10 text-xl">Before opening any doors, feel the doorknob and the door itself with the back of your hand. If it's hot, do not open it as there may be fire on the other side. Use another escape route if possible.</p>
 
                         </div>
-                      
+
                     </div>
 
 
