@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import Header from '../../Components/Header'
-import ChecklistCard from '../../Components/ChecklistCard'
+
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import img1 from '../../assets/before-typhoon.jpg'
@@ -8,13 +7,14 @@ import img2 from '../../assets/during-typhoon.jpg'
 import img3 from '../../assets/after-typhoon.webp'
 import Footer1 from '../../Components/Footer1'
 import ChecklistComponent from '../../Components/ChecklistComponent'
+import Navbar from '../../Components/Navbar'
 const WaterModule = () => {
     useEffect(() => {
         AOS.init()
     }, [])
     return (
         <>
-            <Header />
+            <Navbar />
             <div className="overflow-x-hidden overflow-y-hidden">
 
                 {/* Typhoon/Hurricane */}
@@ -45,7 +45,7 @@ const WaterModule = () => {
                             <h1 className="z-10 font-bold text-4xl mb-2">Prepare an Emergency Kit.</h1>
                             <p className="z-10 text-xl mb-4">Assemble an emergency kit that includes essentials such as non-perishable food, water, medications, flashlight, batteries, first aid supplies, important documents, and any other items you may need in case of evacuation or loss of power.</p>
 
-                            <a href="#checklist" className="z-10 text-end">Don't know what to include in your kit? Visit our checklist.<i class="fa-solid fa-arrow-right ms-2"></i></a>
+                            <a href="#checklist" className="z-10 underline">Don't know what to include in your kit? Visit our checklist.<i class="fa-solid fa-arrow-right ms-2"></i></a>
                         </div>
                         <div className="xl:row-span-1 lg:col-span-1 typhoon row-span-2 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
                             <h1 className="z-10 font-bold text-4xl">Secure your home.</h1>
