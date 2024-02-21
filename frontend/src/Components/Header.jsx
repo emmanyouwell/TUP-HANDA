@@ -23,7 +23,7 @@ export default function Example() {
                   <li><Link to="/modules/fires">Fire Outbreaks</Link></li>
                   <li><Link to="/modules/typhoons">Typhoons</Link></li>
                   <li><a>Floods</a></li>
-                  <li><a>Earthquakes</a></li>
+                  <li><Link to="/modules/earthquakes">Earthquakes</Link></li>
                 </ul>
               </details>
             </li>
@@ -43,7 +43,7 @@ export default function Example() {
                   <li><Link to="/modules/fires">Fire Outbreaks</Link></li>
                   <li><Link to="/modules/typhoons">Typhoons</Link></li>
                   <li><a>Floods</a></li>
-                  <li><a>Earthquakes</a></li>
+                  <li><Link to="/modules/earthquakes">Earthquakes</Link></li>
                 </ul>
               </details>
             </li>
