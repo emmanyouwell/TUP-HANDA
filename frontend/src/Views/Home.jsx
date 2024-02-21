@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import Header from '../Components/Header'
+
 import Section1 from '../Components/Section1'
 import Footer1 from '../Components/Footer1'
 import Carousel from '../Components/Carousel'
 import Testimonials from '../Components/Testimonials'
 import Announcement from '../Components/Announcement'
 import Accordion from '../Components/Accordion'
+import Navbar from '../Components/Navbar'
 function Home() {
     const [count, setCount] = useState(0)
 
     return (
         <>
             <div className="flex flex-col min-h-screen bg-default">
-                <Header />
+                <Navbar />
 
                 <Announcement />
                 
