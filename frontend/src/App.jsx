@@ -5,6 +5,8 @@ import Modules from './Views/Modules/Modules';
 import GoogleFormComponent from './Quizzes/GoogleFormComponent';
 import WaterModule from './Views/Modules/WaterModule';
 import FireModule from './Views/Modules/FireModule';
+import EarthModule from './Views/Modules/EarthModule';
+import Hotline from './Views/Hotline';
 function App() {
 
 
@@ -16,6 +18,8 @@ function App() {
         <Route path="/quiz" element={<GoogleFormComponent/>} />
         <Route path="/modules/typhoons" element={<WaterModule/>} />
         <Route path="/modules/fires" element={<FireModule/>} />
+        <Route path="/modules/earthquakes" element={<EarthModule/>}/>
+        <Route path="/hotlines" element={<Hotline/>} />
       </Routes>
 
 

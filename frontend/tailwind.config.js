@@ -22,14 +22,24 @@ export default {
         'fireBefore' : 'url("https://images.pexels.com/photos/7425340/pexels-photo-7425340.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
         'fireDuring' : 'url("https://images.pexels.com/photos/14984476/pexels-photo-14984476/free-photo-of-fire-truck-on-a-street.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
         'fireAfter' : 'url("https://plus.unsplash.com/premium_photo-1664303474269-a186b1eb1ce3?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+        'earthquake' : 'url("https://images.unsplash.com/photo-1635068741358-ab1b9813623f?q=80&w=2060&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+        'earthBefore' : 'url("https://images.pexels.com/photos/11028905/pexels-photo-11028905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+        'earthDuring' : 'url("https://plus.unsplash.com/premium_photo-1695914233513-6f9ca230abdb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+        'earthAfter' : 'url("https://images.unsplash.com/photo-1619719341796-44c4d2e0eb5a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
       },
       screens: {
         'tablet': '640px',
+      },
+      fontFamily: {
+        'Poppins': ['Poppins', 'sans-serif'],
+        'Inter' : ['Inter', 'sans-serif'],
+        'Noto' : [ "Noto Sans Display", 'sans-serif'],
+        'Micro' : ["Micro 5", 'sans-serif'],
       }
     },
   },
 
-  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  plugins: [ require("daisyui")],
   daisyui: {
     themes: [
      
