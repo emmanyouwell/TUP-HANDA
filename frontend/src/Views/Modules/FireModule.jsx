@@ -6,6 +6,7 @@ import 'aos/dist/aos.css'
 import img1 from '../../assets/before-fire.png'
 import img2 from '../../assets/during-fire.jpg'
 import img3 from '../../assets/during-fire-3.webp'
+import img4 from '../../assets/after-fire.jpg'
 import ChecklistComponent from '../../Components/ChecklistComponent'
 const FireModule = () => {
     useEffect(() => {
@@ -141,60 +142,56 @@ const FireModule = () => {
                 </div>
 
                 {/* After */}
-                {/* <div className="relative min-h-screen p-10">
-                <div className="absolute inset-0 filter brightness-50 bg-hurAfter bg-no-repeat bg-cover bg-center bg-fixed"></div>
-                <h1 className="font-black text-6xl text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">After</h1>
-                <div className="grid grid-auto-flow:column grid-cols-4 gap-4 z-10 relative">
+                <div className="relative min-h-screen p-10">
+                    <div className="absolute inset-0 filter brightness-50 bg-fireAfter bg-no-repeat bg-cover bg-center bg-fixed"></div>
+                    <h1 className="font-black text-6xl text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">After</h1>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-10 relative">
+                        <div className="lg:row-span-3 row-span-6 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <img src={img4} alt="Guidelines after a typhoon/flood by Philstar" />
 
-                    <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
-                        <h1 className="font-bold text-4xl mb-2 z-10">Stay informed.</h1>
-                        <p className="text-xl z-10">Continue to listen to updates from local authorities and follow any instructions or advisories they provide regarding post-typhoon conditions and safety precautions.</p>
+                        </div>
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="font-bold text-4xl mb-2 z-10">Wait for clearance.</h1>
+                            <p className="text-xl z-10">Do not re-enter the building until authorities have declared it safe to do so. Fires can weaken structures and create hazards such as hot spots, smoke, and toxic gases.</p>
+                        </div>
+
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="font-bold text-4xl mb-2 z-10">Document the damage.</h1>
+                            <p className="text-xl mb-4 z-10">Take photographs or videos of the damage to your property for insurance purposes. Make a detailed inventory of items that have been damaged or destroyed in the fire.</p>
+
+
+                        </div>
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="z-10 font-bold text-4xl">Secure the property.</h1>
+                            <p className="z-10 text-xl">
+                            If possible, secure your property to prevent further damage or theft. Board up windows, doors, or other openings if necessary.
+                            </p>
+
+                        </div>
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="z-10 font-bold text-4xl mb-2">Assess utilities.</h1>
+                            <p className="z-10 text-xl">Check with utility companies to ensure that gas, electricity, and water services are safe to use. Do not attempt to turn on utilities yourself if you suspect damage.</p>
+
+                        </div>
+                        <div className="lg:col-span-1 col-span-2 fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="z-10 font-bold text-4xl mb-2">Dispose of damaged items.</h1>
+                            <p className="z-10 text-xl"> Dispose of any items that cannot be salvaged due to fire damage. Be cautious when handling damaged materials, as they may pose health risks.</p>
+
+                        </div>
+                        <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
+                            <h1 className="z-10 font-bold text-4xl mb-2">Prevent future fires.</h1>
+                            <p className="z-10 text-xl">Take steps to prevent future fires by addressing any fire hazards, installing smoke alarms, and reviewing fire safety procedures with household members or occupants.</p>
+
+                        </div>
+                       
                     </div>
-                    <div className="row-span-6 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
-                        <img src={img3} alt="Guidelines after a typhoon/flood by Philstar" />
-
-                    </div>
-                    <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
-                        <h1 className="font-bold text-4xl mb-2 z-10">Check for damage.</h1>
-                        <p className="text-xl mb-4 z-10"> Assess your home and property for any damage caused by the typhoon. Inspect the roof, windows, doors, and walls for signs of damage or leaks. If you suspect structural damage, evacuate and seek professional assistance.</p>
 
 
-                    </div>
-                    <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
-                        <h1 className="z-10 font-bold text-4xl">Beware of hazards.</h1>
-                        <p className="z-10 text-xl">
-                            Be cautious of potential hazards such as downed power lines, flooded areas, and unstable structures. Avoid walking or driving through floodwaters, as they may be contaminated or hiding hazards.
-                        </p>
 
-                    </div>
-                    <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-right">
-                        <h1 className="z-10 font-bold text-4xl mb-2">Contact authorities if necessary.</h1>
-                        <p className="z-10 text-xl"> If you encounter any emergency situations or hazards such as downed power lines, gas leaks, or flooding, contact the appropriate authorities immediately and follow their instructions.</p>
-
-                    </div>
-                    <div className="fire flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-left">
-                        <h1 className="z-10 font-bold text-4xl mb-2">Secure your property.</h1>
-                        <p className="z-10 text-xl"> Make temporary repairs to prevent further damage, such as covering broken windows or tarping damaged roofs. Be cautious when using ladders or climbing on roofs, and seek assistance if needed.</p>
-
-                    </div>
-                    <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
-                        <h1 className="z-10 font-bold text-4xl mb-2">Dispose of debris.</h1>
-                        <p className="z-10 text-xl">Clean up debris and fallen branches from your property to prevent further hazards or damage. Follow local guidelines for disposing of debris and waste.</p>
-
-                    </div>
-                    <div className="fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="fade-up">
-                        <h1 className="z-10 font-bold text-4xl mb-2">Stay prepared</h1>
-                        <p className="z-10 text-xl">Be prepared for potential aftershocks, secondary hazards, or further severe weather events. Keep emergency supplies stocked and stay informed about weather conditions in your area.</p>
-
-                    </div>
                 </div>
 
-
-
-            </div> */}
-
                 {/* Emergency checklist for Typhoon/Floods */}
-                <ChecklistComponent/>
+                <ChecklistComponent />
             </div>
         </>
     )

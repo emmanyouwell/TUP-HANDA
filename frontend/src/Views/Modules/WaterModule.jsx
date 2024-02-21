@@ -21,7 +21,7 @@ const WaterModule = () => {
                 <div className="relative min-h-screen p-10 flex flex-col justify-center items-align">
                     <div className="absolute inset-0 filter brightness-75 bg-hurricane bg-no-repeat bg-cover bg-center bg-fixed"></div>
                     <div className="flex flex-wrap flex-col justify-center items-center gap-5">
-                        <h1 className="font-black text-6xl text-white drop-shadow-md" data-aos="zoom-in">Typhoon/Hurricane</h1>
+                        <h1 className="font-black text-6xl text-white text-center drop-shadow-md" data-aos="zoom-in">Typhoon / Hurricane</h1>
                         <p className="container text-white text-center text-xl drop-shadow-sm" data-aos="zoom-in">A hurricane is a powerful and destructive tropical cyclone characterized by strong winds, heavy rain, and storm surges. It forms over warm ocean waters and gains strength as it moves across the water, fueled by the evaporation and condensation of water vapor. Hurricanes can cause widespread damage to coastal areas and inland regions, posing significant threats to life and property.</p>
                     </div>
 

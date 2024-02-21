@@ -12,18 +12,22 @@ export default function Example() {
           </div>
 
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li><a className="text-xl" href="#">
-              <img src={logo} className="w-24 h-12 object-cover object-center" alt="logo" />
-            </a></li>
-            <li><a>Item 1</a></li>
+            <li><Link className="text-xl" to="/">
+            <img src={logo} className="w-24 h-12 object-cover object-center" alt="logo" />
+          </Link></li>
+          <li><Link to="/modules">Modules</Link></li>
             <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li><a>Submenu 1</a></li>
-                <li><a>Submenu 2</a></li>
-              </ul>
+              <details>
+                <summary>Disasters</summary>
+                <ul className="p-2 z-10">
+                  <li><Link to="/modules/fires">Fire Outbreaks</Link></li>
+                  <li><Link to="/modules/typhoons">Typhoons</Link></li>
+                  <li><a>Floods</a></li>
+                  <li><a>Earthquakes</a></li>
+                </ul>
+              </details>
             </li>
-            <li><a>Item 3</a></li>
+            <li><a>Emergency plans</a></li>
           </ul>
         </div>
         <div className="hidden lg:flex">

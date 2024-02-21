@@ -4,8 +4,8 @@ const ChecklistComponent = () => {
     return (
         <div className="p-10" id="checklist">
             <div className="text-center p-3 mb-3 xl:text-left">
-                <h2 className="font-bold text-4xl mb-5" data-aos="fade-down">Emergency kit checklist</h2>
-                <p data-aos="fade-down" className="text-xl mb-5">Prepare for the storm with our Typhoon/Hurricane Emergency Kit Checklist. In the face of these powerful natural disasters, it's crucial to have the right supplies ready. Our checklist includes items such as non-perishable food, ample water, battery-powered radios, flashlights, first aid kits, and important documents stored in waterproof containers. Don't be caught off guard – use our checklist to ensure you have everything you need to weather the storm safely.</p>
+                <h2 className="font-bold text-4xl mb-5" data-aos="fade-down">Emergency Kit checklist</h2>
+                <p data-aos="fade-down" className="text-xl mb-5">Be prepared for any situation with our Emergency Kit Checklist. Whether you're facing a natural disaster, power outage, or unexpected emergency, this comprehensive list covers essential items to have on hand. From food and water supplies to first aid essentials and communication devices, ensure you and your loved ones are ready for anything. Don't wait until it's too late – start building your emergency kit today.</p>
             </div>
             <div className="grid justify-items-center items-center justify-center gap-8 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4" data-aos="fade-up">
                 <ChecklistCard img="https://images.pexels.com/photos/3766180/pexels-photo-3766180.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" title="Drinkable Water" isChk={true} description="Have at least one gallon per person per day for at least three days, both for drinking and sanitation." percent={100} color="secondary" />
