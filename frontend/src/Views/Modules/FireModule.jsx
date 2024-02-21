@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import ChecklistCard from '../../Components/ChecklistCard'
-import Header from '../../Components/Header'
+
+
+import Navbar from '../../Components/Navbar'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import img1 from '../../assets/before-fire.png'
@@ -14,7 +15,7 @@ const FireModule = () => {
     }, [])
     return (
         <>
-            <Header />
+            <Navbar/>
             <div className="overflow-x-hidden overflow-y-hidden">
                 {/* Fire */}
                 <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
