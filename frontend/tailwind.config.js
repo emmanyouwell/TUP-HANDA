@@ -11,6 +11,8 @@ export default {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
+        'tuphanda' : 'url("https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708592785/TUPHANDA_ASSETS/TUP_1_si0mrc.png")',
+        'tup-logo': 'url("https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708592252/TUPHANDA_ASSETS/TUP-LOGO_b9srve.png")',
         'pic1' : 'url("https://images.pexels.com/photos/261025/pexels-photo-261025.jpeg")',
         'pic2' : 'url("https://images.pexels.com/photos/128756/pexels-photo-128756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
         'pic3' : 'url("https://images.pexels.com/photos/726478/pexels-photo-726478.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',

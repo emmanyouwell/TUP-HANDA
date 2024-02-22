@@ -1,7 +1,67 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../assets/TUPHANDA.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { logout, getUser, getToken } from '../utils/helper'
+import { toast } from 'react-toastify'
 const Navbar = () => {
+
+  const [user, setUser] = useState({})
+  const navigate = useNavigate()
+  const logoutUser = async () => {
+    try {
+      await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`)
+      setUser({})
+      logout(() => navigate('/'))
+      window.location.reload()
+
+    } catch (error) {
+      toast.error(error.response.data.message)
+    }
+
+  }
+  const logoutHandler = () => {
+    logoutUser();
+    toast.success('log out', {
+      position: toast.POSITION.BOTTOM_RIGHT
+    });
+
+  }
+  const getProfile = async () => {
+    const config = {
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`
+      }
+    }
+    try {
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me`, config)
+      setUser(data.user)
+
+
+
+      console.log('helo')
+
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
+  useEffect(() => {
+
+    if (getToken()) {
+      getProfile()
+    } else {
+      setUser(getUser())
+    }
+
+    console.log(user)
+
+  }, [])
+
+
   let Links = [
     { name: "MODULES", link: "/modules" },
     { name: "FIRE", link: "/modules/fires" },
@@ -36,7 +96,9 @@ const Navbar = () => {
               </li>
             ))
           }
-          <Link to="/register"><button className="btn btn-warning py-2 px-6 rounded-lg md:ml-8 text-lg">Sign up</button></Link>
+
+          {user ? 'may user pre': <Link to="/login"><button className="btn btn-warning py-2 px-6 rounded-lg md:ml-8 text-lg">Login</button></Link>}
+          
 
         </ul>
       </div>

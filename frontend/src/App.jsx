@@ -9,7 +9,8 @@ import EarthModule from './Views/Modules/EarthModule';
 import Hotline from './Views/Hotline';
 import Register from './Views/Users/Register';
 import ScrollToTop from './utils/ScrollToTop';
-
+import { ToastContainer } from 'react-toastify';
+import Login from './Views/Users/Login';
 function App() {
 
 
@@ -26,10 +27,10 @@ function App() {
           <Route path="/modules/earthquakes" element={<EarthModule />} />
           <Route path="/hotlines" element={<Hotline />} />
           <Route path="/register" element={<Register />} />
-
+          <Route path="/login" element={<Login />} />
         </Routes>
       </ScrollToTop>
-
+      <ToastContainer />
     </BrowserRouter>
   )
 }
