@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import logo from '../assets/TUP.png'
+import logo from '../assets/TUPHANDA.png'
 import { Link } from 'react-router-dom'
 const Navbar = () => {
   let Links = [
@@ -17,7 +17,7 @@ const Navbar = () => {
           <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
         text-gray-800'>
 
-            <span className='text-3xl text-indigo-600 mr-1'>
+            <span className='text-3xl text-indigo-600'>
               <img src={logo} className="w-24 h-12 object-contain" alt="Tup handa logo" />
             </span>
             TUP Handa
@@ -32,11 +32,11 @@ const Navbar = () => {
           {
             Links.map((link) => (
               <li key={link.name} className='md:ml-8 text-xl md:my-0 my-7'>
-                <Link to={link.link} className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins'>{link.name}</Link>
+                <Link to={link.link} className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>{link.name}</Link>
               </li>
             ))
           }
-          <button className="btn btn-warning py-2 px-6 rounded-lg md:ml-8 text-lg">Sign up</button>
+          <Link to="/register"><button className="btn btn-warning py-2 px-6 rounded-lg md:ml-8 text-lg">Sign up</button></Link>
 
         </ul>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/TUP.png'
+import logo from '../assets/TUPHANDA.png'
 const Footer1 = () => {
   return (
     <footer className="footer p-10 bg-base-200 text-base-content">

@@ -7,21 +7,28 @@ import WaterModule from './Views/Modules/WaterModule';
 import FireModule from './Views/Modules/FireModule';
 import EarthModule from './Views/Modules/EarthModule';
 import Hotline from './Views/Hotline';
+import Register from './Views/Users/Register';
+import ScrollToTop from './utils/ScrollToTop';
+
 function App() {
 
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/modules" element={<Modules />} /> 
-        <Route path="/quiz" element={<GoogleFormComponent/>} />
-        <Route path="/modules/typhoons" element={<WaterModule/>} />
-        <Route path="/modules/fires" element={<FireModule/>} />
-        <Route path="/modules/earthquakes" element={<EarthModule/>}/>
-        <Route path="/hotlines" element={<Hotline/>} />
-      </Routes>
+      <ScrollToTop>
+        <Routes>
 
+          <Route path="/" element={<Home />} />
+          <Route path="/modules" element={<Modules />} />
+          <Route path="/quiz" element={<GoogleFormComponent />} />
+          <Route path="/modules/typhoons" element={<WaterModule />} />
+          <Route path="/modules/fires" element={<FireModule />} />
+          <Route path="/modules/earthquakes" element={<EarthModule />} />
+          <Route path="/hotlines" element={<Hotline />} />
+          <Route path="/register" element={<Register />} />
+
+        </Routes>
+      </ScrollToTop>
 
     </BrowserRouter>
   )
