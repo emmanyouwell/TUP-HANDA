@@ -1,8 +1,9 @@
 const User = require('../models/user')
-const sendToken = require('../utils/jwtToken')
+const sendToken = require('../utils/jwToken')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
 const cloudinary = require('cloudinary')
+
 
 exports.registerUser = async (req, res, next) => {
 
@@ -50,7 +51,7 @@ exports.registerUser = async (req, res, next) => {
     if (!user)
         return res.status(400).json({
             success: false,
-            message: 'Course not created'
+            message: 'User not created'
         })
         sendToken(user, 200, res)
     
@@ -179,7 +180,7 @@ exports.updateProfile = async (req, res, next) => {
         })
     }
     let images = []
-    if (!req.body.avatar){
+    if (!req.body.avatar) {
         req.body.avatar = user.avatar
     }
     else if (typeof req.body.avatar === 'string') {
@@ -189,7 +190,7 @@ exports.updateProfile = async (req, res, next) => {
         images = req.body.avatar
     }
     let imageLinks = [];
-    if (images.length > 0){
+    if (images.length > 0) {
         if (images !== undefined) {
             for (let i = 0; i < user.avatar.length; i++) {
                 try {
@@ -200,7 +201,7 @@ exports.updateProfile = async (req, res, next) => {
                 }
             }
         }
-        
+
         for (let i = 0; i < images.length; i++) {
             try {
                 let imageDataUri = images[i]
@@ -218,14 +219,14 @@ exports.updateProfile = async (req, res, next) => {
             }
         }
     }
-    
+
     if (imageLinks.length === 0) {
         req.body.avatar = user.avatar
     }
-    else{
+    else {
         req.body.avatar = imageLinks
     }
-    
+
     console.log(req.body)
     user = await User.findByIdAndUpdate(req.user.id, req.body, {
         new: true,
@@ -237,8 +238,8 @@ exports.updateProfile = async (req, res, next) => {
             message: 'User not updated'
         })
     }
-    
-   
+
+
     return res.status(200).json({
         success: true,
         user
@@ -286,7 +287,7 @@ exports.deleteUser = async (req, res, next) => {
             }
         }
     }
-   
+
     await User.findByIdAndRemove(req.params.id)
     return res.status(200).json({
         success: true,

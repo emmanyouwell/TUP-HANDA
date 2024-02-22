@@ -4,35 +4,18 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-// reactstrap components
-// import {
-//   Button,
-//   Card,
-//   CardHeader,
-//   CardBody,
-//   FormGroup,
-//   Form,
-//   Input,
-//   InputGroupAddon,
-//   InputGroupText,
-//   InputGroup,
-//   Container,
-//   Row,
-//   Col,
-//   CustomInput,
-// } from "reactstrap";
-
-// core components
-
+import { countries } from "countries-list";
+import img from '../../assets/default_avatar.jpg'
 
 // import { useGoogleLogin } from '@react-oauth/google';
 
-import img from "../../assets/TUP.png"
+
 import Navbar from "../../Components/Navbar";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
-const Register = ({ cartItems }) => {
+const Register = () => {
 
+    const countriesList = Object.values(countries)
 
     const [avatar, setAvatar] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
@@ -43,13 +26,26 @@ const Register = ({ cartItems }) => {
     const Formik = useFormik({
         initialValues: {
             email: '',
-            name: '',
+            firstName: '',
+            lastName: '',
+            street: '',
+            city: '',
+            postalCode: '',
+            country: '',
+            phone: '',
             password: '',
+            confirmPass: '',
 
         },
         onSubmit: values => {
             const formData = new FormData()
-            formData.set('name', values.name);
+            formData.set('firstName', values.firstName);
+            formData.set('lastName', values.lastName);
+            formData.set('street', values.street);
+            formData.set('city', values.city);
+            formData.set('postalCode', values.postalCode);
+            formData.set('country', values.country);
+            formData.set('phone', values.phone);
             formData.set('email', values.email);
             formData.set('password', values.password);
 
@@ -67,10 +63,16 @@ const Register = ({ cartItems }) => {
             register(formData)
         },
         validationSchema: Yup.object({
-            name: Yup.string().required('Name is required'),
+            firstName: Yup.string().required('First name is required'),
+            lastName: Yup.string().required('Last name is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
             password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-
+            street: Yup.string().required('Street is required'),
+            city: Yup.string().required('City is required'),
+            postalCode: Yup.string().required('Postal code is required'),
+            country: Yup.string().required('Country is required'),
+            phone: Yup.string().required('Phone number is required'),
+            confirmPass: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), null], 'Passwords must match')
 
         })
     })
@@ -155,25 +157,36 @@ const Register = ({ cartItems }) => {
                     'Content-Type': 'multipart/form-data'
                 }
             }
-
+    
             const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, {
-                name: userData.get('name'),
+                firstName: userData.get('firstName'),
+                lastName: userData.get('lastName'),
                 email: userData.get('email'),
                 password: userData.get('password'),
-                avatar: userData.getAll('avatar')
+                avatar: userData.getAll('avatar'),
+                address: userData.get('street'),
+                city: userData.get('city'),
+                phoneNo: userData.get('phone'),
+                postalCode: userData.get('postalCode'),
+                country: userData.get('country')
             }, config)
+            // console.log(process.env.REACT_APP_API);
             console.log(data.user)
+            // console.log('nag register')
             setIsAuthenticated(true)
             setLoading(false)
 
-            navigate('/')
+            // navigate('/')
 
         } catch (error) {
             setIsAuthenticated(false)
             setLoading(false)
-
-            setError(error.response.data.message)
-            console.log(error.response.data.message)
+            if (error.response) {
+                setError(error.response.data.message)
+                console.log(error.response.data.message)
+              } else {
+                console.log(error)
+              }
         }
     }
     const main = useRef()
@@ -187,180 +200,270 @@ const Register = ({ cartItems }) => {
         <>
             <Navbar />
             <div className="container mx-auto p-10 w-[50%]">
-            <form>
-                <div className="space-y-12">
-                  
-                  
+                <form onSubmit={Formik.handleSubmit} encType="multipart/form-data">
+                    <div className="space-y-12">
 
-                   {/* Form body */}
-                    <div className="border-b border-gray-900/10 pb-12">
-                        <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                        <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
 
-                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                            <div className="sm:col-span-3">
-                                <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    First name
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="first-name"
-                                        id="first-name"
-                                        autoComplete="given-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
 
-                            <div className="sm:col-span-3">
-                                <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Last name
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="last-name"
-                                        id="last-name"
-                                        autoComplete="family-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
+                        {/* Form body */}
+                        <div className="border-b border-gray-900/10 pb-12">
+                            <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+                            <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
 
-                            <div className="sm:col-span-4">
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Email address
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                        First name
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="firstName"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.firstName}
+                                            onBlur={Formik.handleBlur}
+                                            id="firstName"
 
-                            <div className="sm:col-span-3">
-                                <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Country
-                                </label>
-                                <div className="mt-2">
-                                    <select
-                                        id="country"
-                                        name="country"
-                                        autoComplete="country-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                    >
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>Mexico</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="col-span-full">
-                                <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Street address
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="street-address"
-                                        id="street-address"
-                                        autoComplete="street-address"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="sm:col-span-2 sm:col-start-1">
-                                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                                    City
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="city"
-                                        id="city"
-                                        autoComplete="address-level2"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="sm:col-span-2">
-                                <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                                    State / Province
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="region"
-                                        id="region"
-                                        autoComplete="address-level1"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="sm:col-span-2">
-                                <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
-                                    ZIP / Postal code
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="text"
-                                        name="postal-code"
-                                        id="postal-code"
-                                        autoComplete="postal-code"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-span-full">
-                                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Photo
-                                </label>
-                                <div className="mt-2 flex items-center gap-x-3">
-                                    <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
-                                    <button
-                                        type="button"
-                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                    >
-                                        Change
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-span-full">
-                                <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Cover photo
-                                </label>
-                                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                    <div className="text-center">
-                                        <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                                        <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                                            <label
-                                                htmlFor="file-upload"
-                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                                            >
-                                                <span>Upload a file</span>
-                                                <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                                            </label>
-                                            <p className="pl-1">or drag and drop</p>
-                                        </div>
-                                        <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <div className="text-error italic">
+                                        <small>
+                                            {Formik.errors.firstName && Formik.touched.firstName && Formik.errors.firstName}
+                                        </small>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Last name
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="lastName"
+                                            id="last-name"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.lastName}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="family-name"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                    <div className="text-error italic">
+                                        <small>
+                                            {Formik.errors.lastName && Formik.touched.lastName && Formik.errors.lastName}
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Email address
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.email}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="email"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.email && Formik.touched.email && Formik.errors.email}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Phone Number
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            id="phoneNo"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.phone}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="address-level1"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.phone && Formik.touched.phone && Formik.errors.phone}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div className="col-span-full">
+                                    <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Street address
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="street"
+                                            id="street-address"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.street}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="street-address"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.street && Formik.touched.street && Formik.errors.street}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="sm:col-span-2 sm:col-start-1">
+                                    <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                                        City
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="city"
+                                            id="city"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.city}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="address-level2"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.city && Formik.touched.city && Formik.errors.city}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className="sm:col-span-2">
+                                    <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
+                                        ZIP / Postal code
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            name="postalCode"
+                                            id="postal-code"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.postalCode}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="postal-code"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.postalCode && Formik.touched.postalCode && Formik.errors.postalCode}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-2">
+                                    <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Country
+                                    </label>
+                                    <div className="mt-2">
+                                        <select
+                                            id="country"
+                                            name="country"
+                                            autoComplete="country-name"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.country}
+                                            onBlur={Formik.handleBlur}
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                        >
+                                            {countriesList.map(country => (
+                                                <option key={country.name} value={country.name}>
+                                                    {country.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="text-error italic">
+                                        <small>
+                                            {Formik.errors.country && Formik.touched.country && Formik.errors.country}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div className="col-span-full">
+                                    <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Photo
+                                    </label>
+                                    <div className="mt-2 flex items-center gap-x-3">
+                                        {/* <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" /> */}
+                                        <figure className='mr-3'>
+                                            <img
+                                                src={avatarPreview[0]}
+                                                className="w-[50px] h-[50px] rounded-full object-cover"
+                                                alt='Avatar Preview'
+                                            />
+                                        </figure>
+                                        <button
+                                            htmlFor="file-upload"
+                                            type="button"
+                                            className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                        >
+                                            <label
+
+                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                            >
+                                                Change
+                                                <input type='file'
+                                                    name='avatar'
+                                                    id='customFile'
+                                                    className="sr-only"
+                                                    accept="images/*"
+                                                    multiple
+                                                    required
+                                                    onChange={onChange} />
+                                            </label>
+                                        </button>
+
+
+                                    </div>
+                                </div>
+                                {/* <div className="col-span-full">
+                                    <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Cover photo
+                                    </label>
+                                    <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div className="text-center">
+                                            <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                                            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                                <label
+                                                    htmlFor="file-upload"
+                                                    className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                                >
+                                                    <span>Upload a file</span>
+                                                    <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                                                </label>
+                                                <p className="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>
+                                </div> */}
+
+                            </div>
                         </div>
-                    </div>
-                    
-                    {/* Notifications */}
-                    {/* <div className="border-b border-gray-900/10 pb-12">
+
+                        {/* Notifications */}
+                        {/* <div className="border-b border-gray-900/10 pb-12">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
                         <p className="mt-1 text-sm leading-6 text-gray-600">
                             We'll always let you know about important changes, but you pick what else you want to hear about.
@@ -461,22 +564,71 @@ const Register = ({ cartItems }) => {
                             </fieldset>
                         </div>
                     </div> */}
-                </div>
+                        <div className="border-b border-gray-900/10 pb-12">
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Password
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            id="email"
+                                            name="password"
+                                            type="password"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.password}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="email"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.password && Formik.touched.password && Formik.errors.password}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Confirm Password
+                                    </label>
+                                    <div className="mt-2">
+                                        <input
+                                            id="email"
+                                            name="confirmPass"
+                                            type="password"
+                                            onChange={Formik.handleChange}
+                                            value={Formik.values.confirmPass}
+                                            onBlur={Formik.handleBlur}
+                                            autoComplete="email"
+                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                        <div className="text-error italic">
+                                            <small>
+                                                {Formik.errors.confirmPass && Formik.touched.confirmPass && Formik.errors.confirmPass}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <div className="mt-6 flex items-center justify-end gap-x-6">
-                    <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        Save
-                    </button>
-                </div>
-            </form>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex items-center justify-end gap-x-6">
+                        <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </form>
             </div>
-            
+
 
         </>
     )
