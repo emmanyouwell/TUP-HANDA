@@ -6,7 +6,7 @@ const ChecklistCard = ({ img, title, description, percent, color}) => {
             <div className="relative h-full flex justify-center ">
 
                 <figure className="bg-base-200">
-                    <img src={img} alt="Shoes" className="max-w-64 max-h-64 object-center" />
+                    <img src={img} alt="Shoes" className="max-w-64 max-h-64 object-center" loading="lazy"/>
                     {/* <div className="min-h-full bg-cover bg-center bg-no-repeat" style={{backgroundImage: `url(${img})`}}></div> */}
                 </figure>
 

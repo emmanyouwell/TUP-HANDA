@@ -20,11 +20,13 @@ const FireModule = () => {
                 {/* Fire */}
                 <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
                     <div className="absolute inset-0 filter brightness-50 bg-fire bg-no-repeat bg-cover bg-center bg-fixed"></div>
+                    
                     <div className="flex flex-wrap flex-col justify-center items-center gap-5">
                         <h1 className="font-black text-6xl text-white drop-shadow-md" data-aos="zoom-in">Fire Outbreaks</h1>
                         <p className="container text-white text-center text-xl drop-shadow-sm" data-aos="zoom-in">
                             A fire outbreak refers to the sudden and uncontrolled spreading of flames, often resulting in damage to property, loss of life, and environmental harm. It can occur due to various factors such as ignition of flammable materials, electrical faults, or natural causes like lightning strikes. Fire outbreaks pose significant risks to safety and can require prompt action from firefighters and emergency responders to contain and extinguish the flames.</p>
                     </div>
+                    
 
                 </div>
 
@@ -34,7 +36,7 @@ const FireModule = () => {
                     <h1 className="font-black text-6xl text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-right">Before</h1>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-10 relative">
                         <div className="lg:row-span-2 row-span-3 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
-                            <img src={img1} alt="Tips for preventing fires" />
+                            <img src={img1} alt="Tips for preventing fires" loading="lazy"/>
 
                         </div>
                         <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-left">
@@ -95,11 +97,11 @@ const FireModule = () => {
                     <h1 className="font-black text-6xl text-end text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">During</h1>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-10 relative">
                         <div className="md:col-span-1 lg:row-span-1 xl:row-span-1 2xl:row-span-3 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
-                            <img src={img2} className="h-auto w-100" alt="Guidelines during a typhoon/flood by Philstar" />
+                            <img src={img2} className="h-auto w-100" alt="Guidelines during a typhoon/flood by Philstar" loading="lazy"/>
 
                         </div>
                         <div className="md:col-span-1 lg:row-span-1 xl:row-span-1 2xl:row-span-3  col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
-                            <img src={img3} className="" alt="Guidelines during a typhoon/flood by Philstar" />
+                            <img src={img3} className="" alt="Guidelines during a typhoon/flood by Philstar" loading="lazy"/>
 
                         </div>
                         <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
@@ -148,7 +150,7 @@ const FireModule = () => {
                     <h1 className="font-black text-6xl text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">After</h1>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-10 relative">
                         <div className="lg:row-span-3 row-span-6 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
-                            <img src={img4} alt="Guidelines after a typhoon/flood by Philstar" />
+                            <img src={img4} alt="Guidelines after a typhoon/flood by Philstar" loading="lazy"/>
 
                         </div>
                         <div className="lg:col-span-1 fire col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
