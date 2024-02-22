@@ -121,12 +121,12 @@ const EarthModule = () => {
                         </div>
                         <div className="lg:col-span-1 col-span-2 earth flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
                             <h1 className="z-10 font-bold text-4xl mb-2">If Driving, Pull Over Safely.</h1>
-                            <p className="z-10 text-xl">Smoke rises, so stay as low to the ground as possible while evacuating to minimize smoke inhalation.</p>
+                            <p className="z-10 text-xl">If you're driving, pull over to a safe location away from overpasses, bridges, buildings, and power lines. Stay inside your vehicle until the shaking stops. Avoid stopping under trees, light posts, or signs that could fall on your car.</p>
 
                         </div>
                         <div className="lg:col-span-1 col-span-2 earth flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
-                            <h1 className="z-10 font-bold text-4xl mb-2">Alert others.</h1>
-                            <p className="z-10 text-xl"> If you're driving, pull over to a safe location away from overpasses, bridges, buildings, and power lines. Stay inside your vehicle until the shaking stops. Avoid stopping under trees, light posts, or signs that could fall on your car.</p>
+                            <h1 className="z-10 font-bold text-4xl mb-2">Assist Others if Safe to Do So.</h1>
+                            <p className="z-10 text-xl"> If it's safe, assist those who may need help, such as children, elderly individuals, or people with disabilities, but avoid putting yourself in danger.</p>
 
                         </div>
                         <div className="lg:col-span-1 earth col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
