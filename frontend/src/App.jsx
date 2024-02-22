@@ -29,8 +29,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+        <ToastContainer position="bottom-right"/>
       </ScrollToTop>
-      <ToastContainer />
+      
     </BrowserRouter>
   )
 }
