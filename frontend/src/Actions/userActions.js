@@ -45,8 +45,8 @@ import {
 } from '../Constants/userConstants'
 
 import axios from 'axios'
-import { authenticate, getToken, logout} from '../utils/helper'
-import {toast} from 'react-toastify'
+import { authenticate, getToken, logout } from '../utils/helper'
+import { toast } from 'react-toastify'
 export const register = (userData) => async (dispatch) => {
     try {
         dispatch({ type: REGISTER_USER_REQUEST })
@@ -74,7 +74,7 @@ export const register = (userData) => async (dispatch) => {
         })
         toast.success('Registered successfully', {
             position: toast.POSITION.BOTTOM_RIGHT
-        
+
         })
 
     } catch (error) {
@@ -82,9 +82,9 @@ export const register = (userData) => async (dispatch) => {
             type: REGISTER_USER_FAIL,
             payload: error.response.data.message
         })
-        toast.error("Registered failed",{
+        toast.error("Registered failed", {
             position: toast.POSITION.BOTTOM_RIGHT
-        
+
         })
     }
 }
@@ -96,21 +96,21 @@ export const login = (email, password) => async (dispatch) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            
+
         }
-        
+
         const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/login`, { email, password }, config)
-        authenticate(data,dispatch({
+        authenticate(data, dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user
         }), toast.success('Logged in', {
             position: toast.POSITION.BOTTOM_RIGHT
         }))
-        
+
 
 
     } catch (error) {
-        
+
         dispatch({
             type: LOGIN_FAIL,
             payload: error.response.data.message
@@ -127,12 +127,12 @@ export const logoutUser = () => async (dispatch) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            
+
         }
-      
+
         await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`, config)
         logout(dispatch({ type: LOGOUT_SUCCESS }))
-        
+
 
 
     } catch (error) {
@@ -147,7 +147,7 @@ export const getUser = () => {
     return (dispatch) => {
         if (typeof window !== 'undefined') {
             if (sessionStorage.getItem('user')) {
-                dispatch({type:'GET_USER_SUCCESS', payload: JSON.parse(sessionStorage.getItem('user'))});
+                dispatch({ type: 'GET_USER_SUCCESS', payload: JSON.parse(sessionStorage.getItem('user')) });
             } else {
                 return false;
             }
@@ -159,9 +159,9 @@ export const getProfile = () => async (dispatch) => {
         headers: {
             // 'Content-Type': 'application/json',
             'Authorization': `Bearer ${getToken()}`,
-            
+
         },
-        
+
     }
     dispatch({ type: LOAD_USER_REQUEST })
     try {
@@ -179,27 +179,34 @@ export const getProfile = () => async (dispatch) => {
 
 }
 
-export const forgotPassword =  (formData) => async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    try {
-      const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
-      console.log(data.message)
+export const forgotPassword = (formData) => async (dispatch) => {
 
-      setLoading(false)
-      toast.success(data.message, {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
-      navigate('/login')
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        dispatch({ type: FORGOT_PASSWORD_REQUEST })
+        const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
+        dispatch({
+            type: FORGOT_PASSWORD_SUCCESS,
+            payload: data.message
+        })
+        toast.success(data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+        
     } catch (error) {
-      toast.error(error.response.data.message, {
-        position: toast.POSITION.BOTTOM_RIGHT
-      });
+        dispatch({
+            type: FORGOT_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+        toast.error(error.response.data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
     }
-  }
+}
 
 export const clearErrors = () => async (dispatch) => {
     dispatch({

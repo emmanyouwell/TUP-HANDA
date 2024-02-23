@@ -104,7 +104,7 @@ exports.forgotPassword = async (req, res, next) => {
     }
     const resetToken = user.getResetPasswordToken()
     await user.save({ validateBeforeSave: false })
-    const resetUrl = `${req.protocol}://localhost:3000/password/reset/${resetToken}`
+    const resetUrl = `${req.protocol}://localhost:5173/password/reset/${resetToken}`
     const message = `Your password reset token is as follow:<a href=${resetUrl}>\n\n${resetUrl}\n\n</a>If you have not requested this email, then ignore it.`
     try {
         await sendEmail({
