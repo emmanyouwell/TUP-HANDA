@@ -47,6 +47,7 @@ import {
 import axios from 'axios'
 import { authenticate, getToken, logout } from '../utils/helper'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 export const register = (userData) => async (dispatch) => {
     try {
         dispatch({ type: REGISTER_USER_REQUEST })
@@ -203,6 +204,36 @@ export const forgotPassword = (formData) => async (dispatch) => {
             payload: error.response.data.message
         })
         toast.error(error.response.data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+    }
+}
+
+export const resetPassword = (token, passwords) => async (dispatch) => {
+    try {
+        
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        dispatch({ type: NEW_PASSWORD_REQUEST })
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/reset/${token}`, passwords, config)
+        dispatch({
+            type: NEW_PASSWORD_SUCCESS,
+            payload: data.success
+        })
+        toast.success('Password Updated', {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+        
+        
+    } catch (error) {
+        dispatch({
+            type: NEW_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+        toast.error(error, {
             position: toast.POSITION.BOTTOM_RIGHT
         });
     }

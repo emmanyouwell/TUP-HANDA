@@ -12,6 +12,7 @@ import ScrollToTop from './utils/ScrollToTop';
 import { ToastContainer } from 'react-toastify';
 import Login from './Views/Users/Login';
 import ForgotPassword from './Views/Users/ForgotPassword';
+import ResetPassword from './Views/Users/ResetPassword';
 function App() {
 
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/password/forgot" element={<ForgotPassword/>} />
+          <Route path="/password/reset/:token" element={<ResetPassword/>} exact="true"/>
         </Routes>
         <ToastContainer position="bottom-right"/>
       </ScrollToTop>
