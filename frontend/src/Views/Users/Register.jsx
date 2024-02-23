@@ -18,10 +18,21 @@ const Register = () => {
     const dispatch = useDispatch()
     const {isAuthenticated, error, loading} = useSelector(state => state.auth)
     const countriesList = Object.values(countries)
-
+    const [course, setCourse] = useState([])
     const [avatar, setAvatar] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
     
+    // const getCourse = async () => {
+    //     try{
+    //         const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/courses`)
+    //         console.log(data)
+    //         setCourse(Object.values(data.courses))
+
+    //     }catch(error){
+    //         console.log(error)
+    //     }
+        
+    // }
 
     const Formik = useFormik({
         initialValues: {
@@ -194,7 +205,8 @@ const Register = () => {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         main.scrollTop = 0;
-
+       
+        
     }, [])
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
@@ -401,6 +413,11 @@ const Register = () => {
                                                         {country.name}
                                                     </option>
                                                 ))}
+                                                {/* {course.map((c) => (
+                                                    <option key={c._id} value={c.name}>
+                                                    {c.code} - {c.name}
+                                                </option>
+                                                ))} */}
                                             </select>
                                         </div>
                                         <div className="text-error italic">

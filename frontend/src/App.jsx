@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import Login from './Views/Users/Login';
 import ForgotPassword from './Views/Users/ForgotPassword';
 import ResetPassword from './Views/Users/ResetPassword';
+import Profile from './Views/Users/Profile';
 function App() {
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/password/forgot" element={<ForgotPassword/>} />
           <Route path="/password/reset/:token" element={<ResetPassword/>} exact="true"/>
+          <Route path="/profile" element={<Profile />}/>
         </Routes>
         <ToastContainer position="bottom-right"/>
       </ScrollToTop>
