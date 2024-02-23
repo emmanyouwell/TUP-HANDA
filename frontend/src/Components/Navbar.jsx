@@ -1,75 +1,42 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import logo from '../assets/TUPHANDA.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { logout, getUser, getToken } from '../utils/helper'
 
+import { logoutUser, getProfile, getUser } from '../Actions/userActions'
 import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import axios from 'axios'
-import Dropdown from './Dropdown'
+
+import { getToken } from '../utils/helper'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 const Navbar = () => {
+  const dispatch = useDispatch()
+  const { user, loading, error } = useSelector(state => state.auth)
 
-  const [user, setUser] = useState({})
   const navigate = useNavigate()
-  const logoutUser = async () => {
-    try {
-      await axios.get(`${process.env.REACT_APP_API}/api/v1/logout`)
-      setUser({})
-      logout(() => navigate('/'))
-      window.location.reload()
 
-    } catch (error) {
-      toast.error(error.response.data.message)
-    }
-
-  }
   const logoutHandler = () => {
-    logoutUser();
-    toast.success('log out', {
+
+    dispatch(logoutUser());
+    toast.success('Logged out', {
       position: toast.POSITION.BOTTOM_RIGHT
     });
 
-  }
-  const getProfile = async () => {
-    const config = {
-      headers: {
-        // 'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getToken()}`
-      }
-    }
-    try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me`, config)
-      setUser(data.user)
-
-
-
-      console.log(data.user)
-
-
-    } catch (error) {
-      console.log(error)
-    }
 
   }
-
 
   useEffect(() => {
-
-    if (getToken()) {
-      getProfile()
-    } else {
-      setUser(getUser())
-    }
-
+    // if (getToken()) {
+    //     dispatch(getProfile())
+    // }else{
+    //   dispatch(getUser())
+    // }
+    dispatch(getUser())
     console.log(user)
-
-  }, [])
-
+}, [])
 
   let Links = [
     { name: "MODULES", link: "/modules" },
@@ -106,24 +73,24 @@ const Navbar = () => {
             ))
           }
 
-          {user ? (<div className="flex items-center flex-row-reverse justify-end lg:flex-row lg:justify-center lg:mt-0 md:mt-8"> 
-          <span className="py-2 px-6 md:block lg:hidden xl:block xl:ml-8 text-sm font-[Poppins] font-medium">Welcome, {user && `${user.firstName}`}</span>
-          
-          <Menu as="div" className="relative inline-block text-left">
-            <div>
-                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm rounded-full  hover:bg-gray-50">
-                    
-                <figure className='md:ml-0 lg:ml-8 xl:ml-0 md:block lg:block'>
-            <img
-              src={user.avatar && user.avatar[0].url}
-              className="w-[50px] h-[50px] rounded-full object-cover"
-              alt={user && user.firstName}
-            />
-          </figure>
-                </Menu.Button>
-            </div>
+          {user ? (<div className="flex items-center flex-row-reverse justify-end lg:flex-row lg:justify-center lg:mt-0 md:mt-8">
+            <span className="py-2 px-6 md:block lg:hidden xl:block xl:ml-8 text-sm font-[Poppins] font-medium">Welcome, {user && `${user.firstName}`}</span>
 
-            <Transition
+            <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm rounded-full  hover:bg-gray-50">
+
+                  <figure className='md:ml-0 lg:ml-8 xl:ml-0 md:block lg:block'>
+                    <img
+                      src={user.avatar && user.avatar[0].url}
+                      className="w-[50px] h-[50px] rounded-full object-cover"
+                      alt={user && user.firstName}
+                    />
+                  </figure>
+                </Menu.Button>
+              </div>
+
+              <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
                 enterFrom="transform opacity-0 scale-95"
@@ -131,81 +98,82 @@ const Navbar = () => {
                 leave="transition ease-in duration-75"
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
-            >
+              >
                 <Menu.Items className="absolute lg:right-0 z-10 mt-2 w-56  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                        
-                        <Menu.Item>
-                            {({ active }) => (
-                                <Link
-                                    to="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    My Modules
-                                </Link>
+                  <div className="py-1">
+
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          My Modules
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          My Exams
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Certificates
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Account settings
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <div>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/"
+                            onClick={logoutHandler}
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                              'block w-full px-4 py-2 text-left text-sm'
                             )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <Link
-                                    to="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    My Exams
-                                </Link>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <Link
-                                    to="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    Certificates
-                                </Link>
-                            )}
-                        </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <Link
-                                    to="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    Account settings
-                                </Link>
-                            )}
-                        </Menu.Item>
-                        <form onSubmit={logoutHandler}>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        type="submit"
-                                        className={classNames(
-                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                            'block w-full px-4 py-2 text-left text-sm'
-                                        )}
-                                    >
-                                        Sign out
-                                    </button>
-                                )}
-                            </Menu.Item>
-                        </form>
+                          >
+                            Sign out
+                          </Link>
+                        )}
+                      </Menu.Item>
                     </div>
+                  </div>
                 </Menu.Items>
-            </Transition>
-        </Menu>
+              </Transition>
+            </Menu>
           </div>) : <Link to="/login"><button className="btn btn-warning py-2 px-6 text-white rounded-lg md:ml-8 text-lg">Login</button></Link>}
 
 

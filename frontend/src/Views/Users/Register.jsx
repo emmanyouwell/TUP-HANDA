@@ -6,7 +6,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { countries } from "countries-list";
 import img from '../../assets/default_avatar.jpg'
-
+import { register, clearErrors } from '../../Actions/userActions'
+import { useDispatch, useSelector } from 'react-redux'
 // import { useGoogleLogin } from '@react-oauth/google';
 
 
@@ -14,14 +15,13 @@ import Navbar from "../../Components/Navbar";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
 const Register = () => {
-
+    const dispatch = useDispatch()
+    const {isAuthenticated, error, loading} = useSelector(state => state.auth)
     const countriesList = Object.values(countries)
 
     const [avatar, setAvatar] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(true)
+    
 
     const Formik = useFormik({
         initialValues: {
@@ -60,7 +60,7 @@ const Register = () => {
             }
 
 
-            register(formData)
+            dispatch(register(formData))
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required('First name is required'),
@@ -128,10 +128,10 @@ const Register = () => {
         }
         if (error) {
             console.log(error)
-            setError()
+            dispatch(clearErrors())
         }
 
-    }, [error, isAuthenticated,])
+    }, [error, isAuthenticated, dispatch, navigate])
 
     const onChange = e => {
 
@@ -150,45 +150,45 @@ const Register = () => {
 
     }
 
-    const register = async (userData) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
+    // const register = async (userData) => {
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         }
 
-            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, {
-                firstName: userData.get('firstName'),
-                lastName: userData.get('lastName'),
-                email: userData.get('email'),
-                password: userData.get('password'),
-                avatar: userData.getAll('avatar'),
-                address: userData.get('street'),
-                city: userData.get('city'),
-                phoneNo: userData.get('phone'),
-                postalCode: userData.get('postalCode'),
-                country: userData.get('country')
-            }, config)
-            // console.log(process.env.REACT_APP_API);
-            console.log(data.user)
-            // console.log('nag register')
-            setIsAuthenticated(true)
-            setLoading(false)
+    //         const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, {
+    //             firstName: userData.get('firstName'),
+    //             lastName: userData.get('lastName'),
+    //             email: userData.get('email'),
+    //             password: userData.get('password'),
+    //             avatar: userData.getAll('avatar'),
+    //             address: userData.get('street'),
+    //             city: userData.get('city'),
+    //             phoneNo: userData.get('phone'),
+    //             postalCode: userData.get('postalCode'),
+    //             country: userData.get('country')
+    //         }, config)
+    //         // console.log(process.env.REACT_APP_API);
+    //         console.log(data.user)
+    //         // console.log('nag register')
+    //         setIsAuthenticated(true)
+    //         setLoading(false)
 
-            // navigate('/')
+    //         // navigate('/')
 
-        } catch (error) {
-            setIsAuthenticated(false)
-            setLoading(false)
-            if (error.response) {
-                setError(error.response.data.message)
-                console.log(error.response.data.message)
-            } else {
-                console.log(error)
-            }
-        }
-    }
+    //     } catch (error) {
+    //         setIsAuthenticated(false)
+    //         setLoading(false)
+    //         if (error.response) {
+    //             setError(error.response.data.message)
+    //             console.log(error.response.data.message)
+    //         } else {
+    //             console.log(error)
+    //         }
+    //     }
+    // }
     const main = useRef()
     useEffect(() => {
         document.documentElement.scrollTop = 0;
@@ -462,7 +462,7 @@ const Register = () => {
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                                id="email"
+                                                id="password"
                                                 name="password"
                                                 type="password"
                                                 placeholder="*********"
@@ -485,7 +485,7 @@ const Register = () => {
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                                id="email"
+                                                id="confirmPass"
                                                 name="confirmPass"
                                                 type="password"
                                                 onChange={Formik.handleChange}

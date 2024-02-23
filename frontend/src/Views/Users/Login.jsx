@@ -1,21 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import Navbar from '../../Components/Navbar'
-
+import { login, clearErrors} from '../../Actions/userActions.js'
+import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 
-import axios from 'axios'
 import { toast } from 'react-toastify'
-import { authenticate, getUser } from '../../utils/helper.js'
+
 const Login = () => {
+    const dispatch = useDispatch()
+    const { error, loading, user, isAuthenticated } = useSelector(state => state.auth)
     const formik = useFormik({
         initialValues: {
             email: '',
             password: ''
         },
         onSubmit: values => {
-            login(values.email, values.password)
+            dispatch(login(values.email, values.password))
+            
         },
         validationSchema: Yup.object({
             email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -26,32 +29,20 @@ const Login = () => {
     const navigate = useNavigate()
     let location = useLocation();
     const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
-    const login = async (email, password) => {
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-            console.log(process.env.REACT_APP_API)
-            const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/login`, { email, password }, config)
-            console.log(data)
-            authenticate(data, () => navigate("/"))
-
-        } catch (error) {
-            toast.error("invalid user or password", {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
-        }
-    }
+   
 
 
     useEffect(() => {
-
-        if (getUser() && redirect === 'information') {
+        if (isAuthenticated && redirect === 'information') {
             navigate(`/${redirect}`)
         }
-    }, [])
+        else if (isAuthenticated)
+            navigate('/')
+        if (error) {
+            console.log(error)
+            dispatch(clearErrors());
+        }
+    }, [error, isAuthenticated, dispatch, navigate, redirect])
     return (
         <>
             <Navbar />
@@ -66,7 +57,7 @@ const Login = () => {
                         <form onSubmit={formik.handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <div className="border-b border-gray-900/10 md:p-12">
                                 <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" for="username">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                                         Email
                                     </label>
                                     <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="email" type="email" placeholder="e.g. juandelacruz@email.com" name="email" onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur} />
@@ -77,7 +68,7 @@ const Login = () => {
                                     </div>
                                 </div>
                                 <div className="mb-6">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" for="password">
+                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                                         Password
                                     </label>
                                     <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="password" type="password" placeholder="*********" name="password" onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur} />
