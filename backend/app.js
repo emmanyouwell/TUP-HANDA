@@ -9,7 +9,7 @@ const auth = require('./routes/auth');
 
 app.use(cors(
     {
-        origin: "http://localhost:5173",
+        origin: ["http://localhost:5173", "https://tuphanda.onrender.com"],
         credentials: true
     }
 ))
