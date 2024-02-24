@@ -1,5 +1,66 @@
 [
     {
-        
+        "name": "Battery-powered or Hand-crank Radio",
+        "description": "A NOAA Weather Radio is ideal for receiving emergency updates.",
+        "recommendation": 95.8,
+        "images": {
+            "public_id": "10bbc63d-d5ce-4eb1-b08c-e2eb6861d428",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708741954/TUPHANDA_ASSETS/10bbc63d-d5ce-4eb1-b08c-e2eb6861d428.png"
+        }
+    },
+    {
+        "name": "Important Documents",
+        "description": "Store copies of vital documents like identification, insurance policies, and medical records in a waterproof container.",
+        "recommendation": 100,
+        "images": {
+            "public_id": "c0a488ac-c857-43be-9ec1-5a4875aadcf2",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708741733/TUPHANDA_ASSETS/c0a488ac-c857-43be-9ec1-5a4875aadcf2.png"
+        }
+    },
+    {
+        "name": "Non-perishable Food",
+        "description": "Stock up on enough food for each person for at least three days. Choose items like canned goods, energy bars, and dry goods.",
+        "recommendation": 94.4,
+        "images": {
+            "public_id": "2ee46495-95f6-47a6-802a-48508b399c10",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708742065/TUPHANDA_ASSETS/2ee46495-95f6-47a6-802a-48508b399c10.png"
+        }
+    },
+    {
+        "name": "Flashlight",
+        "description": "Include extra batteries or opt for a hand-crank flashlight.",
+        "recommendation": 92,
+        "images": {
+            "public_id": "8c7031a7-3303-4569-b7cf-6ea33f225cd0",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708742160/TUPHANDA_ASSETS/8c7031a7-3303-4569-b7cf-6ea33f225cd0.png"
+        }
+    },
+    {
+        "name": "Prescription Medicine",
+        "description": "Prepare a well-stocked kit with essential medical supplies.",
+        "recommendation": 92,
+        "images": {
+            "public_id": "2324a30d-1df6-447c-9b20-d6e7275d81bd",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708742224/TUPHANDA_ASSETS/2324a30d-1df6-447c-9b20-d6e7275d81bd.png"
+        }
+    },
+    {
+        "name": "Manual Can Opener",
+        "description": "If you're relying on canned food, make sure you have a manual can opener.",
+        "recommendation": 82,
+        "images": {
+            "public_id": "5d97bf61-e70b-4f80-9bcd-67688bfd3eb8",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708742282/TUPHANDA_ASSETS/5d97bf61-e70b-4f80-9bcd-67688bfd3eb8.png"
+        }
+    },
+    {
+        "name": "Toilet Paper",
+        "description": "Keep at least one roll of toilet paper per person in the family.",
+        "recommendation": 73,
+        "images": {
+            "public_id": "36829214-5dc4-44c2-a042-ce58dafb1ba4",
+            "url": "https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708742354/TUPHANDA_ASSETS/36829214-5dc4-44c2-a042-ce58dafb1ba4.png"
+        }
     }
+
 ]

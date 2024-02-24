@@ -11,19 +11,14 @@ const checklistSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter item description'],
     },
-    price: {
+    recommendation: {
         type: Number,
         required: [true, 'Please enter course price'],
         maxLength: [5, 'Course price cannot exceed 5 characters'],
         default: 0.0
     },
-    estimatedTime: {
-        type: Number,
-        required: [true, 'Please enter course estimated time'],
-
-    },
-    images:[
-    {
+    
+    images:{
         public_id: {
             type: String,
             required: true
@@ -32,7 +27,7 @@ const checklistSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }],
+    },
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,6 +1,7 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer  } from './Reducers/userReducers';
+import { checklistReducer } from './Reducers/checklistReducers';
 const reducer = combineReducers({
     
     auth: authReducer,
@@ -8,7 +9,7 @@ const reducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
     allUsers: allUsersReducer,
     userDetails: userDetailsReducer,
-
+    checklist: checklistReducer,
 
 })
 

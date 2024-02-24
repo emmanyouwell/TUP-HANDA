@@ -5,7 +5,7 @@ const cors = require('cors')
 
 // const products = require('./routes/product');
 const auth = require('./routes/auth');
-
+const check = require('./routes/checklist');
 
 app.use(cors(
     {
@@ -19,4 +19,5 @@ app.use(cookie())
 
 // app.use('/api/v1',products);
 app.use('/api/v1', auth);
+app.use('/api/v1',check);
 module.exports = app;
