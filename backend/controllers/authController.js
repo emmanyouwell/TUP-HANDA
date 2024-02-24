@@ -208,7 +208,8 @@ exports.updateProfile = async (req, res, next) => {
                 const result = await cloudinary.v2.uploader.upload(imageDataUri, {
                     folder: 'TUPHANDA_AVATARS',
                     width: 150,
-                    crop: "scale"
+                    crop: "scale",
+                    quality: "auto:best"
                 })
                 imageLinks.push({
                     public_id: result.public_id,
@@ -227,7 +228,54 @@ exports.updateProfile = async (req, res, next) => {
         req.body.avatar = imageLinks
     }
 
-    console.log(req.body)
+    let cover = []
+    if (!req.body.coverAvatar) {
+        req.body.coverAvatar = user.coverAvatar
+    }
+    else if (typeof req.body.coverAvatar === 'string') {
+        cover.push(req.body.coverAvatar)
+    }
+    else {
+        cover = req.body.coverAvatar
+    }
+    let coverLinks = [];
+    if (cover.length > 0) {
+        if (cover !== undefined) {
+            for (let i = 0; i < user.coverAvatar.length; i++) {
+                try {
+                    let coverDataUri = user.coverAvatar[i]
+                    const result = await cloudinary.v2.uploader.destroy(`${coverDataUri.public_id}`)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        }
+
+        for (let i = 0; i < cover.length; i++) {
+            try {
+                let coverDataUri = cover[i]
+                const result = await cloudinary.v2.uploader.upload(coverDataUri, {
+                    folder: 'TUPHANDA_COVER_PHOTO',
+                    
+                })
+                coverLinks.push({
+                    public_id: result.public_id,
+                    url: result.secure_url
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    if (coverLinks.length === 0) {
+        req.body.coverAvatar = user.coverAvatar
+    }
+    else {
+        req.body.coverAvatar = coverLinks
+    }
+
+  
     user = await User.findByIdAndUpdate(req.user.id, req.body, {
         new: true,
         runValidators: true,
@@ -237,6 +285,9 @@ exports.updateProfile = async (req, res, next) => {
             success: false,
             message: 'User not updated'
         })
+    }
+    else{
+        console.log(user)
     }
 
 

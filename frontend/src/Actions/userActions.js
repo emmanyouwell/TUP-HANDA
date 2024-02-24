@@ -67,7 +67,9 @@ export const register = (userData) => async (dispatch) => {
             city: userData.get('city'),
             phoneNo: userData.get('phone'),
             postalCode: userData.get('postalCode'),
-            country: userData.get('country')
+            country: userData.get('country'),
+            department: userData.get('department'),
+            course: userData.get('course')
         }, config)
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -238,6 +240,41 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
         });
     }
 }
+
+export const updateProfile = (userData) => async (dispatch) =>{
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${getToken()}`
+            },
+            
+        }
+        dispatch({ type: UPDATE_PROFILE_REQUEST })
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/update`, userData, config)
+        console.log(data)
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success
+        })
+         toast.success('Profile Updated', {
+            position: toast.POSITION.BOTTOM_RIGHT
+        })
+        sessionStorage.setItem('user', JSON.stringify(data.user))
+        
+       
+    } catch (error) {
+        console.log(error)
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message
+        })
+        toast.error(error.response.data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        })
+    }
+}
+
 
 export const clearErrors = () => async (dispatch) => {
     dispatch({

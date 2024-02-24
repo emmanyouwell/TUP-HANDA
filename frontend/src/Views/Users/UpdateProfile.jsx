@@ -6,44 +6,48 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { countries } from "countries-list";
 import img from '../../assets/default_avatar.jpg'
-import { register, clearErrors } from '../../Actions/userActions'
+import { updateProfile, clearErrors, getProfile } from '../../Actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 // import { useGoogleLogin } from '@react-oauth/google';
-
-
+import { UPDATE_PROFILE_RESET } from "../../Constants/userConstants";
+import { getUser } from "../../utils/helper";
 import Navbar from "../../Components/Navbar";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
-const Register = () => {
+const UpdateProfile = () => {
     const dispatch = useDispatch()
-    const {isAuthenticated, error, loading} = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.auth)
+    const { isUpdated, error } = useSelector(state => state.user)
     const countriesList = Object.values(countries)
     const [course, setCourse] = useState([])
-    const [department, setDepartment] = useState([])
     const [avatar, setAvatar] = useState([])
+    const [cover, setCover] = useState([])
+    const [coverPreview, setCoverPreview] = useState([img])
+    const [department, setDepartment] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
-    
-    const getCourse = async () => {
-        try{
-            const {data} = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/courses`)
-            console.log(data)
+    const [selectedDepartment, setSelectedDepartment] = useState('')
+    const getCourse = async (deptId) => {
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/courses?department=${deptId}`)
             setCourse(Object.values(data.courses))
-
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
-        
+
     }
+
     const getDepartment = async () => {
-        try{
-            const {data} = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/departments`)
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/departments`)
             console.log(data)
             setDepartment(Object.values(data.depts))
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
+
+
 
     const Formik = useFormik({
         initialValues: {
@@ -55,25 +59,26 @@ const Register = () => {
             postalCode: '',
             country: '',
             phone: '',
-            password: '',
-            confirmPass: '',
+            // password: '',
+            // confirmPass: '',
             department: '',
-            course: '',
+            course: ''
+
         },
-        onSubmit: values => {
+        onSubmit: (values) => {
             const formData = new FormData()
             formData.set('firstName', values.firstName);
             formData.set('lastName', values.lastName);
-            formData.set('street', values.street);
+            formData.set('address', values.street);
             formData.set('city', values.city);
             formData.set('postalCode', values.postalCode);
             formData.set('country', values.country);
-            formData.set('phone', values.phone);
+            formData.set('phoneNo', values.phone);
             formData.set('email', values.email);
-            formData.set('password', values.password);
-            formData.set('department', values.department);
+            // formData.set('password', values.password);
+            
+            formData.set('department', selectedDepartment);
             formData.set('course', values.course);
-
             if (avatar.length > 0) {
                 if (Array.isArray(avatar)) {
                     avatar.forEach(avatar => {
@@ -83,83 +88,77 @@ const Register = () => {
                     formData.set('avatar', avatar);
                 }
             }
+            if (cover.length > 0) {
+                if (Array.isArray(cover)) {
+                    cover.forEach(cover => {
+                        formData.append('coverAvatar', cover)
+                    })
+                } else {
+                    formData.set('coverAvatar', cover);
+                }
+            }
 
-
-            dispatch(register(formData))
+            dispatch(updateProfile(formData))
+            
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required('First name is required'),
             lastName: Yup.string().required('Last name is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
-            password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+            // password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
             street: Yup.string().required('Street is required'),
             city: Yup.string().required('City is required'),
             postalCode: Yup.string().required('Postal code is required'),
             country: Yup.string().required('Country is required'),
             phone: Yup.string().required('Phone number is required'),
-            confirmPass: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
+            // confirmPass: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
             department: Yup.string().required('Department is required'),
-            course: Yup.string().required('Course is required'),
+            course: Yup.string().required('Course is required')
+
         })
     })
-    //   const GoogleRegister = useGoogleLogin({
-    //     onSuccess: async tokenResponse => {
-    //       console.log(tokenResponse);
-    //       // fetching userinfo can be done on the client or the server
-    //       const userInfo = await axios
-    //         .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-    //           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-    //         })
-    //         .then(res => res.data);
 
-    //       console.log(userInfo);
-    //       GRegister(userInfo)
-    //     },
-
-    //   });
-
-    //   const GRegister = async (userData) => {
-    //     try {
-    //       const config = {
-    //         headers: {
-    //           'Content-Type': 'multipart/form-data'
-    //         }
-    //       }
-    //       const { email, family_name, given_name, picture } = userData
-    //       const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, {
-    //         name: `${given_name} ${family_name}`,
-    //         email,
-    //         password: `${family_name}`,
-    //         avatar: picture
-    //       }, config)
-    //       console.log(data.user)
-    //       setIsAuthenticated(true)
-    //       setLoading(false)
-
-    //       navigate('/')
-
-    //     } catch (error) {
-    //       setIsAuthenticated(false)
-    //       setLoading(false)
-
-    //       setError(error.response.data.message)
-    //       console.log(error.response.data.message)
-    //     }
-    //   }
 
     let navigate = useNavigate()
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/')
-        }
         if (error) {
-            console.log(error)
             dispatch(clearErrors())
         }
-        getCourse()
-        getDepartment()
+        if (user) {
+            Formik.values.firstName = user.firstName;
+            Formik.values.email = user.email;
 
-    }, [error, isAuthenticated, dispatch, navigate])
+
+            Formik.values.lastName = user.lastName;
+            Formik.values.street = user.address;
+            Formik.values.city = user.city;
+            Formik.values.postalCode = user.postalCode;
+            Formik.values.country = user.country;
+            Formik.values.phone = user.phoneNo;
+
+
+            Formik.values.department = user.department;
+            Formik.values.course = user.course;
+            setAvatarPreview(user.avatar[0].url)
+            console.log(user.coverAvatar)
+            if (user.coverAvatar.length > 0) {
+                setCoverPreview(user.coverAvatar[0].url)
+            }
+
+
+        }
+
+        if (isUpdated) {
+            // alert.success('User updated successfully')
+            dispatch(getProfile());
+            navigate('/profile', { replace: true })
+            dispatch({
+                type: UPDATE_PROFILE_RESET
+            })
+        }
+
+
+    }, [error, isUpdated, dispatch, user])
 
     const onChange = e => {
 
@@ -177,65 +176,47 @@ const Register = () => {
         })
 
     }
+    const onCoverChange = e => {
 
-    // const register = async (userData) => {
-    //     try {
-    //         const config = {
-    //             headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //             }
-    //         }
+        const files = Array.from(e.target.files)
+        setCover([])
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setCover(oldArray => [...oldArray, reader.result])
+                    setCoverPreview([reader.result])
+                }
+            }
+            reader.readAsDataURL(file)
+        })
 
-    //         const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/register`, {
-    //             firstName: userData.get('firstName'),
-    //             lastName: userData.get('lastName'),
-    //             email: userData.get('email'),
-    //             password: userData.get('password'),
-    //             avatar: userData.getAll('avatar'),
-    //             address: userData.get('street'),
-    //             city: userData.get('city'),
-    //             phoneNo: userData.get('phone'),
-    //             postalCode: userData.get('postalCode'),
-    //             country: userData.get('country')
-    //         }, config)
-    //         // console.log(process.env.REACT_APP_API);
-    //         console.log(data.user)
-    //         // console.log('nag register')
-    //         setIsAuthenticated(true)
-    //         setLoading(false)
+    }
 
-    //         // navigate('/')
-
-    //     } catch (error) {
-    //         setIsAuthenticated(false)
-    //         setLoading(false)
-    //         if (error.response) {
-    //             setError(error.response.data.message)
-    //             console.log(error.response.data.message)
-    //         } else {
-    //             console.log(error)
-    //         }
-    //     }
-    // }
     const main = useRef()
     useEffect(() => {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         main.scrollTop = 0;
-       
-        
+        getDepartment()
     }, [])
+    useEffect(()=>{
+        if (department) {
+            getCourse(department.find(dept => dept.name === user.department)?._id || 'none')
+            }
+    },[department])
+  
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
             <Navbar />
             <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
                 <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
                 <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
-                    <h1 className="font-black text-4xl mb-5 text-center">Register</h1>
+                    <h1 className="font-black text-4xl mb-5 text-center">Edit profile</h1>
                     <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div className="space-y-12">
 
-                        <div className="border-b border-gray-900/10 pb-12">
+                            <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-semibold leading-7 text-gray-900">Department and Course Information</h2>
                                 <p className="mt-1 text-sm leading-6 text-gray-600">
                                     Please select your corresponding department and enrolled course.
@@ -250,21 +231,29 @@ const Register = () => {
                                                 id="department"
                                                 name="department"
                                                 autoComplete="department-name"
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.department}
+                                                onChange={(e) => {
+                                                    const option = department.find(dept => dept._id === e.target.value)
+                                                    
+                                                    if (option) {
+                                                        setSelectedDepartment(option.name)
+                                                        getCourse(e.target.value)
+                                                    }
+
+                                                    Formik.handleChange(e)
+                                                    
+
+                                                }}
+                                                value={department.find(dept=>dept.name === Formik.values.department)?._id ||Formik.values.department}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
-                                                {/* {countriesList.map(country => (
-                                                    <option key={country.name} value={country.name}>
-                                                        {country.name}
-                                                    </option>
-                                                ))} */}
+                                                <option value="a">Select a Department</option>
                                                 {department.map((c) => (
-                                                    <option key={c._id} value={c.name}>
-                                                    {c.name}
-                                                </option>
+                                                    <option key={c._id} value={c._id}>
+                                                        {c.name}
+                                                    </option>
                                                 ))}
+
                                             </select>
                                         </div>
                                         <div className="text-error italic">
@@ -278,25 +267,23 @@ const Register = () => {
                                             Course
                                         </label>
                                         <div className="mt-2">
+
                                             <select
                                                 id="course"
                                                 name="course"
                                                 autoComplete="course-name"
                                                 onChange={Formik.handleChange}
-                                                value={Formik.values.course}
+                                                value={course.find(c=>c.name === Formik.values.course)?.name||''}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
-                                                {/* {countriesList.map(country => (
-                                                    <option key={country.name} value={country.name}>
-                                                        {country.name}
-                                                    </option>
-                                                ))} */}
+                                                <option value="">Select a course</option>
                                                 {course.map((c) => (
                                                     <option key={c._id} value={c.name}>
-                                                    {c.code} - {c.name}
-                                                </option>
+                                                        {c.code} - {c.name}
+                                                    </option>
                                                 ))}
+
                                             </select>
                                         </div>
                                         <div className="text-error italic">
@@ -312,7 +299,7 @@ const Register = () => {
                             {/* Form body */}
                             <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+                                <p className="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
 
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-3">
@@ -523,7 +510,7 @@ const Register = () => {
                                             {/* <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" /> */}
                                             <figure className='mr-3'>
                                                 <img
-                                                    src={avatarPreview[0]}
+                                                    src={avatarPreview}
                                                     className="w-[200px] h-[200px] rounded-full object-cover"
                                                     alt='Avatar Preview'
                                                 />
@@ -544,12 +531,47 @@ const Register = () => {
                                                         className="sr-only"
                                                         accept="images/*"
                                                         multiple
-                                                        required
                                                         onChange={onChange} />
                                                 </label>
                                             </button>
 
 
+                                        </div>
+                                        <div className="col-span-full">
+                                            <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                                Cover photo
+                                            </label>
+                                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+
+                                                <div className="text-center">
+                                                    <figure className='mx-auto  text-gray-300'>
+                                                        <img
+                                                            src={coverPreview}
+                                                            className="w-full h-[200px] object-cover"
+                                                            alt='Avatar Preview'
+                                                        />
+                                                    </figure>
+                                                    <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                                        <label
+                                                            htmlFor="file-upload"
+                                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                                        >
+                                                            <span>Upload a file</span>
+                                                            <input type='file'
+                                                                name='cover'
+                                                                id='file-upload'
+                                                                className="sr-only"
+                                                                accept="images/*"
+                                                                multiple
+                                                                onChange={onCoverChange} />
+                                                        </label>
+                                                        <p className="pl-1">or drag and drop</p>
+                                                    </div>
+                                                    <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                                </div>
+
+
+                                            </div>
                                         </div>
                                     </div>
 
@@ -575,7 +597,7 @@ const Register = () => {
                                                 onChange={Formik.handleChange}
                                                 value={Formik.values.password}
                                                 onBlur={Formik.handleBlur}
-                                                
+
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             />
                                             <div className="text-error italic">
@@ -631,4 +653,4 @@ const Register = () => {
     )
 }
 
-export default Register
+export default UpdateProfile

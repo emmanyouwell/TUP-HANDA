@@ -5,6 +5,16 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto')
 
 const userSchema = new mongoose.Schema({
+    department: {
+        type: String,
+        required: [true, 'Please enter your name'],
+        maxLength: [150, 'Your name cannot exceed 30 characters']
+    },
+    course: {
+        type: String,
+        required: [true, 'Please enter your name'],
+        maxLength: [150, 'Your name cannot exceed 30 characters']
+    },
     firstName: {
         type: String,
         required: [true, 'Please enter your name'],
@@ -48,6 +58,16 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     avatar: [{
+        public_id: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
+    }],
+    coverAvatar: [{
         public_id: {
             type: String,
             required: true
