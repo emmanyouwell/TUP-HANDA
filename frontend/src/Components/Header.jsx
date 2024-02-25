@@ -13,9 +13,16 @@ export default function Example() {
 
           <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
             <li><Link className="text-xl" to="/">
-            <img src={logo} className="w-24 h-12 object-cover object-center" alt="logo" />
-          </Link></li>
-          <li><Link to="/modules">Modules</Link></li>
+              <img src={logo} className="w-24 h-12 object-cover object-center" alt="logo" />
+            </Link></li>
+            <li>
+              <div className="dropdown dropdown-end">
+                <div tabIndex={0} role="button" className="btn btn-ghost rounded-btn">Dropdown</div>
+                <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+                  <li><a>Item 1</a></li>
+                  <li><a>Item 2</a></li>
+                </ul>
+              </div></li>
             <li>
               <details>
                 <summary>Disasters</summary>
