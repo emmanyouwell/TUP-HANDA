@@ -22,25 +22,24 @@ const Register = () => {
     const [department, setDepartment] = useState([])
     const [avatar, setAvatar] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
-    
-    const getCourse = async () => {
-        try{
-            const {data} = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/courses`)
-            console.log(data)
+    const [selectedDepartment, setSelectedDepartment] = useState('')
+    const getCourse = async (deptId) => {
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/courses?department=${deptId}`)
             setCourse(Object.values(data.courses))
-
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
-        
+
     }
+
     const getDepartment = async () => {
-        try{
-            const {data} = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/departments`)
+        try {
+            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/departments`)
             console.log(data)
             setDepartment(Object.values(data.depts))
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -71,7 +70,7 @@ const Register = () => {
             formData.set('phone', values.phone);
             formData.set('email', values.email);
             formData.set('password', values.password);
-            formData.set('department', values.department);
+            formData.set('department', selectedDepartment);
             formData.set('course', values.course);
 
             if (avatar.length > 0) {
@@ -156,7 +155,7 @@ const Register = () => {
             console.log(error)
             dispatch(clearErrors())
         }
-        getCourse()
+        
         getDepartment()
 
     }, [error, isAuthenticated, dispatch, navigate])
@@ -250,7 +249,18 @@ const Register = () => {
                                                 id="department"
                                                 name="department"
                                                 autoComplete="department-name"
-                                                onChange={Formik.handleChange}
+                                                onChange={(e) => {
+                                                    const option = department.find(dept => dept._id === e.target.value)
+                                                    
+                                                    if (option) {
+                                                        setSelectedDepartment(option.name)
+                                                        getCourse(e.target.value)
+                                                    }
+
+                                                    Formik.handleChange(e)
+                                                    
+
+                                                }}
                                                 value={Formik.values.department}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -260,10 +270,11 @@ const Register = () => {
                                                         {country.name}
                                                     </option>
                                                 ))} */}
+                                               <option value="a">Select a Department</option>
                                                 {department.map((c) => (
-                                                    <option key={c._id} value={c.name}>
-                                                    {c.name}
-                                                </option>
+                                                    <option key={c._id} value={c._id}>
+                                                        {c.name}
+                                                    </option>
                                                 ))}
                                             </select>
                                         </div>
@@ -287,15 +298,12 @@ const Register = () => {
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
-                                                {/* {countriesList.map(country => (
-                                                    <option key={country.name} value={country.name}>
-                                                        {country.name}
-                                                    </option>
-                                                ))} */}
+                                               
+                                               <option value="">Select a course</option>
                                                 {course.map((c) => (
                                                     <option key={c._id} value={c.name}>
-                                                    {c.code} - {c.name}
-                                                </option>
+                                                        {c.code} - {c.name}
+                                                    </option>
                                                 ))}
                                             </select>
                                         </div>

@@ -25,6 +25,7 @@ const UpdateProfile = () => {
     const [coverPreview, setCoverPreview] = useState([img])
     const [department, setDepartment] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
+    const [loading, setLoading] = useState(true)
     const [selectedDepartment, setSelectedDepartment] = useState('')
     const getCourse = async (deptId) => {
         try {
@@ -199,9 +200,15 @@ const UpdateProfile = () => {
         document.scrollingElement.scrollTop = 0;
         main.scrollTop = 0;
         getDepartment()
+        
     }, [])
     useEffect(()=>{
+        if (user && user.department){
+            setSelectedDepartment(user.department)
+        }
         if (department) {
+            
+            setLoading(false)
             getCourse(department.find(dept => dept.name === user.department)?._id || 'none')
             }
     },[department])
@@ -255,6 +262,7 @@ const UpdateProfile = () => {
                                                 ))}
 
                                             </select>
+                                            
                                         </div>
                                         <div className="text-error italic">
                                             <small>
