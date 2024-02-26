@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { countries } from "countries-list";
 import img from '../../assets/default_avatar.jpg'
 import { updateProfile, clearErrors, getProfile } from '../../Actions/userActions'
@@ -29,7 +29,7 @@ const UpdateProfile = () => {
     const [selectedDepartment, setSelectedDepartment] = useState('')
     const getCourse = async (deptId) => {
         try {
-            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/courses?department=${deptId}`)
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/courses?department=${deptId}`)
             setCourse(Object.values(data.courses))
         } catch (error) {
             console.log(error)
@@ -39,7 +39,7 @@ const UpdateProfile = () => {
 
     const getDepartment = async () => {
         try {
-            const { data } = await axios.get(`${process.env.REACT_APP_TUP}/api/v1/departments`)
+            const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/departments`)
             console.log(data)
             setDepartment(Object.values(data.depts))
 
@@ -643,9 +643,11 @@ const UpdateProfile = () => {
                         </div>
 
                         <div className="mt-6 flex items-center justify-end gap-x-6">
+                            <Link to="/profile">
                             <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
                                 Cancel
                             </button>
+                            </Link>
                             <button
                                 type="submit"
                                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
