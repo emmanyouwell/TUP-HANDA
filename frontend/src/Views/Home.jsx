@@ -10,7 +10,7 @@ import Accordion from '../Components/Accordion'
 import Navbar from '../Components/Navbar'
 import ChecklistComponent from '../Components/ChecklistComponent'
 function Home() {
-    const [count, setCount] = useState(0)
+    
     useEffect(()=>{
         AOS.init()
     },[])
