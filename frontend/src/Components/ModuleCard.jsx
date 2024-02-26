@@ -11,7 +11,7 @@ import {
     Card,
     Chip
 } from "@material-tailwind/react";
-const ModuleCard = ({ title, description, img, link, tags }) => {
+const ModuleCard = ({ title, description, img, link, tags, shortDesc }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
     const onButtonClick = () => {
@@ -42,7 +42,8 @@ const ModuleCard = ({ title, description, img, link, tags }) => {
                         {title ? title : 'Module Title'}
                     </h5>
                     <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased ">
-                    This module teaches essential skills like CPR, wound care, and fracture management for immediate medical emergencies.
+                        {shortDesc ? shortDesc : 'Short description here'}
+                    
                     </p>
                     <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased ">
                         {tags && tags.length > 0?  tags.map(t=><Chip color="green" value={t} className="max-w-max my-3"/>): 'tags'}

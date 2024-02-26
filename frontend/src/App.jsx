@@ -15,6 +15,7 @@ import ForgotPassword from './Views/Users/ForgotPassword';
 import ResetPassword from './Views/Users/ResetPassword';
 import Profile from './Views/Users/Profile';
 import UpdateProfile from './Views/Users/UpdateProfile';
+import VideoModules from './Views/Modules/VideoModules';
 function App() {
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/password/reset/:token" element={<ResetPassword/>} exact="true"/>
           <Route path="/profile" element={<Profile />}/>
           <Route path="/profile/update" element={<UpdateProfile />} exact="true"/>
+          <Route path="/modules/videos" element={<VideoModules  />} />
         </Routes>
         <ToastContainer position="bottom-right"/>
       </ScrollToTop>

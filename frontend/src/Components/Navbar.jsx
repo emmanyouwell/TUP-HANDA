@@ -39,7 +39,7 @@ const Navbar = () => {
   }, [])
 
   let Links = [
-    
+
     { name: "FIRE", link: "/modules/fires" },
     { name: "TYPHOON", link: "/modules/typhoons" },
     { name: "EARTHQUAKE", link: "/modules/earthquakes" },
@@ -65,14 +65,15 @@ const Navbar = () => {
         </div>
 
         <ul className={`lg:flex lg:items-center lg:pb-0 pb-12 absolute lg:static bg-white lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'}`}>
-        <div className="dropdown dropdown-end font-[Poppins] font-medium">
-            <div tabIndex={0} role="button" className="md:ml-8 md:text-xl md:my-0 my-7 text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium">LEARN</div>
-            <ul tabIndex={0} className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+          <li className="md:ml-8 md:text-xl md:my-0 my-7"> <div className="dropdown lg:dropdown-end font-[Poppins] font-medium ">
+            <div tabIndex={0} role="button" className=" text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium">LEARN</div>
+            <ul tabIndex={0} className=" menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
               <li> <Link to='/modules' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>MODULES</Link></li>
-              <li><Link to='/videos' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>VIDEOS</Link></li>
+              <li><Link to='/modules/videos' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>VIDEOS</Link></li>
               <li><Link to='/exams' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>EXAMS</Link></li>
             </ul>
-          </div>
+          </div></li>
+
           {
             Links.map((link) => (
               <li key={link.name} className='md:ml-8 md:text-xl md:my-0 my-7'>
@@ -80,7 +81,7 @@ const Navbar = () => {
               </li>
             ))
           }
-          
+
           {user ? (<div className="flex items-center flex-row-reverse justify-end lg:flex-row lg:justify-center lg:mt-0 md:mt-8">
             <span className="py-2 px-6 md:block lg:hidden xl:block xl:ml-8 text-sm font-[Poppins] font-medium">Welcome, {user && `${user.firstName}`}</span>
 
