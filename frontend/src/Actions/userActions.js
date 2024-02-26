@@ -275,7 +275,36 @@ export const updateProfile = (userData) => async (dispatch) =>{
     }
 }
 
+export const updatePassword = (formData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_PASSWORD_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+                
+            }
+        }
 
+        const {data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/update`, formData, config)
+        dispatch({
+            type: UPDATE_PASSWORD_SUCCESS,
+            payload: data.success
+        })
+        toast.success('Password Updated', {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PASSWORD_FAIL,
+            payload: error.response.data.message
+        })
+        toast.error(error.response.data.message, {
+            position: toast.POSITION.BOTTOM_RIGHT
+        });
+    }
+}
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

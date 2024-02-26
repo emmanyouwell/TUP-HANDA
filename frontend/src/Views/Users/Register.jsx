@@ -16,19 +16,22 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
 const Register = () => {
     const dispatch = useDispatch()
-    const {isAuthenticated, error, loading} = useSelector(state => state.auth)
+    const { isAuthenticated, error, loading } = useSelector(state => state.auth)
     const countriesList = Object.values(countries)
     const [course, setCourse] = useState([])
     const [department, setDepartment] = useState([])
     const [avatar, setAvatar] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
     const [selectedDepartment, setSelectedDepartment] = useState('')
+
     const [visible, setVisible] = useState(true)
     const [confirmVisible, setConfirmVisible] = useState(true)
     const icon = visible ? <i class="fa-solid fa-eye-slash" onClick={() => setVisible(!visible)}></i> : <i class="fa-solid fa-eye" onClick={() => setVisible(!visible)}></i>
     const inputType = visible ? "password" : "text"
     const confirmIcon = confirmVisible ? <i class="fa-solid fa-eye-slash" onClick={() => setConfirmVisible(!confirmVisible)}></i> : <i class="fa-solid fa-eye" onClick={() => setConfirmVisible(!confirmVisible)}></i>
     const confirmInputType = confirmVisible ? "password" : "text"
+
+
     const getCourse = async (deptId) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/courses?department=${deptId}`)
@@ -161,7 +164,7 @@ const Register = () => {
             console.log(error)
             dispatch(clearErrors())
         }
-        
+
         getDepartment()
 
     }, [error, isAuthenticated, dispatch, navigate])
@@ -227,8 +230,8 @@ const Register = () => {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
         main.scrollTop = 0;
-       
-        
+
+
     }, [])
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
@@ -240,7 +243,7 @@ const Register = () => {
                     <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div className="space-y-12">
 
-                        <div className="border-b border-gray-900/10 pb-12">
+                            <div className="border-b border-gray-900/10 pb-12">
                                 <h2 className="text-base font-semibold leading-7 text-gray-900">Department and Course Information</h2>
                                 <p className="mt-1 text-sm leading-6 text-gray-600">
                                     Please select your corresponding department and enrolled course.
@@ -257,14 +260,14 @@ const Register = () => {
                                                 autoComplete="department-name"
                                                 onChange={(e) => {
                                                     const option = department.find(dept => dept._id === e.target.value)
-                                                    
+
                                                     if (option) {
                                                         setSelectedDepartment(option.name)
                                                         getCourse(e.target.value)
                                                     }
 
                                                     Formik.handleChange(e)
-                                                    
+
 
                                                 }}
                                                 value={Formik.values.department}
@@ -276,7 +279,7 @@ const Register = () => {
                                                         {country.name}
                                                     </option>
                                                 ))} */}
-                                               <option value="a">Select a Department</option>
+                                                <option value="a">Select a Department</option>
                                                 {department.map((c) => (
                                                     <option key={c._id} value={c._id}>
                                                         {c.name}
@@ -304,8 +307,8 @@ const Register = () => {
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
-                                               
-                                               <option value="">Select a course</option>
+
+                                                <option value="">Select a course</option>
                                                 {course.map((c) => (
                                                     <option key={c._id} value={c.name}>
                                                         {c.code} - {c.name}
@@ -582,22 +585,22 @@ const Register = () => {
                                         </label>
                                         <div className="mt-2">
                                             <div className="relative">
-                                            <input
-                                                id="password"
-                                                name="password"
-                                                type={inputType}
-                                                placeholder="*********"
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.password}
-                                                onBlur={Formik.handleBlur}
-                                                
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
-                                            />
-                                            <span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
-                                            {icon}
-                                        </span>
+                                                <input
+                                                    id="password"
+                                                    name="password"
+                                                    type={inputType}
+                                                    placeholder="*********"
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.password}
+                                                    onBlur={Formik.handleBlur}
+
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                                />
+                                                <span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                                    {icon}
+                                                </span>
                                             </div>
-                                            
+
                                             <div className="text-error italic">
                                                 <small>
                                                     {Formik.errors.password && Formik.touched.password && Formik.errors.password}
@@ -611,21 +614,21 @@ const Register = () => {
                                         </label>
                                         <div className="mt-2">
                                             <div className="relative">
-                                            <input
-                                                id="confirmPass"
-                                                name="confirmPass"
-                                                type={confirmInputType}
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.confirmPass}
-                                                onBlur={Formik.handleBlur}
-                                                placeholder="*********"
-                                                
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
-                                            /><span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
-                                            {confirmIcon}
-                                        </span>
+                                                <input
+                                                    id="confirmPass"
+                                                    name="confirmPass"
+                                                    type={confirmInputType}
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.confirmPass}
+                                                    onBlur={Formik.handleBlur}
+                                                    placeholder="*********"
+
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                                /><span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                                    {confirmIcon}
+                                                </span>
                                             </div>
-                                           
+
                                             <div className="text-error italic">
                                                 <small>
                                                     {Formik.errors.confirmPass && Formik.touched.confirmPass && Formik.errors.confirmPass}
@@ -640,9 +643,9 @@ const Register = () => {
 
                         <div className="mt-6 flex items-center justify-end gap-x-6">
                             <Link to="/login">
-                            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                                Cancel
-                            </button>
+                                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                                    Cancel
+                                </button>
                             </Link>
                             <button
                                 type="submit"

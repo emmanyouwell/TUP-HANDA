@@ -6,11 +6,11 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { countries } from "countries-list";
 import img from '../../assets/default_avatar.jpg'
-import { updateProfile, clearErrors, getProfile } from '../../Actions/userActions'
+import { updateProfile, clearErrors, getProfile, updatePassword } from '../../Actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { UPDATE_PROFILE_RESET } from "../../Constants/userConstants";
-import { getUser } from "../../utils/helper";
+import { UPDATE_PROFILE_RESET, UPDATE_PASSWORD_RESET} from "../../Constants/userConstants";
+
 import Navbar from "../../Components/Navbar";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
@@ -27,6 +27,15 @@ const UpdateProfile = () => {
     const [avatarPreview, setAvatarPreview] = useState([img])
     const [loading, setLoading] = useState(true)
     const [selectedDepartment, setSelectedDepartment] = useState('')
+
+
+    const [visible, setVisible] = useState(true)
+    const [confirmVisible, setConfirmVisible] = useState(true)
+    const icon = visible ? <i class="fa-solid fa-eye-slash" onClick={() => setVisible(!visible)}></i> : <i class="fa-solid fa-eye" onClick={() => setVisible(!visible)}></i>
+    const inputType = visible ? "password" : "text"
+    const confirmIcon = confirmVisible ? <i class="fa-solid fa-eye-slash" onClick={() => setConfirmVisible(!confirmVisible)}></i> : <i class="fa-solid fa-eye" onClick={() => setConfirmVisible(!confirmVisible)}></i>
+    const confirmInputType = confirmVisible ? "password" : "text"
+
     const getCourse = async (deptId) => {
         try {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/courses?department=${deptId}`)
@@ -60,8 +69,8 @@ const UpdateProfile = () => {
             postalCode: '',
             country: '',
             phone: '',
-            // password: '',
-            // confirmPass: '',
+            password: '',
+            confirmPass: '',
             department: '',
             course: ''
 
@@ -77,7 +86,7 @@ const UpdateProfile = () => {
             formData.set('phoneNo', values.phone);
             formData.set('email', values.email);
             // formData.set('password', values.password);
-            
+
             formData.set('department', selectedDepartment);
             formData.set('course', values.course);
             if (avatar.length > 0) {
@@ -100,19 +109,31 @@ const UpdateProfile = () => {
             }
 
             dispatch(updateProfile(formData))
-            
+            if (values.password && values.confirmPass) {
+                const passwordData = new FormData()
+                passwordData.set('oldPassword', values.password)
+                passwordData.set('password', values.confirmPass)
+                dispatch(updatePassword(passwordData))
+            }
+
         },
         validationSchema: Yup.object({
             firstName: Yup.string().required('First name is required'),
             lastName: Yup.string().required('Last name is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
-            // password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+            password: Yup.string().min(6, 'Password must be at least 6 characters'),
             street: Yup.string().required('Street is required'),
             city: Yup.string().required('City is required'),
             postalCode: Yup.string().required('Postal code is required'),
             country: Yup.string().required('Country is required'),
             phone: Yup.string().required('Phone number is required'),
-            // confirmPass: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
+            confirmPass: Yup.string()
+            .test('passwords-required', 'New Password is required', function (value) {
+              if (this.parent.password && !value) {
+                return false;
+              }
+              return true;
+            }),
             department: Yup.string().required('Department is required'),
             course: Yup.string().required('Course is required')
 
@@ -156,6 +177,14 @@ const UpdateProfile = () => {
             dispatch({
                 type: UPDATE_PROFILE_RESET
             })
+            if (Formik.values.password) {
+                if (isUpdated){
+                    dispatch({
+                        type: UPDATE_PASSWORD_RESET
+                    })
+                }
+               
+            }
         }
 
 
@@ -200,19 +229,19 @@ const UpdateProfile = () => {
         document.scrollingElement.scrollTop = 0;
         main.scrollTop = 0;
         getDepartment()
-        
+
     }, [])
-    useEffect(()=>{
-        if (user && user.department){
+    useEffect(() => {
+        if (user && user.department) {
             setSelectedDepartment(user.department)
         }
         if (department) {
-            
+
             setLoading(false)
             getCourse(department.find(dept => dept.name === user.department)?._id || 'none')
-            }
-    },[department])
-  
+        }
+    }, [department])
+
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
             <Navbar />
@@ -240,17 +269,17 @@ const UpdateProfile = () => {
                                                 autoComplete="department-name"
                                                 onChange={(e) => {
                                                     const option = department.find(dept => dept._id === e.target.value)
-                                                    
+
                                                     if (option) {
                                                         setSelectedDepartment(option.name)
                                                         getCourse(e.target.value)
                                                     }
 
                                                     Formik.handleChange(e)
-                                                    
+
 
                                                 }}
-                                                value={department.find(dept=>dept.name === Formik.values.department)?._id ||Formik.values.department}
+                                                value={department.find(dept => dept.name === Formik.values.department)?._id || Formik.values.department}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
@@ -262,7 +291,7 @@ const UpdateProfile = () => {
                                                 ))}
 
                                             </select>
-                                            
+
                                         </div>
                                         <div className="text-error italic">
                                             <small>
@@ -281,7 +310,7 @@ const UpdateProfile = () => {
                                                 name="course"
                                                 autoComplete="course-name"
                                                 onChange={Formik.handleChange}
-                                                value={course.find(c=>c.name === Formik.values.course)?.name||''}
+                                                value={course.find(c => c.name === Formik.values.course)?.name || ''}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
@@ -586,28 +615,31 @@ const UpdateProfile = () => {
 
                                 </div>
                             </div>
-
-
                             <div className="border-b border-gray-900/10 pb-12">
-                                <h2 className="text-base font-semibold leading-7 text-gray-900">Create a Password</h2>
+                                <h2 className="text-base font-semibold leading-7 text-gray-900">Update password</h2>
                                 <p className="mt-1 text-sm leading-6 text-gray-600">Password should be at least 6 characters long.</p>
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-3">
                                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                            Password
+                                            Old Password
                                         </label>
                                         <div className="mt-2">
-                                            <input
-                                                id="password"
-                                                name="password"
-                                                type="password"
-                                                placeholder="*********"
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.password}
-                                                onBlur={Formik.handleBlur}
+                                            <div className="relative">
+                                                <input
+                                                    id="password"
+                                                    name="password"
+                                                    type={inputType}
+                                                    placeholder="*********"
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.password}
+                                                    onBlur={Formik.handleBlur}
 
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                            />
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                                />
+                                                <span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                                    {icon}
+                                                </span>
+                                            </div>
                                             <div className="text-error italic">
                                                 <small>
                                                     {Formik.errors.password && Formik.touched.password && Formik.errors.password}
@@ -617,19 +649,24 @@ const UpdateProfile = () => {
                                     </div>
                                     <div className="sm:col-span-3">
                                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                            Confirm Password
+                                            New Password
                                         </label>
                                         <div className="mt-2">
-                                            <input
-                                                id="confirmPass"
-                                                name="confirmPass"
-                                                type="password"
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.confirmPass}
-                                                onBlur={Formik.handleBlur}
-                                                placeholder="*********"
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                            />
+                                            <div className="relative">
+                                                <input
+                                                    id="confirmPass"
+                                                    name="confirmPass"
+                                                    type={confirmInputType}
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.confirmPass}
+                                                    onBlur={Formik.handleBlur}
+                                                    placeholder="*********"
+
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                                /><span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                                    {confirmIcon}
+                                                </span>
+                                            </div>
                                             <div className="text-error italic">
                                                 <small>
                                                     {Formik.errors.confirmPass && Formik.touched.confirmPass && Formik.errors.confirmPass}
@@ -640,26 +677,29 @@ const UpdateProfile = () => {
                                 </div>
 
                             </div>
-                        </div>
-
-                        <div className="mt-6 flex items-center justify-end gap-x-6">
-                            <Link to="/profile">
-                            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                                Cancel
-                            </button>
-                            </Link>
-                            <button
-                                type="submit"
-                                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Save
-                            </button>
+                            <div className="mt-6 flex items-center justify-end gap-x-6">
+                                <Link to="/profile">
+                                    <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+                                        Cancel
+                                    </button>
+                                </Link>
+                                <button
+                                    type="submit"
+                                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     </form>
+                    
                 </div>
-            </div>
 
+
+            </div>
         </div>
+
+
     )
 }
 
