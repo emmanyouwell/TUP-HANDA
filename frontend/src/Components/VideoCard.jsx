@@ -9,7 +9,7 @@ import {
     Card,
     Chip
 } from "@material-tailwind/react";
-const VideoCard = ({ title, description, tags, link, shortDesc }) => {
+const VideoCard = ({ title, description, link, shortDesc }) => {
     return (
         <>
             <div className="relative flex w-full  flex-col justify-between rounded-xl bg-white bg-clip-border text-gray-700 shadow-md h-full">
@@ -26,9 +26,7 @@ const VideoCard = ({ title, description, tags, link, shortDesc }) => {
                     <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased ">
                         {shortDesc ? shortDesc : 'Short description here'}
                     </p>
-                    <p className="flex gap-3 items-center font-sans text-base font-light leading-relaxed text-inherit antialiased ">
-                        {tags && tags.length > 0 ? tags.map(t => <Chip color="green" value={t} className="max-w-max my-3" />) : <Chip color="green" value='tags' className="max-w-max my-3" />}
-                    </p>
+                  
 
                 </div>
                 <div>

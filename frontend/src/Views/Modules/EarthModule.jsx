@@ -14,7 +14,7 @@ const EarthModule = () => {
     return (
         <>
             {/* <Header /> */}
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="overflow-x-hidden overflow-y-hidden">
                 {/* Fire */}
                 <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">

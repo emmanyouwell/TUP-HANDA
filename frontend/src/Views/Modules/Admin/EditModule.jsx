@@ -51,6 +51,7 @@ const EditModule = () => {
             console.log('submitted')
             //create module action
             // dispatch(createModules(formData))
+            dispatch(updateModule(formData));
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Module title is required'),
@@ -75,9 +76,7 @@ const EditModule = () => {
             if (modules && modules.img) {
                 setImagePreview(modules.img.url)
             }
-            if (modules && modules.file) {
-                setFilename(modules.file.url)
-            }
+            
         }
         if (error) {
 
@@ -128,7 +127,7 @@ const EditModule = () => {
     }, [])
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
                 <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
                 <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
@@ -249,14 +248,14 @@ const EditModule = () => {
                                                 htmlFor="pdf-upload"
                                                 className="relative cursor-pointer rounded-md  font-semibold text-indigo-600 p-3"
                                             >
-                                                <span className="btn">Upload a file</span>
+                                                <span className="btn">Change file</span>
                                                 <input type='file'
                                                     name='pdf'
                                                     id='pdf-upload'
                                                     className="sr-only "
                                                     accept="application/pdf"
                                                     onChange={onFileChange} />
-                                            {modules && modules.file && <a href={modules.file.url} target="_blank" rel="noreferrer" className="text-indigo-600 pl-5">View file</a>}
+                                            {filename ? <span className="pl-5">{filename}</span> : modules && modules.file && <a href={modules.file.url} target="_blank" rel="noreferrer" className="text-indigo-600 pl-5 text-lg">{modules.title}.pdf</a>}
                                             </label>
                                            
                                         </div>

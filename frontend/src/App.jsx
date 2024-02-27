@@ -21,11 +21,13 @@ import ModuleList from './Views/Admin/ModuleList';
 import Dashboard from './Views/Admin/Dashboard';
 import CreateModule from './Views/Modules/Admin/CreateModule';
 import EditModule from './Views/Modules/Admin/EditModule';
+import Navbar from './Components/Navbar';
 function App() {
 
 
   return (
     <BrowserRouter>
+      <Navbar/>
       <ScrollToTop>
         <Routes>
 

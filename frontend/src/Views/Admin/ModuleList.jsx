@@ -14,7 +14,7 @@ const ModuleList = () => {
   },[dispatch, error])
   return (
     <>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="container mx-auto mt-5">
         <SortableTable modules={modules}/>
         </div>

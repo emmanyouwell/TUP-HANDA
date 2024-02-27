@@ -14,7 +14,7 @@ const WaterModule = () => {
     }, [])
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="overflow-x-hidden overflow-y-hidden">
 
                 {/* Typhoon/Hurricane */}
