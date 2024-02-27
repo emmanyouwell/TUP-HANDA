@@ -107,7 +107,26 @@ export const updateVideo = (id, videoData) => async (dispatch) => {
         })
     }
 }
+export const deleteVideo = (id) => async (dispatch) => {
+    try {
+        dispatch({type: DELETE_VIDEO_REQUEST})
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`, config)
+        dispatch({type: DELETE_VIDEO_SUCCESS, payload: data.success})
+       
+    } catch (error) {
+        dispatch({
+            type: DELETE_VIDEO_FAIL,
+            payload: error.response.data.message 
+        })
 
+    }
+}
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

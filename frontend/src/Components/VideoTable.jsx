@@ -43,14 +43,15 @@ const TABLE_HEAD = ["Actions","Video ID", "Title", "Short Description", "Descrip
 import {useDispatch, useSelector} from 'react-redux'
 
 import {toast} from 'react-toastify'
-import { getVideos, clearErrors, } from '../Actions/videoActions';
+import { getVideos, clearErrors, deleteVideo } from '../Actions/videoActions';
+
 import { DELETE_VIDEO_RESET } from '../Constants/videoConstants';
 export function VideoTable({videos}) {
     const dispatch = useDispatch();
     const {error: deleteError, isDeleted} = useSelector(state => state.video)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
-        
+        dispatch(deleteVideo(id))
     }
     useEffect(()=>{
        
