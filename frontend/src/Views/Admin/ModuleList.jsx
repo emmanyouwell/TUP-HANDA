@@ -6,12 +6,16 @@ import {getModules, clearErrors} from '../../Actions/modulesActions'
 const ModuleList = () => {
   const dispatch = useDispatch()
   const { modules, loading, error } = useSelector(state => state.modules)
+  
   useEffect(()=>{
     if (error){
       dispatch(clearErrors())
     }
+   
     dispatch(getModules())
-  },[dispatch, error])
+  },[dispatch, ])
+
+  
   return (
     <>
         {/* <Navbar /> */}

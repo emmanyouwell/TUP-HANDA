@@ -94,7 +94,7 @@ export const updateModule = (id, productData) => async (dispatch) => {
             }
             
         }
-        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/product/${id}`, productData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/module/${id}`, productData, config)
         dispatch({
             type: UPDATE_MODULE_SUCCESS,
             payload: data.success
@@ -104,6 +104,26 @@ export const updateModule = (id, productData) => async (dispatch) => {
             type: UPDATE_MODULE_FAIL,
             payload: error.response.data.message
         })
+    }
+}
+export const deleteModule = (id) => async (dispatch) => {
+    try {
+        dispatch({type: DELETE_MODULE_REQUEST})
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/module/${id}`, config)
+        dispatch({type: DELETE_MODULE_SUCCESS, payload: data.success})
+       
+    } catch (error) {
+        dispatch({
+            type: DELETE_MODULE_FAIL,
+            payload: error.response.data.message 
+        })
+
     }
 }
 

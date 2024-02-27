@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, {useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -39,9 +39,32 @@ const TABS = [
 ];
 
 const TABLE_HEAD = ["Actions","Module ID", "Image","Title", "Short Description", "Description", "File"];
-
-
+import { DELETE_MODULE_RESET } from '../Constants/moduleConstants';
+import {useDispatch, useSelector} from 'react-redux'
+import { deleteModule, clearErrors } from '../Actions/modulesActions';
+import {toast} from 'react-toastify'
+import { getModules } from '../Actions/modulesActions';
 export function SortableTable({modules}) {
+    const dispatch = useDispatch();
+    const {error: deleteError, isDeleted} = useSelector(state => state.module)
+    const navigate = useNavigate();
+    const deleteHandler = (id) => {
+        dispatch(deleteModule(id))
+    }
+    useEffect(()=>{
+       
+        if (deleteError) {
+            dispatch(clearErrors())
+        }
+        if (isDeleted) {
+            navigate('/admin/modules');
+            dispatch(getModules())
+            toast.success('Module deleted successfully', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+            dispatch({ type: DELETE_MODULE_RESET })
+        }
+    },[dispatch, navigate, deleteError, isDeleted])
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -126,12 +149,13 @@ export function SortableTable({modules}) {
                                                     <PencilIcon className="h-4 w-4" />
                                                 </IconButton>
                                             </Tooltip>
+                                            </Link>
                                             <Tooltip content="Delete module">
                                                 <IconButton variant="text">
-                                                    <TrashIcon className="h-4 w-4" />
+                                                    <TrashIcon className="h-4 w-4" onClick={()=>deleteHandler(_id)}/>
                                                 </IconButton>
                                             </Tooltip>
-                                            </Link>
+                                           
                                             </div>
                                             
                                         </td>

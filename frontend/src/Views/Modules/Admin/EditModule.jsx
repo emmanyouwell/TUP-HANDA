@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 const EditModule = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
-    const viewer = useRef(null)
+   
     const { error, modules } = useSelector(state => state.moduleDetails)
     const { loading, error: updateError, isUpdated } = useSelector(state => state.module)
     const [imagePreview, setImagePreview] = useState(img)
@@ -48,10 +48,10 @@ const EditModule = () => {
             formData.append('pdf', file)
             formData.set('shortDesc', values.shortDesc)
 
-            console.log('submitted')
+            
             //create module action
             // dispatch(createModules(formData))
-            dispatch(updateModule(formData));
+            dispatch(updateModule(modules._id, formData));
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Module title is required'),
@@ -64,20 +64,8 @@ const EditModule = () => {
 
     let navigate = useNavigate()
     useEffect(() => {
-
-
         dispatch(getModuleDetails(id));
-
-
-        if (modules) {
-            Formik.values.title = modules.title
-            Formik.values.description = modules.description
-            Formik.values.shortDesc = modules.shortDesc
-            if (modules && modules.img) {
-                setImagePreview(modules.img.url)
-            }
-            
-        }
+      
         if (error) {
 
             dispatch(clearErrors())
@@ -87,18 +75,29 @@ const EditModule = () => {
         }
         if (isUpdated) {
             navigate('/admin/modules');
-            toast.success('Product updated successfully', {
+            toast.success('Module updated successfully', {
                 position: toast.POSITION.BOTTOM_RIGHT
             });
-
+            
             dispatch({ type: UPDATE_MODULE_RESET })
 
         }
 
-
-    }, [error, dispatch, isUpdated, navigate, id, modules])
+        console.log('somethings changing')
+    }, [error, dispatch, isUpdated, updateError, navigate, id])
    
-
+    useEffect(()=>{
+        
+        if (modules) {
+            Formik.values.title = modules.title
+            Formik.values.description = modules.description
+            Formik.values.shortDesc = modules.shortDesc
+            if (modules && modules.img) {
+                setImagePreview(modules.img.url)
+            }
+            
+        }
+    },[modules])
     const onChange = e => {
 
         const files = Array.from(e.target.files)
@@ -125,6 +124,9 @@ const EditModule = () => {
 
 
     }, [])
+    useEffect(()=>{
+        console.log(imagePreview)
+    },[imagePreview])
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
             {/* <Navbar /> */}
@@ -265,7 +267,7 @@ const EditModule = () => {
                             </div>
 
                             <div className="mt-6 flex items-center justify-end gap-x-6">
-                                <Link to="/profile">
+                                <Link to="/admin/modules">
                                     <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
                                         Cancel
                                     </button>
