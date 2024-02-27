@@ -144,8 +144,8 @@ export function VideoTable({videos}) {
                                     <tr key={_id}>
                                         <td className={classes}>
                                             <div className="flex justify-between items-center">
-                                            <Link to={`/admin/modules/${_id}`}>
-                                            <Tooltip content="Edit module">
+                                            <Link to={`/admin/videos/${_id}`}>
+                                            <Tooltip content="Edit video">
                                                 <IconButton variant="text">
                                                     <PencilIcon className="h-4 w-4" />
                                                 </IconButton>

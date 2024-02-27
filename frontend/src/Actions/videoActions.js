@@ -68,6 +68,22 @@ export const createVideos = (formData) => async (dispatch) => {
     }
 }
 
+export const getSingleVideo = (id) => async (dispatch) => {
+    try{
+        dispatch({ type: VIDEO_DETAILS_REQUEST })
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`)
+        dispatch({
+            type: VIDEO_DETAILS_SUCCESS,
+            payload: data.videos
+        })
+    }catch(error){
+        dispatch({
+            type: VIDEO_DETAILS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

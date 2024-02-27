@@ -40,19 +40,19 @@ exports.getVideos = async (req, res, next) => {
     }
 }
 
-// exports.getSingleModule = async (req, res, next) => {
-// 	const modules = await Modules.findById(req.params.id);
-// 	if (!modules) {
-// 		return res.status(404).json({
-// 			success: false,
-// 			message: 'Module not found'
-// 		})
-// 	}
-// 	res.status(200).json({
-// 		success: true,
-// 		modules
-// 	})
-// }
+exports.getSingleVideo = async (req, res, next) => {
+	const videos = await Videos.findById(req.params.id);
+	if (!videos) {
+		return res.status(404).json({
+			success: false,
+			message: 'Video not found'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		videos
+	})
+}
 
 // exports.updateModule = async (req, res, next) => {
 //     let fileLink = {}
