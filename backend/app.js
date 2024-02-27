@@ -7,7 +7,8 @@ const cors = require('cors')
 const auth = require('./routes/auth');
 const check = require('./routes/checklist');
 const dept = require('./routes/department');
-const course = require('./routes/course')
+const course = require('./routes/course');
+const modules = require('./routes/module')
 app.use(cors(
     {
         origin: ["http://localhost:5173", "https://tuphanda.onrender.com"],
@@ -23,4 +24,5 @@ app.use('/api/v1', auth);
 app.use('/api/v1',check);
 app.use('/api/v1',dept);
 app.use('/api/v1',course);
+app.use('/api/v1', modules);
 module.exports = app;

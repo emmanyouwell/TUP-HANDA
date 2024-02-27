@@ -45,9 +45,7 @@ const ModuleCard = ({ title, description, img, link, tags, shortDesc }) => {
                         {shortDesc ? shortDesc : 'Short description here'}
                     
                     </p>
-                    <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased ">
-                        {tags && tags.length > 0?  tags.map(t=><Chip color="green" value={t} className="max-w-max my-3"/>): 'tags'}
-                    </p>
+                   
 
                 </div>
                 <div>
@@ -83,11 +81,9 @@ const ModuleCard = ({ title, description, img, link, tags, shortDesc }) => {
                     </Typography>
                 </DialogBody>
                 <DialogFooter className="space-x-2">
-                    <Button variant="text" color="blue-gray" onClick={handleOpen}>
-                        cancel
-                    </Button>
+                    
                     <Button variant="gradient" color="amber" onClick={handleOpen}>
-                        confirm
+                        Close
                     </Button>
                 </DialogFooter>
             </Dialog>
