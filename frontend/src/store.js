@@ -3,6 +3,7 @@ import {thunk} from 'redux-thunk';
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer  } from './Reducers/userReducers';
 import { checklistReducer } from './Reducers/checklistReducers';
 import { moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer } from './Reducers/moduleReducers';
+import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer } from './Reducers/videoReducer';
 const reducer = combineReducers({
     
     auth: authReducer,
@@ -15,7 +16,10 @@ const reducer = combineReducers({
     modules: modulesReducer,
     moduleDetails: modulesDetailsReducer,
     module: moduleReducer,
-    
+    newVideo: newVideosReducer,
+    videoDetails: videoDetailsReducer,
+    videos: videosReducer,
+    video: videoReducer
 
 })
 

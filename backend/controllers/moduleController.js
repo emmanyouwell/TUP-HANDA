@@ -1,7 +1,6 @@
 const Modules = require('../models/modules');
 const cloudinary = require('cloudinary')
-const fs = require('fs');
-const { Module } = require('module');
+
 
 exports.createModule = async (req, res, next) => {
     let fileLink = {}

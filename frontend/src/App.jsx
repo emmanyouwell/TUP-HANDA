@@ -22,6 +22,7 @@ import Dashboard from './Views/Admin/Dashboard';
 import CreateModule from './Views/Modules/Admin/CreateModule';
 import EditModule from './Views/Modules/Admin/EditModule';
 import Navbar from './Components/Navbar';
+import CreateVideo from './Views/Modules/Admin/CreateVideo';
 function App() {
 
 
@@ -65,6 +66,11 @@ function App() {
           <Route path="/admin/modules/:id" element={
             <ProtectedRoute>
               <EditModule/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/videos/new" element={
+            <ProtectedRoute isAdmin={true}>
+              <CreateVideo/>  
             </ProtectedRoute>
           }/>
           
