@@ -84,6 +84,30 @@ export const getSingleVideo = (id) => async (dispatch) => {
     }
 }
 
+export const updateVideo = (id, videoData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_VIDEO_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+            
+        }
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`, videoData, config)
+       
+        dispatch({
+            type: UPDATE_VIDEO_SUCCESS,
+            payload: data.success
+        })
+    } catch (error) {
+        dispatch({
+            type: UPDATE_VIDEO_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS

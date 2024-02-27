@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import img from '../../../assets/default_avatar.jpg'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSingleVideo, clearErrors } from "../../../Actions/videoActions";
+import { getSingleVideo, clearErrors, updateVideo } from "../../../Actions/videoActions";
 import { UPDATE_VIDEO_RESET } from "../../../Constants/videoConstants";
 import {toast} from 'react-toastify'
 const EditVideo = () => {
@@ -29,8 +29,8 @@ const EditVideo = () => {
 
         },
         onSubmit: (values) => {
-            const id = getId(values.videoLink)
-            const embed = "//www.youtube.com/embed/"+id
+            const videoId = getId(values.videoLink)
+            const embed = "//www.youtube.com/embed/"+ videoId
            
             const formData = new FormData();
             formData.set('title', values.title)
@@ -38,7 +38,7 @@ const EditVideo = () => {
             formData.set('shortDesc', values.shortDesc)
             formData.set('videoLink', embed)
             // console.log(formData.get('title'))
-            // dispatch(createVideos(formData))
+            dispatch(updateVideo(videos._id, formData))
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Video title is required'),
