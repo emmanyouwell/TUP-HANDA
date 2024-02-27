@@ -16,6 +16,11 @@ import ResetPassword from './Views/Users/ResetPassword';
 import Profile from './Views/Users/Profile';
 import UpdateProfile from './Views/Users/UpdateProfile';
 import VideoModules from './Views/Modules/VideoModules';
+import ProtectedRoute from './Route/ProtectedRoute';
+import ModuleList from './Views/Admin/ModuleList';
+import Dashboard from './Views/Admin/Dashboard';
+import CreateModule from './Views/Modules/Admin/CreateModule';
+import EditModule from './Views/Modules/Admin/EditModule';
 function App() {
 
 
@@ -38,6 +43,30 @@ function App() {
           <Route path="/profile" element={<Profile />}/>
           <Route path="/profile/update" element={<UpdateProfile />} exact="true"/>
           <Route path="/modules/videos" element={<VideoModules  />} />
+
+          {/* Admin routes */}
+          <Route path="/admin/modules" element={
+            <ProtectedRoute isAdmin={true}>
+              <ModuleList />
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute isAdmin={true}>
+              <Dashboard />
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/modules/new" element={
+            <ProtectedRoute isAdmin={true}>
+              <CreateModule/>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/modules/:id" element={
+            <ProtectedRoute>
+              <EditModule/>
+            </ProtectedRoute>
+          }/>
+          
+
         </Routes>
         <ToastContainer position="bottom-right"/>
       </ScrollToTop>
