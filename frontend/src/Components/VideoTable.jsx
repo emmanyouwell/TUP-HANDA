@@ -38,18 +38,19 @@ const TABS = [
     },
 ];
 
-const TABLE_HEAD = ["Actions","Module ID", "Image","Title", "Short Description", "Description", "File"];
-import { DELETE_MODULE_RESET } from '../Constants/moduleConstants';
-import {useDispatch, useSelector} from 'react-redux'
-import { deleteModule, clearErrors,getModules  } from '../Actions/modulesActions';
-import {toast} from 'react-toastify'
+const TABLE_HEAD = ["Actions","Video ID", "Title", "Short Description", "Description", "Video Link"];
 
-export function SortableTable({modules}) {
+import {useDispatch, useSelector} from 'react-redux'
+
+import {toast} from 'react-toastify'
+import { getVideos, clearErrors, } from '../Actions/videoActions';
+import { DELETE_VIDEO_RESET } from '../Constants/videoConstants';
+export function VideoTable({videos}) {
     const dispatch = useDispatch();
-    const {error: deleteError, isDeleted} = useSelector(state => state.module)
+    const {error: deleteError, isDeleted} = useSelector(state => state.video)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
-        dispatch(deleteModule(id))
+        
     }
     useEffect(()=>{
        
@@ -57,12 +58,12 @@ export function SortableTable({modules}) {
             dispatch(clearErrors())
         }
         if (isDeleted) {
-            navigate('/admin/modules');
-            dispatch(getModules())
-            toast.success('Module deleted successfully', {
+            navigate('/admin/videos');
+            dispatch(getVideos())
+            toast.success('Video deleted successfully', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
-            dispatch({ type: DELETE_MODULE_RESET })
+            dispatch({ type: DELETE_VIDEO_RESET })
         }
     },[dispatch, navigate, deleteError, isDeleted])
     return (
@@ -71,20 +72,20 @@ export function SortableTable({modules}) {
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>
                         <Typography variant="h5" color="blue-gray">
-                            Modules list
+                            Videos list
                         </Typography>
                         <Typography color="gray" className="mt-1 font-normal">
-                            See information about all modules
+                            See information about all videos
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                         <Button variant="outlined" size="sm">
                             view all
                         </Button>
-                        <Link to="/admin/modules/new">
+                        <Link to="/admin/videos/new">
                         <Button className="flex items-center gap-3" size="sm">
                             
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Modules
+                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Video
                            
                         </Button>
                         </Link>
@@ -132,9 +133,9 @@ export function SortableTable({modules}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {modules.map(
-                            ({ img, title, description, file, shortDesc, _id }, index) => {
-                                const isLast = index === modules.length - 1;
+                        {videos.map(
+                            ({ title, description, videoLink, shortDesc, _id }, index) => {
+                                const isLast = index === videos.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50";
@@ -168,21 +169,10 @@ export function SortableTable({modules}) {
                                                 >
                                                     {_id}
                                                 </Typography>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal opacity-70"
-                                                >
-                                                    {/* {org} */}
-                                                </Typography>
-                                            </div>
-                                        </td>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <Avatar src={img.url} alt={title} size="sm" />
                                                 
                                             </div>
                                         </td>
+                                       
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -192,16 +182,7 @@ export function SortableTable({modules}) {
                                                 {title}
                                             </Typography>
                                         </td>
-                                        {/* <td className={classes}>
-                                            <div className="w-max">
-                                                <Chip
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    value={online ? "online" : "offline"}
-                                                    color={online ? "green" : "blue-gray"}
-                                                />
-                                            </div>
-                                        </td> */}
+                                        
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -226,7 +207,7 @@ export function SortableTable({modules}) {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                <a href={file.url}>{file.url}</a>
+                                                <a href={videoLink}>{videoLink}</a>
                                             </Typography>
                                         </td>
                                         
@@ -239,7 +220,7 @@ export function SortableTable({modules}) {
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of {modules.length}
+                    Page 1 of 10
                 </Typography>
                 <div className="flex gap-2">
                     <Button variant="outlined" size="sm">

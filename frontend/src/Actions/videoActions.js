@@ -32,10 +32,10 @@ import { useNavigate } from 'react-router-dom'
 export const getVideos = () => async (dispatch) => {
     try{
         dispatch({ type: ALL_VIDEOS_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/videos`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos`)
         dispatch({
             type: ALL_VIDEOS_SUCCESS,
-            payload: data.videos
+            payload: data
         })
     }catch (error){
         dispatch({

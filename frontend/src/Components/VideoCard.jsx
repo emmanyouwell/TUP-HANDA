@@ -15,7 +15,7 @@ const VideoCard = ({ title, description, link, shortDesc }) => {
             <div className="relative flex w-full  flex-col justify-between rounded-xl bg-white bg-clip-border text-gray-700 shadow-md h-full">
                 <iframe src={link} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen;" className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 "></iframe>
                 {/* <video className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 " controls>
-            <source src="https://www.youtube.com/watch?v=Nbp93_Tz50A" type="video/mp4" />
+            <source src={link} type="video/mp4" />
             Your browser does not support the video tag.
         </video> */}
 

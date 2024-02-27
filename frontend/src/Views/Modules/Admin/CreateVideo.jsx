@@ -12,7 +12,14 @@ const CreateVideo = () => {
     const dispatch = useDispatch()
     const {success, error, loading} = useSelector(state => state.newVideo)
     
-
+    const getId = (url) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+    
+        return (match && match[2].length === 11)
+          ? match[2]
+          : null;
+    }
     const Formik = useFormik({
         initialValues: {
             title: '',
@@ -22,11 +29,14 @@ const CreateVideo = () => {
 
         },
         onSubmit: (values) => {
+            const id = getId(values.videoLink)
+            const embed = "//www.youtube.com/embed/"+id
+           
             const formData = new FormData();
             formData.set('title', values.title)
             formData.set('description', values.description)
             formData.set('shortDesc', values.shortDesc)
-            formData.set('videoLink', values.videoLink)
+            formData.set('videoLink', embed)
             // console.log(formData.get('title'))
             dispatch(createVideos(formData))
         },

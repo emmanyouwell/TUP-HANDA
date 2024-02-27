@@ -24,21 +24,21 @@ exports.createVideo = async (req, res, next) => {
 	
 }
 
-// exports.getModules = async (req, res, next) => {
-//     try{
-//         const modules = await Modules.find()
-//         res.status(200).json({
-//             success: true,
-//             modules
-//         })
-//     }
-//     catch(error){
-//         return res.status(400).json({
-//             success: false,
-//             message: 'Module not found'
-//         })
-//     }
-// }
+exports.getVideos = async (req, res, next) => {
+    try{
+        const videos = await Videos.find()
+        res.status(200).json({
+            success: true,
+            videos
+        })
+    }
+    catch(error){
+        return res.status(400).json({
+            success: false,
+            message: 'Videos not found'
+        })
+    }
+}
 
 // exports.getSingleModule = async (req, res, next) => {
 // 	const modules = await Modules.findById(req.params.id);
