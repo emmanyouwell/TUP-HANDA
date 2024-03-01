@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from './Views/Home';
 import Modules from './Views/Modules/Modules';
 import GoogleFormComponent from './Quizzes/GoogleFormComponent';
@@ -25,12 +25,35 @@ import Navbar from './Components/Navbar';
 import CreateVideo from './Views/Modules/Admin/CreateVideo';
 import VideoList from './Views/Admin/VideoList';
 import EditVideo from './Views/Modules/Admin/EditVideo';
-function App() {
 
+import {AdminSidebar} from './Components/AdminSidebar';
+import {useDispatch, useSelector} from 'react-redux'
 
+import {getUser, getToken } from './utils/helper';
+function HeaderComponent(){
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/admin');
   return (
-    <BrowserRouter>
-      <Navbar/>
+    <>
+     {!isAdminRoute && <Navbar/>}
+     
+    </>
+  )
+}
+function MainContent(){
+  const location = useLocation();
+  const dispatch = useDispatch()
+  
+ 
+  // const {user} = useSelector(state => state.auth)
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isAdminUser = getUser().role === 'admin';
+  
+  
+  return (
+    <div className={`flex ${isAdminUser && isAdminRoute ? 'flex-row' : 'flex-col'}`}>
+      {isAdminUser && isAdminRoute && <AdminSidebar/>}
+      
       <ScrollToTop>
         <Routes>
 
@@ -90,9 +113,22 @@ function App() {
         </Routes>
         <ToastContainer position="bottom-right"/>
       </ScrollToTop>
-      
+    </div>
+  );
+}
+function App() {
+ 
+  return (
+    <BrowserRouter>
+    <HeaderComponent/>
+     
+     <MainContent/>
+     
+   
     </BrowserRouter>
   )
+
+ 
 }
 
 export default App
