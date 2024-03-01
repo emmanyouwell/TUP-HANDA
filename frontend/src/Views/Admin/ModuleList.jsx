@@ -18,8 +18,8 @@ const ModuleList = () => {
   
   return (
     <>
-        {/* <Navbar /> */}
-        <div className="container mx-auto mt-5">
+ 
+        <div className="container mx-auto mt-5 p-10">
         <SortableTable modules={modules}/>
         </div>
         
