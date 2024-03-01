@@ -15,8 +15,10 @@ function classNames(...classes) {
 const Navbar = () => {
   const dispatch = useDispatch()
   const { user, loading, error } = useSelector(state => state.auth)
-
+  const [learnOpen, setLearnOpen] = useState(false)
   const navigate = useNavigate()
+
+  
 
   const logoutHandler = () => {
 
@@ -65,14 +67,74 @@ const Navbar = () => {
         </div>
 
         <ul className={`lg:flex lg:items-center lg:pb-0 pb-12 absolute lg:static bg-white lg:z-auto z-[-1] left-0 w-full lg:w-auto lg:pl-0 pl-9 transition-all duration-500 ease-in ${open ? 'top-20 ' : 'top-[-490px]'}`}>
-          <li className="md:ml-8 md:text-xl md:my-0 my-7"> <div className="dropdown lg:dropdown-end font-[Poppins] font-medium ">
-            <div tabIndex={0} role="button" className=" text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium">LEARN</div>
-            <ul tabIndex={0} className=" menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-52 mt-4">
-              <li> <Link to='/modules' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>MODULES</Link></li>
-              <li><Link to='/modules/videos' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>VIDEOS</Link></li>
-              <li><Link to='/exams' className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>EXAMS</Link></li>
-            </ul>
-          </div></li>
+          <li className="md:ml-8 md:text-xl md:my-0 my-7">
+          <Menu as="div" className="relative inline-block text-left">
+              <div>
+                <Menu.Button className=" text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium">
+
+                    LEARN
+                </Menu.Button>
+              </div>
+
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute lg:right-0 z-10 mt-2 w-56  rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    
+                 
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/modules"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Modules
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/modules/videos"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Videos
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="#"
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm'
+                          )}
+                        >
+                          Exams
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    
+                   
+                  </div>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </li>
 
           {
             Links.map((link) => (
