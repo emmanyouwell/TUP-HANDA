@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { allUsers, getAdminUsers, clearErrors } from '../../Actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserTable } from '../../Components/UserTable'
+import Loader from '../../Components/Loader'
 const UserList = () => {
     const dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(1)
@@ -11,24 +12,27 @@ const UserList = () => {
         if (error){
             dispatch(clearErrors())
         }
-        dispatch(getAdminUsers(currentPage, keyword))
+        if (keyword === ''){
+            dispatch(getAdminUsers(currentPage))
+        }
+        else{
+            setCurrentPage(1)
+            dispatch(getAdminUsers(currentPage, keyword))
+        }
+        
 
-    },[dispatch, error, keyword])
-    useEffect(()=>{
-        console.log(users)
-        console.log(usersCount)
-        console.log(resPerPage)
-        console.log(filteredUsersCount)
-
-    },[users, usersCount, resPerPage, filteredUsersCount])
+    },[dispatch, error, keyword,currentPage])
+   
     let count = usersCount
     if (keyword){
         count = filteredUsersCount
     }
     return (
         <>
-            <div className="container mx-auto mt-5">
-                <UserTable keyword={keyword} setKeyword={setKeyword} users={users} usersCount={count} resPerPage={resPerPage} filteredUsersCount={filteredUsersCount} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+            <div className="container p-10 mx-auto mt-5 flex min-h-screen justify-center items-center">
+                
+                <UserTable keyword={keyword} setKeyword={setKeyword} users={users} usersCount={count} resPerPage={resPerPage} filteredUsersCount={filteredUsersCount} currentPage={currentPage} setCurrentPage={setCurrentPage} loading={loading}/>
+                
             </div>
 
         </>

@@ -46,20 +46,14 @@ import { toast } from 'react-toastify'
 import { getAdminUsers, clearErrors, deleteUser } from '../Actions/userActions';
 import { updateRole } from '../Actions/userActions';
 import { DELETE_USER_RESET, CHANGE_ROLE_RESET } from '../Constants/userConstants';
-export function UserTable({ users, usersCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword }) {
+import Loader from './Loader';
+export function UserTable({ users, usersCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword, loading }) {
 
     const totalPage = Math.ceil(usersCount / resPerPage);
     const dispatch = useDispatch();
     const { error: deleteError, isDeleted, isUpdated } = useSelector(state => state.user)
-    
-    const handleSubmit = (e) => {
-        // setKeyword(e);
-        // if (keyword.trim()){
-        //     setKeyword(keyword)
-        // }
-        console.log('andito')
-        setKeyword(e.trim())
-    }
+
+
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteUser(id))
@@ -89,7 +83,7 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
         }
 
     }
-   
+
     useEffect(() => {
 
         if (deleteError) {
@@ -143,15 +137,15 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                     </Tabs>
                     {/* <form onSubmit={handleSubmit} className="w-full md:w-72 relative"> */}
                     <div className="w-full md:w-72">
-                    <Input
+                        <Input
                             label="Search"
                             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                            onChange={(e)=>handleSubmit(e.target.value)}
+                            onChange={(e) => setKeyword(e.target.value.trim())}
                             className="pr-10" // Add padding to prevent text from going under the icon
                         />
                     </div>
-                       
-                        {/* <button type="submit" className="absolute right-0 top-0 mt-2 mr-2">
+
+                    {/* <button type="submit" className="absolute right-0 top-0 mt-2 mr-2">
                             <MagnifyingGlassIcon className="h-5 w-5" />
                         </button>
                     </form> */}
@@ -181,7 +175,13 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(
+                        {loading ? <tr className="w-full">
+                            <td colSpan={9}>
+                                <div className="p-10 flex justify-center items-center">
+                                    <Loader />
+                                </div>
+                            </td>
+                        </tr> : users.map(
                             ({ firstName, lastName, email, address, phoneNo, city, country, _id, role }, index) => {
                                 const isLast = index === users.length - 1;
                                 const classes = isLast
@@ -293,6 +293,7 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                                 );
                             },
                         )}
+
                     </tbody>
                 </table>
             </CardBody>
