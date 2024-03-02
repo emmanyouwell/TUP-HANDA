@@ -102,9 +102,11 @@ export function VideoTable({ videos, videosCount, resPerPage, currentPage, setCu
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+                        <Link to="/modules/videos">
                         <Button variant="outlined" size="sm">
                             view all
                         </Button>
+                        </Link>
                         <Link to="/admin/videos/new">
                         <Button className="flex items-center gap-3" size="sm">
                             

@@ -103,9 +103,12 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+                        <Link to="/modules">
                         <Button variant="outlined" size="sm">
                             view all
                         </Button>
+                        </Link>
+                       
                         <Link to="/admin/modules/new">
                             <Button className="flex items-center gap-3" size="sm">
 
