@@ -88,12 +88,14 @@ export function AdminSidebar() {
                   Videos
                 </ListItem>
               </Link>
+              <Link to="/admin/users"> 
               <ListItem>
                 <ListItemPrefix>
                   <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                 </ListItemPrefix>
                 Users
               </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>

@@ -3,7 +3,7 @@ const sendToken = require('../utils/jwToken')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
 const cloudinary = require('cloudinary')
-
+const APIFeatures = require('../utils/apiFeatures')
 
 exports.registerUser = async (req, res, next) => {
 
@@ -339,7 +339,7 @@ exports.deleteUser = async (req, res, next) => {
         }
     }
 
-    await User.findByIdAndRemove(req.params.id)
+    await User.findByIdAndDelete(req.params.id)
     return res.status(200).json({
         success: true,
     })
@@ -359,4 +359,66 @@ exports.updateUser = async (req, res, next) => {
     return res.status(200).json({
         success: true
     })
+}
+
+exports.getAdminUsers = async (req, res, next) => {
+    const resPerPage = 5;
+	const usersCount = await User.countDocuments();
+	const apiFeatures = new APIFeatures(User.find(), req.query).search().filter()
+	apiFeatures.pagination(resPerPage);
+	const users = await apiFeatures.query;
+	const filteredUsersCount = users.length
+	if (!users) {
+		return res.status(404).json({
+			success: false,
+			message: 'No Users'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		count: users.length,
+		usersCount,
+		users,
+		resPerPage,
+		filteredUsersCount,
+	})
+}
+
+exports.updateRole = async (req, res, next) => {
+    const role = await User.findById(req.params.id)
+    if (role.role === 'admin') {
+        const user = await User.findByIdAndUpdate(req.params.id, {
+            role: 'user'
+        },{
+            new: true,
+            runValidators: true,
+        })
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'User not found'
+            })
+        }
+        res.status(200).json({
+            success: true
+        })
+    }
+    else if (role.role === 'user'){
+        const user = await User.findByIdAndUpdate(req.params.id, {
+            role: 'admin'
+        },{
+            new: true,
+            runValidators: true,
+        })
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'User not found'
+            })
+        }
+        res.status(200).json({
+            success: true
+        })
+    }
+   
 }

@@ -28,8 +28,9 @@ import EditVideo from './Views/Modules/Admin/EditVideo';
 
 import {AdminSidebar} from './Components/AdminSidebar';
 import {useDispatch, useSelector} from 'react-redux'
-
+import UserList from './Views/Admin/UserList';
 import {getUser, getToken } from './utils/helper';
+
 function HeaderComponent(){
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -108,6 +109,14 @@ function MainContent(){
               <EditVideo/>
             </ProtectedRoute>
           }/>
+
+          <Route path="/admin/users" element={
+            <ProtectedRoute>
+              <UserList/>
+            </ProtectedRoute>
+          }/>
+          
+        
           
 
         </Routes>

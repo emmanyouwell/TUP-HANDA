@@ -1,28 +1,22 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { SortableTable } from '../../Components/SortableTable'
 import Navbar from '../../Components/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
-import {getModules, clearErrors} from '../../Actions/modulesActions'
+import { getModules, clearErrors } from '../../Actions/modulesActions'
 const ModuleList = () => {
   const dispatch = useDispatch()
   const { modules, loading, error } = useSelector(state => state.modules)
-  
-  useEffect(()=>{
-    if (error){
+  useEffect(() => {
+    if (error) {
       dispatch(clearErrors())
     }
-   
     dispatch(getModules())
-  },[dispatch, ])
-
-  
+  }, [dispatch,])
   return (
     <>
- 
-        <div className="container mx-auto mt-5 p-10">
-        <SortableTable modules={modules}/>
-        </div>
-        
+      <div className="container mx-auto mt-5 p-10">
+        <SortableTable modules={modules} />
+      </div>
     </>
   )
 }
