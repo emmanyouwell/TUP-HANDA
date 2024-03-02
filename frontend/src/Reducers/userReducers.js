@@ -41,6 +41,10 @@ import {
     DELETE_USER_SUCCESS,
     DELETE_USER_RESET,
     DELETE_USER_FAIL,
+    CHANGE_ROLE_REQUEST,
+    CHANGE_ROLE_SUCCESS,
+    CHANGE_ROLE_RESET,
+    CHANGE_ROLE_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -111,6 +115,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_REQUEST:
         case UPDATE_USER_REQUEST:
         case DELETE_USER_REQUEST:
+        case CHANGE_ROLE_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -118,6 +123,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PROFILE_SUCCESS:
         case UPDATE_PASSWORD_SUCCESS:
         case UPDATE_USER_SUCCESS:
+        case CHANGE_ROLE_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -127,6 +133,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PROFILE_RESET:
         case UPDATE_PASSWORD_RESET:
         case UPDATE_USER_RESET:
+        case CHANGE_ROLE_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -135,6 +142,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_FAIL:
         case UPDATE_USER_FAIL:
         case DELETE_USER_FAIL:
+        case CHANGE_ROLE_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -210,7 +218,10 @@ export const allUsersReducer = (state = { users: [] }, action) => {
             return {
                 ...state,
                 loading: false,
-                users: action.payload
+                users: action.payload.users,
+                usersCount: action.payload.usersCount,
+                resPerPage: action.payload.resPerPage,
+                filteredUsersCount: action.payload.filteredUsersCount
             }
         case ALL_USERS_FAIL:
             return {

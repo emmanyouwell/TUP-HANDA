@@ -41,13 +41,18 @@ import {
     DELETE_USER_SUCCESS,
     DELETE_USER_RESET,
     DELETE_USER_FAIL,
+    CHANGE_ROLE_FAIL,
+    CHANGE_ROLE_REQUEST,
+    CHANGE_ROLE_SUCCESS,
+    CHANGE_ROLE_RESET,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
 import axios from 'axios'
 import { authenticate, getToken, logout } from '../utils/helper'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+
+
 export const register = (userData) => async (dispatch) => {
     try {
         dispatch({ type: REGISTER_USER_REQUEST })
@@ -305,9 +310,109 @@ export const updatePassword = (formData) => async (dispatch) => {
         });
     }
 }
+
+export const allUsers = () => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({ type: ALL_USERS_REQUEST })
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/users/all`,config)
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data.users
+        })
+    } catch (error) {
+        dispatch({
+            type: ALL_USERS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const deleteUser = (id) => async (dispatch) => {
+
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({ type: DELETE_USER_REQUEST })
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/user/${id}`, config)
+        dispatch({
+            type: DELETE_USER_SUCCESS,
+            payload: data.success
+        })
+    } catch (error) {
+        dispatch({
+            type: DELETE_USER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getAdminUsers = (currentPage = 1, keyword = '', price, category = '') => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({
+            type: ALL_USERS_REQUEST
+        })
+        let link = ''
+
+        link = `${process.env.REACT_APP_API}/api/v1/admin/users/all/?page=${currentPage}`
+
+        
+        const { data } = await axios.get(link, config)
+
+        dispatch({
+            type: ALL_USERS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ALL_USERS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const clearErrors = () => async (dispatch) => {
     dispatch({
         type: CLEAR_ERRORS
 
     })
+}
+
+export const updateRole = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: CHANGE_ROLE_REQUEST })
+        const config = {
+            headers: {
+                
+                'Authorization': `Bearer ${getToken()}`
+            },
+            
+        }
+        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/user/${id}/role`,null, config)
+        dispatch({
+            type: CHANGE_ROLE_SUCCESS,
+            payload: data.success
+        })
+    } catch (error) {
+        dispatch({
+            type: CHANGE_ROLE_FAIL,
+            payload: error.response.data.message
+        })
+    }
 }

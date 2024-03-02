@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const upload = require("../utils/multer")
 
-const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser} = require('../controllers/authController')
+const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser, getAdminUsers, updateRole} = require('../controllers/authController')
 
 const {isAuthenticatedUser, authorizeRoles} = require('../middleware/auth')
 
@@ -18,6 +18,8 @@ router.put('/me/update',isAuthenticatedUser, upload.array('avatar',10), updatePr
 
 //Admin routes
 router.get('/admin/users', isAuthenticatedUser, authorizeRoles('admin'), allUsers)
+router.get('/admin/users/all', isAuthenticatedUser, authorizeRoles('admin'), getAdminUsers)
 router.route('/admin/user/:id').get(isAuthenticatedUser, getUserDetails).delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser).put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
 
+router.put('/admin/user/:id/role',isAuthenticatedUser, authorizeRoles('admin'), updateRole)
 module.exports = router
