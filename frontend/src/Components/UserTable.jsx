@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-   
+
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon, TrashIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 import {
@@ -38,54 +38,60 @@ const TABS = [
     },
 ];
 
-const TABLE_HEAD = ["Actions","User ID", "Name", "Email","Phone number", "Address","City", "Country", "Role"];
+const TABLE_HEAD = ["Actions", "User ID", "Name", "Email", "Phone number", "Address", "City", "Country", "Role"];
 
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import { getAdminUsers, clearErrors, deleteUser } from '../Actions/userActions';
 import { updateRole } from '../Actions/userActions';
 import { DELETE_USER_RESET, CHANGE_ROLE_RESET } from '../Constants/userConstants';
-export function UserTable({users, usersCount, resPerPage, currentPage, setCurrentPage}) {
-   
+export function UserTable({ users, usersCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword }) {
+
     const totalPage = Math.ceil(usersCount / resPerPage);
     const dispatch = useDispatch();
-    const {error: deleteError, isDeleted, isUpdated} = useSelector(state => state.user)
+    const { error: deleteError, isDeleted, isUpdated } = useSelector(state => state.user)
     
+    const handleSubmit = (e) => {
+        // setKeyword(e);
+        // if (keyword.trim()){
+        //     setKeyword(keyword)
+        // }
+        console.log('andito')
+        setKeyword(e.trim())
+    }
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteUser(id))
     }
     const handleUpdateRole = async (id) => {
         await dispatch(updateRole(id));
-        
+
     };
-    const nextPageHandler= () =>{
+    const nextPageHandler = () => {
         console.log(currentPage);
-        if (currentPage < totalPage){
+        if (currentPage < totalPage) {
             const newPage = currentPage + 1;
             setCurrentPage(newPage);
             dispatch(getAdminUsers(newPage))
-            
+
         }
-        
+
     }
     const prevPageHandler = () => {
         console.log(currentPage);
 
-        if (currentPage > 1){
+        if (currentPage > 1) {
             const newPage = currentPage - 1;
             setCurrentPage(newPage);
             dispatch(getAdminUsers(newPage))
-        
+
         }
-       
+
     }
-    useEffect(()=>{
-        console.log(currentPage)
-    },[currentPage])
-    useEffect(()=>{
-       
+   
+    useEffect(() => {
+
         if (deleteError) {
             dispatch(clearErrors())
         }
@@ -102,10 +108,10 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
             toast.success('Role updated successfully', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
-            dispatch(getAdminUsers(currentPage))
-            dispatch({type: CHANGE_ROLE_RESET})
+            dispatch(getAdminUsers(currentPage, keyword))
+            dispatch({ type: CHANGE_ROLE_RESET })
         }
-    },[dispatch, navigate, deleteError, isDeleted, isUpdated])
+    }, [dispatch, navigate, deleteError, isDeleted, isUpdated])
     return (
         <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -122,13 +128,7 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                         <Button variant="outlined" size="sm">
                             view all
                         </Button>
-                        <Link to="/admin/videos/new">
-                        <Button className="flex items-center gap-3" size="sm">
-                            
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Video
-                           
-                        </Button>
-                        </Link>
+
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -141,12 +141,20 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                             ))}
                         </TabsHeader>
                     </Tabs>
+                    {/* <form onSubmit={handleSubmit} className="w-full md:w-72 relative"> */}
                     <div className="w-full md:w-72">
-                        <Input
+                    <Input
                             label="Search"
                             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                            onChange={(e)=>handleSubmit(e.target.value)}
+                            className="pr-10" // Add padding to prevent text from going under the icon
                         />
                     </div>
+                       
+                        {/* <button type="submit" className="absolute right-0 top-0 mt-2 mr-2">
+                            <MagnifyingGlassIcon className="h-5 w-5" />
+                        </button>
+                    </form> */}
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
@@ -184,21 +192,21 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                     <tr key={_id}>
                                         <td className={classes}>
                                             <div className="flex justify-between items-center">
-                                            
-                                            <Tooltip content="Edit Role" >
-                                                <IconButton variant="text" onClick={()=>handleUpdateRole(_id)}>
-                                                    <CheckBadgeIcon className="h-5 w-5" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            
-                                            <Tooltip content="Delete module">
-                                                <IconButton variant="text">
-                                                    <TrashIcon className="h-5 w-5" onClick={()=>deleteHandler(_id)}/>
-                                                </IconButton>
-                                            </Tooltip>
-                                           
+
+                                                <Tooltip content="Edit Role" >
+                                                    <IconButton variant="text" onClick={() => handleUpdateRole(_id)}>
+                                                        <CheckBadgeIcon className="h-5 w-5" />
+                                                    </IconButton>
+                                                </Tooltip>
+
+                                                <Tooltip content="Delete module">
+                                                    <IconButton variant="text">
+                                                        <TrashIcon className="h-5 w-5" onClick={() => deleteHandler(_id)} />
+                                                    </IconButton>
+                                                </Tooltip>
+
                                             </div>
-                                            
+
                                         </td>
                                         <td className={classes}>
                                             <div className="flex flex-col">
@@ -209,10 +217,10 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                                 >
                                                     {_id}
                                                 </Typography>
-                                                
+
                                             </div>
                                         </td>
-                                       
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -222,7 +230,7 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                                 {firstName} {lastName}
                                             </Typography>
                                         </td>
-                                        
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -249,7 +257,7 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                             >
                                                 {address}
                                             </Typography>
-                                            
+
                                         </td>
                                         <td className={classes}>
                                             <Typography
@@ -259,7 +267,7 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                             >
                                                 {city}
                                             </Typography>
-                                            
+
                                         </td>
                                         <td className={classes}>
                                             <Typography
@@ -279,8 +287,8 @@ export function UserTable({users, usersCount, resPerPage, currentPage, setCurren
                                                 {role}
                                             </Typography>
                                         </td>
-                                        
-                                        
+
+
                                     </tr>
                                 );
                             },

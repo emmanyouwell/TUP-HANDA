@@ -5,14 +5,15 @@ import { UserTable } from '../../Components/UserTable'
 const UserList = () => {
     const dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(1)
+    const [keyword, setKeyword] = useState('')
     const { users, usersCount, resPerPage, filteredUsersCount, loading, error } = useSelector(state => state.allUsers)
     useEffect(()=>{
         if (error){
             dispatch(clearErrors())
         }
-        dispatch(getAdminUsers(1))
+        dispatch(getAdminUsers(currentPage, keyword))
 
-    },[dispatch, error])
+    },[dispatch, error, keyword])
     useEffect(()=>{
         console.log(users)
         console.log(usersCount)
@@ -20,10 +21,14 @@ const UserList = () => {
         console.log(filteredUsersCount)
 
     },[users, usersCount, resPerPage, filteredUsersCount])
+    let count = usersCount
+    if (keyword){
+        count = filteredUsersCount
+    }
     return (
         <>
             <div className="container mx-auto mt-5">
-                <UserTable users={users} usersCount={usersCount} resPerPage={resPerPage} filteredUsersCount={filteredUsersCount} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                <UserTable keyword={keyword} setKeyword={setKeyword} users={users} usersCount={count} resPerPage={resPerPage} filteredUsersCount={filteredUsersCount} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
             </div>
 
         </>

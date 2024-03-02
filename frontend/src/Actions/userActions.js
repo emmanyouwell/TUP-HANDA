@@ -369,7 +369,7 @@ export const getAdminUsers = (currentPage = 1, keyword = '', price, category = '
         })
         let link = ''
 
-        link = `${process.env.REACT_APP_API}/api/v1/admin/users/all/?page=${currentPage}`
+        link = `${process.env.REACT_APP_API}/api/v1/admin/users/all/?page=${currentPage}&keyword=${keyword}`
 
         
         const { data } = await axios.get(link, config)

@@ -367,7 +367,7 @@ exports.getAdminUsers = async (req, res, next) => {
 	const apiFeatures = new APIFeatures(User.find(), req.query).search().filter()
 	apiFeatures.pagination(resPerPage);
 	const users = await apiFeatures.query;
-	const filteredUsersCount = users.length
+	const filteredUsersCount = await User.countDocuments(apiFeatures.query.getFilter());
 	if (!users) {
 		return res.status(404).json({
 			success: false,
