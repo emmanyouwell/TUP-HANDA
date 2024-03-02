@@ -8,7 +8,9 @@ export default withMT({
   ],
   theme: {
     extend: {
-     
+      animation: {
+        fastpulse: 'pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
