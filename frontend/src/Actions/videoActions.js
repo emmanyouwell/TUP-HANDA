@@ -133,3 +133,33 @@ export const clearErrors = () => async (dispatch) => {
 
     })
 }
+export const getAdminVideos = (currentPage = 1, keyword = '', price, category = '') => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({
+            type: ADMIN_VIDEOS_REQUEST
+        })
+        let link = ''
+
+        link = `${process.env.REACT_APP_API}/api/v1/admin/all/videos/?page=${currentPage}&keyword=${keyword}`
+
+        
+        const { data } = await axios.get(link, config)
+
+        dispatch({
+            type: ADMIN_VIDEOS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ADMIN_VIDEOS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}

@@ -41,17 +41,39 @@ const TABS = [
 const TABLE_HEAD = ["Actions","Video ID", "Title", "Short Description", "Description", "Video Link"];
 
 import {useDispatch, useSelector} from 'react-redux'
-
+import Loader from './Loader'
 import {toast} from 'react-toastify'
-import { getVideos, clearErrors, deleteVideo } from '../Actions/videoActions';
+import { getVideos, clearErrors, deleteVideo, getAdminVideos } from '../Actions/videoActions';
 
 import { DELETE_VIDEO_RESET } from '../Constants/videoConstants';
-export function VideoTable({videos}) {
+export function VideoTable({ videos, videosCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword, loading }) {
     const dispatch = useDispatch();
+    const totalPage = Math.ceil(videosCount / resPerPage);
     const {error: deleteError, isDeleted} = useSelector(state => state.video)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteVideo(id))
+    }
+    const nextPageHandler = () => {
+        console.log(currentPage);
+        if (currentPage < totalPage) {
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage);
+            dispatch(getAdminUsers(newPage))
+
+        }
+
+    }
+    const prevPageHandler = () => {
+        console.log(currentPage);
+
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage);
+            dispatch(getAdminUsers(newPage))
+
+        }
+
     }
     useEffect(()=>{
        
@@ -60,7 +82,7 @@ export function VideoTable({videos}) {
         }
         if (isDeleted) {
             navigate('/admin/videos');
-            dispatch(getVideos())
+            dispatch(getAdminVideos(currentPage, keyword))
             toast.success('Video deleted successfully', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
@@ -106,6 +128,7 @@ export function VideoTable({videos}) {
                         <Input
                             label="Search"
                             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                            onChange={(e) => setKeyword(e.target.value.trim())}
                         />
                     </div>
                 </div>
@@ -134,7 +157,13 @@ export function VideoTable({videos}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {videos.map(
+                        {loading ?<tr className="w-full">
+                            <td colSpan={6}>
+                                <div className="p-10 flex justify-center items-center">
+                                    <Loader />
+                                </div>
+                            </td>
+                        </tr>: videos.map(
                             ({ title, description, videoLink, shortDesc, _id }, index) => {
                                 const isLast = index === videos.length - 1;
                                 const classes = isLast
@@ -221,13 +250,13 @@ export function VideoTable({videos}) {
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
+                    Page {currentPage} of {totalPage}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={prevPageHandler}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={nextPageHandler}>
                         Next
                     </Button>
                 </div>
