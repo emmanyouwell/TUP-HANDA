@@ -1,5 +1,5 @@
 const Videos = require('../models/videoResources');
-
+const APIFeatures = require('../utils/apiFeatures');
 
 
 
@@ -97,5 +97,28 @@ exports.deleteVideo = async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		message: 'Video deleted'
+	})
+}
+
+exports.getAdminVideos = async (req,res,next)=>{
+    const resPerPage = 5;
+	const videosCount = await Videos.countDocuments();
+	const apiFeatures = new APIFeatures(Videos.find(), req.query).search().filter()
+	apiFeatures.pagination(resPerPage);
+	const videos = await apiFeatures.query;
+	const filteredVideosCount = await Videos.countDocuments(apiFeatures.query.getFilter());
+	if (!videos) {
+		return res.status(404).json({
+			success: false,
+			message: 'No Users'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		count: videos.length,
+		videosCount,
+		videos,
+		resPerPage,
+		filteredVideosCount,
 	})
 }
