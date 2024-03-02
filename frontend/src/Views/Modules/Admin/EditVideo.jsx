@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getSingleVideo, clearErrors, updateVideo } from "../../../Actions/videoActions";
 import { UPDATE_VIDEO_RESET } from "../../../Constants/videoConstants";
 import {toast} from 'react-toastify'
+import Loader from "../../../Components/Loader";
 const EditVideo = () => {
     const {id} = useParams()
     const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const EditVideo = () => {
         },
         onSubmit: (values) => {
             const videoId = getId(values.videoLink)
-            const embed = "//www.youtube.com/embed/"+ videoId
+            const embed = "https://www.youtube.com/embed/"+ videoId
            
             const formData = new FormData();
             formData.set('title', values.title)
@@ -99,6 +100,8 @@ const EditVideo = () => {
     <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
         <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
         <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
+            
+            {loading ? <Loader/> : <>
             <h1 className="font-black text-4xl mb-5 text-center">Edit videos</h1>
             <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="space-y-12">
@@ -215,6 +218,8 @@ const EditVideo = () => {
                     </div>
                 </div>
             </form>
+            </>}
+            
 
         </div>
 
