@@ -94,12 +94,12 @@ const EditVideo = () => {
     }, [])
 
   return (
-    <div className="overflow-x-hidden overflow-y-hidden">
+    <div className="overflow-x-hidden overflow-y-hidden w-full">
     {/* <Navbar /> */}
     <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
         <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
         <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
-            <h1 className="font-black text-4xl mb-5 text-center">Upload videos</h1>
+            <h1 className="font-black text-4xl mb-5 text-center">Edit videos</h1>
             <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="space-y-12">
 

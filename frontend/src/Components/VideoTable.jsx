@@ -68,7 +68,7 @@ export function VideoTable({videos}) {
         }
     },[dispatch, navigate, deleteError, isDeleted])
     return (
-        <Card className="h-full w-full">
+        <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>

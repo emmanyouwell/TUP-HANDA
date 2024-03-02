@@ -84,7 +84,7 @@ const CreateVideo = () => {
     }, [])
 
   return (
-    <div className="overflow-x-hidden overflow-y-hidden">
+    <div className="overflow-x-hidden overflow-y-hidden w-full">
     {/* <Navbar /> */}
     <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
         <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
