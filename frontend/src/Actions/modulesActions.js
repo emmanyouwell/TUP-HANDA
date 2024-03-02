@@ -30,7 +30,9 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 export const createModules = (moduleData) => async (dispatch) => {
+    
     try {
+        dispatch({type: NEW_MODULE_REQUEST})
         const config = {
             headers: {
                 
@@ -132,4 +134,35 @@ export const clearErrors = () => async (dispatch) => {
         type: CLEAR_ERRORS
 
     })
+}
+
+export const getAdminModules = (currentPage = 1, keyword = '', price, category = '') => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({
+            type: ADMIN_MODULES_REQUEST
+        })
+        let link = ''
+
+        link = `${process.env.REACT_APP_API}/api/v1/admin/modules/all/?page=${currentPage}&keyword=${keyword}`
+
+        
+        const { data } = await axios.get(link, config)
+
+        dispatch({
+            type: ADMIN_MODULES_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ADMIN_MODULES_FAIL,
+            payload: error.response.data.message
+        })
+    }
 }

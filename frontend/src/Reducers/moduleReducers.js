@@ -46,7 +46,10 @@ export const modulesReducer = (state = { modules: [] }, action) => {
             return {
                 ...state,
                 loading: false,
-                modules: action.payload
+                modules: action.payload.modules,
+                modulesCount: action.payload.modulesCount,
+                resPerPage: action.payload.resPerPage,
+                filteredModulesCount: action.payload.filteredModulesCount
 
             }
         case ALL_MODULES_FAIL:

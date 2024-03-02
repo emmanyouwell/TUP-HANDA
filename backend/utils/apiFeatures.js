@@ -20,6 +20,8 @@ class APIFeatures {
                     {city: keyword},
                     {address: keyword},
                     {country: keyword},
+                    {title: keyword},
+                    
                     // Add other fields you want to search by
                 ]
             });

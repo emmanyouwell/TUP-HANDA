@@ -157,6 +157,7 @@ const CreateModule = () => {
                                                                     id='file-upload'
                                                                     className="sr-only"
                                                                     accept="images/*"
+                                                                    required
                                                                     onChange={onChange} />
                                                             </label>
                                                             <p className="pl-1">or drag and drop</p>
@@ -242,7 +243,8 @@ const CreateModule = () => {
                                                             id='pdf-upload'
                                                             className="sr-only "
                                                             accept="application/pdf"
-                                                            onChange={onFileChange} />
+                                                            onChange={onFileChange}
+                                                            required />
                                                         {filename && <span className="pl-5">{filename}</span>}
                                                     </label>
                                                 </div>

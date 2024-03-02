@@ -35,7 +35,7 @@ export function AdminSidebar() {
   };
 
   return (
-    <Card className="min-h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <Card className="h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <div className="mb-2 p-4">
         <Link to="/">
           <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 

@@ -1,6 +1,6 @@
 const Modules = require('../models/modules');
 const cloudinary = require('cloudinary')
-
+const APIFeatures = require('../utils/apiFeatures')
 
 exports.createModule = async (req, res, next) => {
     let fileLink = {}
@@ -190,5 +190,28 @@ exports.deleteModule = async (req, res, next) => {
 	res.status(200).json({
 		success: true,
 		message: 'Module deleted'
+	})
+}
+
+exports.getAdminModules = async (req,res,next)=>{
+    const resPerPage = 5;
+	const modulesCount = await Modules.countDocuments();
+	const apiFeatures = new APIFeatures(Modules.find(), req.query).search().filter()
+	apiFeatures.pagination(resPerPage);
+	const modules = await apiFeatures.query;
+	const filteredModulesCount = await Modules.countDocuments(apiFeatures.query.getFilter());
+	if (!modules) {
+		return res.status(404).json({
+			success: false,
+			message: 'No Users'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		count: modules.length,
+		modulesCount,
+		modules,
+		resPerPage,
+		filteredModulesCount,
 	})
 }

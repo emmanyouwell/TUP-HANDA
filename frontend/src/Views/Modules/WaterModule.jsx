@@ -183,7 +183,7 @@ const WaterModule = () => {
                 {/* Emergency checklist for Typhoon/Floods */}
                 <ChecklistComponent />
             </div>
-            <Footer1 />
+           
         </>
     )
 }

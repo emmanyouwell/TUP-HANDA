@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-   
+
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
@@ -38,33 +38,58 @@ const TABS = [
     },
 ];
 
-const TABLE_HEAD = ["Actions","Module ID", "Image","Title", "Short Description", "Description", "File"];
+const TABLE_HEAD = ["Actions", "Module ID", "Image", "Title", "Short Description", "Description", "File"];
 import { DELETE_MODULE_RESET } from '../Constants/moduleConstants';
-import {useDispatch, useSelector} from 'react-redux'
-import { deleteModule, clearErrors,getModules  } from '../Actions/modulesActions';
-import {toast} from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteModule, clearErrors, getAdminModules } from '../Actions/modulesActions';
+import { toast } from 'react-toastify'
+import Loader from './Loader';
 
-export function SortableTable({modules}) {
+export function SortableTable({ modules, modulesCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword }) {
     const dispatch = useDispatch();
-    const {error: deleteError, isDeleted} = useSelector(state => state.module)
+    const totalPage = Math.ceil(modulesCount / resPerPage);
+    const { error: deleteError, isDeleted } = useSelector(state => state.module)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteModule(id))
     }
-    useEffect(()=>{
-       
+   
+
+    const nextPageHandler = () => {
+        console.log(currentPage);
+        if (currentPage < totalPage) {
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage);
+            dispatch(getAdminModules(newPage))
+
+        }
+
+    }
+    const prevPageHandler = () => {
+        console.log(currentPage);
+
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage);
+            dispatch(getAdminModules(newPage))
+
+        }
+
+    }
+    useEffect(() => {
+
         if (deleteError) {
             dispatch(clearErrors())
         }
         if (isDeleted) {
             navigate('/admin/modules');
-            dispatch(getModules())
+            dispatch(getAdminModules(currentPage, keyword))
             toast.success('Module deleted successfully', {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
             dispatch({ type: DELETE_MODULE_RESET })
         }
-    },[dispatch, navigate, deleteError, isDeleted])
+    }, [dispatch, navigate, deleteError, isDeleted])
     return (
         <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -82,11 +107,11 @@ export function SortableTable({modules}) {
                             view all
                         </Button>
                         <Link to="/admin/modules/new">
-                        <Button className="flex items-center gap-3" size="sm">
-                            
-                            <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Modules
-                           
-                        </Button>
+                            <Button className="flex items-center gap-3" size="sm">
+
+                                <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Modules
+
+                            </Button>
                         </Link>
                     </div>
                 </div>
@@ -104,6 +129,7 @@ export function SortableTable({modules}) {
                         <Input
                             label="Search"
                             icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                            onChange={(e) => setKeyword(e.target.value.trim())}
                         />
                     </div>
                 </div>
@@ -132,7 +158,13 @@ export function SortableTable({modules}) {
                         </tr>
                     </thead>
                     <tbody>
-                        {modules.map(
+                        {loading ? <tr className="w-full">
+                            <td colSpan={6}>
+                                <div className="flex p-10 justify-center items-center">
+                                    <Loader />
+                                </div>
+                            </td>
+                        </tr> : modules.map(
                             ({ img, title, description, file, shortDesc, _id }, index) => {
                                 const isLast = index === modules.length - 1;
                                 const classes = isLast
@@ -143,21 +175,21 @@ export function SortableTable({modules}) {
                                     <tr key={_id}>
                                         <td className={classes}>
                                             <div className="flex justify-between items-center">
-                                            <Link to={`/admin/modules/${_id}`}>
-                                            <Tooltip content="Edit module">
-                                                <IconButton variant="text">
-                                                    <PencilIcon className="h-4 w-4" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            </Link>
-                                            <Tooltip content="Delete module">
-                                                <IconButton variant="text">
-                                                    <TrashIcon className="h-4 w-4" onClick={()=>deleteHandler(_id)}/>
-                                                </IconButton>
-                                            </Tooltip>
-                                           
+                                                <Link to={`/admin/modules/${_id}`}>
+                                                    <Tooltip content="Edit module">
+                                                        <IconButton variant="text">
+                                                            <PencilIcon className="h-4 w-4" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Link>
+                                                <Tooltip content="Delete module">
+                                                    <IconButton variant="text">
+                                                        <TrashIcon className="h-4 w-4" onClick={() => deleteHandler(_id)} />
+                                                    </IconButton>
+                                                </Tooltip>
+
                                             </div>
-                                            
+
                                         </td>
                                         <td className={classes}>
                                             <div className="flex flex-col">
@@ -180,7 +212,7 @@ export function SortableTable({modules}) {
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
                                                 <Avatar src={img.url} alt={title} size="sm" />
-                                                
+
                                             </div>
                                         </td>
                                         <td className={classes}>
@@ -229,7 +261,7 @@ export function SortableTable({modules}) {
                                                 <a href={file.url}>{file.url}</a>
                                             </Typography>
                                         </td>
-                                        
+
                                     </tr>
                                 );
                             },
@@ -239,13 +271,13 @@ export function SortableTable({modules}) {
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of {modules.length}
+                    Page {currentPage} of {totalPage}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={prevPageHandler}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={nextPageHandler}>
                         Next
                     </Button>
                 </div>
