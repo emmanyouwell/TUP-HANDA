@@ -14,7 +14,7 @@ const Login = () => {
 
     const [visible, setVisible] = useState(true)
 
-    const icon = visible ? <i class="fa-solid fa-eye-slash" onClick={() => setVisible(!visible)}></i> : <i class="fa-solid fa-eye" onClick={() => setVisible(!visible)}></i>
+    const icon = visible ? <i class="fa-solid fa-eye-slash hover:cursor-pointer" onClick={() => setVisible(!visible)}></i> : <i class="fa-solid fa-eye" onClick={() => setVisible(!visible)}></i>
     const inputType = visible ? "password" : "text"
 
     const formik = useFormik({

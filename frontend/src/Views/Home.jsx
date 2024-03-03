@@ -17,14 +17,13 @@ function Home() {
     return (
         <>
             <div className="flex flex-col min-h-screen bg-default">
-                {/* <Navbar /> */}
 
                 {/* <Announcement /> */}
                 
 
                 <Section1 />
 
-                <section className="container mx-auto p-10">
+                <section className="mx-auto p-10">
                     <ChecklistComponent/>
                 </section>
 
@@ -40,7 +39,6 @@ function Home() {
                     <Accordion />
                 </section>
 
-                <Footer1 />
 
             </div>
 

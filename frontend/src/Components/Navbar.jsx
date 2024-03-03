@@ -49,7 +49,7 @@ const Navbar = () => {
   ];
   let [open, setOpen] = useState(false);
   return (
-    <div className='shadow-md w-full sticky top-0 left-0 z-20'>
+    <div className=' w-full sticky top-0 left-0 z-20 border-b-2 border-warning' style={{boxShadow: '0px 3px 10px rgba(204,153,0,0.4)'}}>
       <div className='md:flex items-center justify-between bg-white py-4 md:px-10 px-7'>
         <Link to="/">
           <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 

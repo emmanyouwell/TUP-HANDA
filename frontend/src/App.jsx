@@ -26,118 +26,154 @@ import CreateVideo from './Views/Modules/Admin/CreateVideo';
 import VideoList from './Views/Admin/VideoList';
 import EditVideo from './Views/Modules/Admin/EditVideo';
 
-import {AdminSidebar} from './Components/AdminSidebar';
-import {useDispatch, useSelector} from 'react-redux'
+import { AdminSidebar } from './Components/AdminSidebar';
+import { useDispatch, useSelector } from 'react-redux'
 import UserList from './Views/Admin/UserList';
-import {getUser, getToken } from './utils/helper';
+import { getUser, getToken } from './utils/helper';
+import Footer1 from './Components/Footer1';
 
-function HeaderComponent(){
+function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
   return (
     <>
-     {!isAdminRoute && <Navbar/>}
-     
+      {!isAdminRoute && <Navbar />}
+
     </>
   )
 }
-function MainContent(){
+function MainContent() {
   const location = useLocation();
   const dispatch = useDispatch()
-  
- 
+
+
   // const {user} = useSelector(state => state.auth)
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAdminUser = getUser().role === 'admin';
-  
-  
+
+
   return (
     <div className={`flex ${isAdminUser && isAdminRoute ? 'flex-row' : 'flex-col'}`}>
-      {isAdminUser && isAdminRoute && <AdminSidebar/>}
-      
+      {isAdminUser && isAdminRoute && <AdminSidebar />}
+
       <ScrollToTop>
         <Routes>
-
+          {/* Open routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/modules" element={<Modules />} />
-          <Route path="/quiz" element={<GoogleFormComponent />} />
-          <Route path="/modules/typhoons" element={<WaterModule />} />
-          <Route path="/modules/fires" element={<FireModule />} />
-          <Route path="/modules/earthquakes" element={<EarthModule />} />
-          <Route path="/hotlines" element={<Hotline />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/password/forgot" element={<ForgotPassword/>} />
-          <Route path="/password/reset/:token" element={<ResetPassword/>} exact="true"/>
-          <Route path="/profile" element={<Profile />}/>
-          <Route path="/profile/update" element={<UpdateProfile />} exact="true"/>
-          <Route path="/modules/videos" element={<VideoModules  />} />
-
+          <Route path="/password/forgot" element={<ForgotPassword />} />
+          <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
+        
+          {/* Protected Routes */}
+          <Route path="/modules" element={
+            <ProtectedRoute>
+              <Modules />
+            </ProtectedRoute>
+          } />
+          <Route path="/modules/typhoons" element={
+            <ProtectedRoute>
+              <WaterModule />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/modules/fires" element={
+            <ProtectedRoute>
+              <FireModule />
+            </ProtectedRoute>
+          } />
+          <Route path="/modules/earthquakes" element={
+            <ProtectedRoute>
+              <EarthModule />
+            </ProtectedRoute>
+          } />
+          <Route path="/hotlines" element={
+            <ProtectedRoute>
+              <Hotline />
+            </ProtectedRoute>
+          } />
+           <Route path="/modules/videos" element={
+            <ProtectedRoute>
+              <VideoModules />
+            </ProtectedRoute>
+          } />
+            <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile/update" element={
+            <ProtectedRoute>
+              <UpdateProfile />
+            </ProtectedRoute>
+          } exact="true" />
+         
+          <Route path="/quiz" element={<GoogleFormComponent />} />
           {/* Admin routes */}
           <Route path="/admin/modules" element={
             <ProtectedRoute isAdmin={true}>
               <ModuleList />
             </ProtectedRoute>
-          }/>
+          } />
           <Route path="/admin/dashboard" element={
             <ProtectedRoute isAdmin={true}>
               <Dashboard />
             </ProtectedRoute>
-          }/>
+          } />
           <Route path="/admin/modules/new" element={
             <ProtectedRoute isAdmin={true}>
-              <CreateModule/>
+              <CreateModule />
             </ProtectedRoute>
           } />
           <Route path="/admin/modules/:id" element={
             <ProtectedRoute>
-              <EditModule/>
+              <EditModule />
             </ProtectedRoute>
-          }/>
+          } />
           <Route path="/admin/videos/new" element={
             <ProtectedRoute isAdmin={true}>
-              <CreateVideo/>  
+              <CreateVideo />
             </ProtectedRoute>
-          }/>
+          } />
           <Route path="/admin/videos" element={
             <ProtectedRoute isAdmin={true}>
-              <VideoList/>
+              <VideoList />
             </ProtectedRoute>
-          }/>
+          } />
           <Route path="/admin/videos/:id" element={
             <ProtectedRoute isAdmin={true}>
-              <EditVideo/>
+              <EditVideo />
             </ProtectedRoute>
-          }/>
+          } />
 
           <Route path="/admin/users" element={
             <ProtectedRoute>
-              <UserList/>
+              <UserList />
             </ProtectedRoute>
-          }/>
-          
-        
-          
+          } />
+
+
+
 
         </Routes>
-        <ToastContainer position="bottom-right"/>
+        <ToastContainer position="bottom-right" />
       </ScrollToTop>
     </div>
   );
 }
 function App() {
- 
+
   return (
     <BrowserRouter>
-    <HeaderComponent/>
-     
-     <MainContent/>
-     
-   
+      <HeaderComponent />
+
+      <MainContent />
+  
+    <Footer1/>
     </BrowserRouter>
   )
 
- 
+
 }
 
 export default App

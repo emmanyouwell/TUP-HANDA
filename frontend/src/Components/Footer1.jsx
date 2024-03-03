@@ -2,7 +2,7 @@ import React from 'react'
 import logo from '../assets/TUPHANDA.png'
 const Footer1 = () => {
   return (
-    <footer className="footer p-10 bg-base-200 text-base-content">
+    <footer className="footer p-10 bg-yellow-700 text-base-content">
   <aside>
     <img src={logo} className="w-24 h-16 object-contain" alt="logo" />
     <p>TUP Handa<br/>Building a resilient community</p>
