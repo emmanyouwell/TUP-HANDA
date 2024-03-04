@@ -10,7 +10,12 @@ const ResetPassword = () => {
     let { token } = useParams();
     const dispatch = useDispatch()
     let navigate = useNavigate()
-
+    const [visible, setVisible] = useState(true)
+    const [confirmVisible, setConfirmVisible] = useState(true)
+    const icon = visible ? <i class="fa-solid fa-eye-slash" onClick={() => setVisible(!visible)}></i> : <i class="fa-solid fa-eye" onClick={() => setVisible(!visible)}></i>
+    const inputType = visible ? "password" : "text"
+    const confirmIcon = confirmVisible ? <i class="fa-solid fa-eye-slash" onClick={() => setConfirmVisible(!confirmVisible)}></i> : <i class="fa-solid fa-eye" onClick={() => setConfirmVisible(!confirmVisible)}></i>
+    const confirmInputType = confirmVisible ? "password" : "text"
     const { error, success } = useSelector(state => state.forgotPassword)
     const formik = useFormik({
         initialValues: {
@@ -22,7 +27,7 @@ const ResetPassword = () => {
             formData.set('password', values.password);
             formData.set('confirmPassword', values.confirmPassword);
             dispatch(resetPassword(token, formData))
-            
+
         },
         validationSchema: Yup.object({
             password: Yup.string().required('Password is required').min(6, 'Password must be atleast 6 characters long'),
@@ -33,10 +38,10 @@ const ResetPassword = () => {
         if (error) {
             dispatch(clearErrors())
         }
-        if (success){
+        if (success) {
             navigate('/login')
         }
-        
+
     }, [error, success])
     return (
         <>
@@ -55,7 +60,23 @@ const ResetPassword = () => {
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                                         New password
                                     </label>
-                                    <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="oldPass" type="password" placeholder="*********" name="password" onChange={formik.handleChange} value={formik.values.password} onBlur={formik.handleBlur} />
+                                    <div className="relative">
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type={inputType}
+                                        placeholder="*********"
+                                        onChange={formik.handleChange}
+                                        value={formik.values.password}
+                                        onBlur={formik.handleBlur}
+
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                    />
+                                    <span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                        {icon}
+                                    </span>
+                                    </div>
+                                   
                                     <div className="text-error italic">
                                         <small>
                                             {formik.errors.password && formik.touched.password && formik.errors.password}
@@ -66,7 +87,21 @@ const ResetPassword = () => {
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                                         Confirm Password
                                     </label>
-                                    <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" id="newPass" type="password" placeholder="*********" name="confirmPassword" onChange={formik.handleChange} value={formik.values.confirmPassword} onBlur={formik.handleBlur} />
+                                    <div className="relative">
+                                                <input
+                                                    id="confirmPass"
+                                                    name="confirmPassword"
+                                                    type={confirmInputType}
+                                                    onChange={formik.handleChange}
+                                                    value={formik.values.confirmPassword}
+                                                    onBlur={formik.handleBlur}
+                                                    placeholder="*********"
+
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-10"
+                                                /><span className=" absolute top-1/2 transform -translate-y-1/2 right-3">
+                                                    {confirmIcon}
+                                                </span>
+                                            </div>
                                     <div className="text-error italic">
                                         <small>
                                             {formik.errors.confirmPassword && formik.touched.confirmPassword && formik.errors.confirmPassword}
@@ -77,7 +112,7 @@ const ResetPassword = () => {
                                     <button className="col-span-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                                         Reset Password
                                     </button>
-                                   
+
                                 </div>
                             </div>
                             <div className="mt-6 flex items-center justify-center gap-x-6">
