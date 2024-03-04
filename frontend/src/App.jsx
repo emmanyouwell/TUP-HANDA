@@ -53,6 +53,8 @@ function MainContent() {
   const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1024px'})
 
   return (
+    <>
+    
     <div className={`flex ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
       {isAdminUser && isAdminRoute && <AdminSidebar />}
 
@@ -158,7 +160,10 @@ function MainContent() {
         </Routes>
         <ToastContainer position="bottom-right" />
       </ScrollToTop>
+      
     </div>
+    {!isAdminRoute && <Footer1/>}
+    </>
   );
 }
 function App() {
@@ -169,7 +174,7 @@ function App() {
 
       <MainContent />
   
-    <Footer1/>
+    
     </BrowserRouter>
   )
 

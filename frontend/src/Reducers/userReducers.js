@@ -45,6 +45,12 @@ import {
     CHANGE_ROLE_SUCCESS,
     CHANGE_ROLE_RESET,
     CHANGE_ROLE_FAIL,
+    USER_DEPARTMENT_FAIL,
+    USER_DEPARTMENT_REQUEST,
+    USER_DEPARTMENT_SUCCESS,
+    USER_COURSE_REQUEST,
+    USER_COURSE_SUCCESS,
+    USER_COURSE_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -267,4 +273,67 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
             return state;
     }
 
+}
+
+export const userDepartmentReducer = (state = { users: [] }, action) => {
+    switch (action.type) {
+        case USER_DEPARTMENT_REQUEST:
+        
+            return {
+                ...state,
+                loading: true,
+            }
+        case USER_DEPARTMENT_SUCCESS:
+        
+            return {
+                ...state,
+                loading: false,
+                data: action.payload
+            }
+        case USER_DEPARTMENT_FAIL:
+        
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state;
+    }
+}
+export const userCourseReducer = (state = { users: [] }, action) => {
+    switch (action.type) {
+        
+        case USER_COURSE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        
+        case USER_COURSE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                data: action.payload
+            }
+        
+        case USER_COURSE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state;
+    }
 }

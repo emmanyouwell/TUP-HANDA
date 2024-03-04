@@ -1,6 +1,6 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 import {thunk} from 'redux-thunk';
-import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer  } from './Reducers/userReducers';
+import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer, userDepartmentReducer, userCourseReducer  } from './Reducers/userReducers';
 import { checklistReducer } from './Reducers/checklistReducers';
 import { moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer } from './Reducers/moduleReducers';
 import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer } from './Reducers/videoReducer';
@@ -9,6 +9,8 @@ const reducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     forgotPassword: forgotPasswordReducer,
+    userDepartment: userDepartmentReducer,
+    userCourse: userCourseReducer,
     allUsers: allUsersReducer,
     userDetails: userDetailsReducer,
     checklist: checklistReducer,

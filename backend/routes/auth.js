@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const upload = require("../utils/multer")
 
-const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser, getAdminUsers, updateRole} = require('../controllers/authController')
+const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser, getAdminUsers, updateRole, getUserPerDepartment, getUserPerCourse} = require('../controllers/authController')
 
 const {isAuthenticatedUser, authorizeRoles} = require('../middleware/auth')
 
@@ -22,4 +22,6 @@ router.get('/admin/users/all', isAuthenticatedUser, authorizeRoles('admin'), get
 router.route('/admin/user/:id').get(isAuthenticatedUser, getUserDetails).delete(isAuthenticatedUser, authorizeRoles('admin'), deleteUser).put(isAuthenticatedUser, authorizeRoles('admin'), updateUser)
 
 router.put('/admin/user/:id/role',isAuthenticatedUser, authorizeRoles('admin'), updateRole)
+router.get('/admin/departments/user', getUserPerDepartment)
+router.get('/admin/courses/user', getUserPerCourse)
 module.exports = router

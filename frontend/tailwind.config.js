@@ -8,6 +8,9 @@ export default withMT({
   ],
   theme: {
     extend: {
+      colors:{
+        lightsteelblue: '#b0c4de',
+      },
       animation: {
         fastpulse: 'pulse 0.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },

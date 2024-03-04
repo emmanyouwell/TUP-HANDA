@@ -10,7 +10,6 @@ html{
 }
 
 
-
 @tailwind utilities;
 .typhoon{
     @apply relative; 

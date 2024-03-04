@@ -422,3 +422,34 @@ exports.updateRole = async (req, res, next) => {
     }
    
 }
+
+exports.getUserPerDepartment = async (req, res, next) => {
+    const usersPerDepartment = await User.aggregate([
+        {
+            $group: {
+                _id: "$department",
+                totalUsers: { $sum: 1 }
+            }
+        }
+    ]);
+
+    res.status(200).json({
+        success: true,
+        usersPerDepartment
+    });
+}
+
+exports.getUserPerCourse = async (req, res, next) => {
+    const usersPerCourse = await User.aggregate([
+        {
+            $group: {
+                _id: "$course",
+                totalUsers: {$sum: 1}
+            }
+        }
+    ])
+    res.status(200).json({
+        success:true,
+        usersPerCourse
+    })
+}

@@ -45,6 +45,12 @@ import {
     CHANGE_ROLE_REQUEST,
     CHANGE_ROLE_SUCCESS,
     CHANGE_ROLE_RESET,
+    USER_DEPARTMENT_FAIL,
+    USER_DEPARTMENT_REQUEST,
+    USER_DEPARTMENT_SUCCESS,
+    USER_COURSE_REQUEST,
+    USER_COURSE_SUCCESS,
+    USER_COURSE_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -412,6 +418,52 @@ export const updateRole = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CHANGE_ROLE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getUserPerDepartment = () => async (dispatch) => {
+    try{
+        dispatch({ type: USER_DEPARTMENT_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/departments/user`, config)
+        dispatch({
+            type: USER_DEPARTMENT_SUCCESS,
+            payload: data.usersPerDepartment
+        })
+                
+    }catch(error){
+        dispatch({
+            type: USER_DEPARTMENT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getUserPerCourse = () => async (dispatch) => {
+    try{
+        dispatch({ type: USER_COURSE_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/courses/user`, config)
+        dispatch({
+            type: USER_COURSE_SUCCESS,
+            payload: data.usersPerCourse
+        })
+                
+    }catch(error){
+        dispatch({
+            type: USER_COURSE_FAIL,
             payload: error.response.data.message
         })
     }
