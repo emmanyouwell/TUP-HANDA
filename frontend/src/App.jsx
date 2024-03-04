@@ -31,7 +31,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import UserList from './Views/Admin/UserList';
 import { getUser, getToken } from './utils/helper';
 import Footer1 from './Components/Footer1';
-
+import { useMediaQuery } from 'react-responsive';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -50,10 +50,10 @@ function MainContent() {
   // const {user} = useSelector(state => state.auth)
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAdminUser = getUser().role === 'admin';
-
+  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1024px'})
 
   return (
-    <div className={`flex ${isAdminUser && isAdminRoute ? 'flex-row' : 'flex-col'}`}>
+    <div className={`flex ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
       {isAdminUser && isAdminRoute && <AdminSidebar />}
 
       <ScrollToTop>
