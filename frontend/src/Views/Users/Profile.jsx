@@ -17,7 +17,7 @@ export function Profile() {
   return (
     <>
     {/* <Navbar /> */}
-      <section className="relative block h-[50vh]">
+      <section className="relative block h-[50vh] overflow-hidden">
       <div style={{ backgroundImage: `url(${user && user.coverAvatar && user.coverAvatar[0] && user.coverAvatar[0].url ? user.coverAvatar[0].url : 'https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708771983/TUPHANDA_COVER_PHOTO/xbgzqfwjtkrjacbpcely.png'})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className="bg-profile-background absolute top-0 h-full w-full scale-105" />
         <div className="absolute top-0 h-full w-full bg-black/25 bg-cover bg-center" />
       </section>

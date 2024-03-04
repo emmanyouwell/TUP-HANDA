@@ -8,7 +8,7 @@ import { countries } from "countries-list";
 import img from '../../assets/default_avatar.jpg'
 import { updateProfile, clearErrors, getProfile, updatePassword } from '../../Actions/userActions'
 import { useDispatch, useSelector } from 'react-redux'
-
+import Loader from "../../Components/Loader";
 import { UPDATE_PROFILE_RESET, UPDATE_PASSWORD_RESET} from "../../Constants/userConstants";
 
 import Navbar from "../../Components/Navbar";
@@ -17,7 +17,7 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 const UpdateProfile = () => {
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth)
-    const { isUpdated, error } = useSelector(state => state.user)
+    const { isUpdated, error, loading } = useSelector(state => state.user)
     const countriesList = Object.values(countries)
     const [course, setCourse] = useState([])
     const [avatar, setAvatar] = useState([])
@@ -25,7 +25,7 @@ const UpdateProfile = () => {
     const [coverPreview, setCoverPreview] = useState([img])
     const [department, setDepartment] = useState([])
     const [avatarPreview, setAvatarPreview] = useState([img])
-    const [loading, setLoading] = useState(true)
+    
     const [selectedDepartment, setSelectedDepartment] = useState('')
 
 
@@ -237,17 +237,17 @@ const UpdateProfile = () => {
         }
         if (department) {
 
-            setLoading(false)
+            
             getCourse(department.find(dept => dept.name === user.department)?._id || 'none')
         }
     }, [department])
 
     return (
         <div className="overflow-x-hidden overflow-y-hidden">
-            {/* <Navbar /> */}
             <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
                 <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
                 <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
+                    {loading ? <div className="min-h-screen flex justify-center items-center"><Loader /></div> : <>
                     <h1 className="font-black text-4xl mb-5 text-center">Edit profile</h1>
                     <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div className="space-y-12">
@@ -692,6 +692,8 @@ const UpdateProfile = () => {
                             </div>
                         </div>
                     </form>
+                    </>}
+                   
                     
                 </div>
 
