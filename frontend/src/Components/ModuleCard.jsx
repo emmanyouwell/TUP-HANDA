@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import {PDFDownloadLink, Document, Page} from '@react-pdf/renderer'
 
 import {
@@ -11,11 +11,16 @@ import {
     Card,
     Chip
 } from "@material-tailwind/react";
-const ModuleCard = ({ title, description, img, link, tags, shortDesc }) => {
+import {useDispatch, useSelector} from 'react-redux'
+import { addUserCourse, clearErrors } from '../Actions/userActions';
+import { ADD_COURSE_RESET } from '../Constants/userConstants';
+const ModuleCard = ({ id, title, description, img, link, tags, shortDesc }) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(!open);
+    const dispatch = useDispatch()
+    const {success, error} = useSelector(state => state.myModules)
     const onButtonClick = () => {
-
+        dispatch(addUserCourse(id))
         // using Java Script method to get PDF file
         fetch(link).then((response) => {
             response.blob().then((blob) => {
@@ -30,8 +35,17 @@ const ModuleCard = ({ title, description, img, link, tags, shortDesc }) => {
                 alink.download = title + ".pdf";
                 alink.click();
             });
+
         });
     };
+    useEffect(()=>{
+        if (success){
+            dispatch({type: ADD_COURSE_RESET})
+        }
+        if (error){
+            dispatch(clearErrors())
+        }
+    },[success,error])
     return (
         <>
             <div className="relative flex md:w-80 flex-col justify-between rounded-xl bg-white bg-clip-border text-gray-700 shadow-md h-full">
