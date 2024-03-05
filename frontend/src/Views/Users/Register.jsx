@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Navbar from "../../Components/Navbar";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import Loader from "../../Components/Loader";
 
 const Register = () => {
     const dispatch = useDispatch()
@@ -239,6 +240,7 @@ const Register = () => {
             <div className="relative min-h-screen p-10 flex flex-col justify-center items-center">
                 <div className="absolute inset-0 filter opacity-30 brightness-75 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
                 <div className="container mx-auto lg:p-10 lg:w-[50%] z-10">
+                    {loading ? <Loader/> : <>
                     <h1 className="font-black text-4xl mb-5 text-center">Register</h1>
                     <form onSubmit={Formik.handleSubmit} encType="multipart/form-data" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div className="space-y-12">
@@ -655,6 +657,8 @@ const Register = () => {
                             </button>
                         </div>
                     </form>
+                    </>}
+                    
                 </div>
             </div>
 

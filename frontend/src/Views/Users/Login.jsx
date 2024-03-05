@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
+import Loader from '../../Components/Loader.jsx'
 
 
 
@@ -58,6 +59,7 @@ const Login = () => {
                 <div className="container lg:w-[50%] z-10 ">
 
                     <div className="w-full max-w-xl mx-auto">
+                        {loading ? <Loader/> : <>
                         <h1 className="font-black text-4xl mb-5 text-center">Login</h1>
 
                         <form onSubmit={formik.handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -109,6 +111,9 @@ const Login = () => {
                         <p className="text-center text-gray-500 text-xs">
                             &copy;2024 TUP Handa. All rights reserved.
                         </p>
+                        </>}
+                        
+                       
                     </div>
                 </div>
             </div>

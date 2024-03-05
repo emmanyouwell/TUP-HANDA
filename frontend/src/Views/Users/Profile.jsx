@@ -10,13 +10,16 @@ import { getProfile, clearErrors } from "../../Actions/userActions";
 import Navbar from "../../Components/Navbar";
 import {Link} from 'react-router-dom'
 import { getUser } from "../../utils/helper";
+import Loader from "../../Components/Loader";
 export function Profile() {
     
     const { user, error, loading } = useSelector(state => state.auth)
 
   return (
     <>
-    {/* <Navbar /> */}
+      {loading ? <div className="min-h-screen flex justify-center items-center container mx-auto">
+      <Loader/>
+      </div>  : <> 
       <section className="relative block h-[50vh] overflow-hidden">
       <div style={{ backgroundImage: `url(${user && user.coverAvatar && user.coverAvatar[0] && user.coverAvatar[0].url ? user.coverAvatar[0].url : 'https://res.cloudinary.com/dtrr0ihcb/image/upload/v1708771983/TUPHANDA_COVER_PHOTO/xbgzqfwjtkrjacbpcely.png'})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} className="bg-profile-background absolute top-0 h-full w-full scale-105" />
         <div className="absolute top-0 h-full w-full bg-black/25 bg-cover bg-center" />
@@ -120,9 +123,9 @@ export function Profile() {
 
         </div>
       </section>
-      <div className="bg-white">
-        {/* <Footer /> */}
-      </div>
+      </> }
+      
+      
 
     </>
   );
