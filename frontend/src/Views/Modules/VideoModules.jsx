@@ -20,7 +20,7 @@ const VideoModules = () => {
                 <h1 className="mb-20 font-bold text-3xl md:text-4xl lg:text-5xl font-[Poppins]">Watch our tutorials!</h1>
                 <div className="grid justify-items-center items-center justify-center gap-10 md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3">
                     {videos.map(video => (
-                        <VideoCard key={video._id} link={video.videoLink} title={video.title} shortDesc={video.shortDesc} />
+                        <VideoCard key={video._id} description={video.description} link={video.videoLink} title={video.title} shortDesc={video.shortDesc} />
                     ))}
                 </div>
                 
