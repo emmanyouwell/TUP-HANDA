@@ -32,6 +32,8 @@ import UserList from './Views/Admin/UserList';
 import { getUser, getToken } from './utils/helper';
 import Footer1 from './Components/Footer1';
 import { useMediaQuery } from 'react-responsive';
+import EmailActivation from './Views/Users/EmailActivation';
+import EmailActivated from './Views/Users/EmailActivated';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -49,7 +51,11 @@ function MainContent() {
 
   // const {user} = useSelector(state => state.auth)
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const isAdminUser = getUser().role === 'admin';
+  let isAdminUser = false;
+  if (getUser()){
+    isAdminUser = getUser().role === 'admin';
+  }
+  
   const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1024px'})
 
   return (
@@ -66,7 +72,8 @@ function MainContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
-        
+          <Route path="/email-activation" element={<EmailActivation />} exact="true" />
+          <Route path="/confirm/:token" element={<EmailActivated />} exact="true" />
           {/* Protected Routes */}
           <Route path="/modules" element={
             <ProtectedRoute>
