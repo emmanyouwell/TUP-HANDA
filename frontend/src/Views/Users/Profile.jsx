@@ -132,7 +132,7 @@ export function Profile() {
           <div className="mb-6 flex w-full px-4 min-w-0 flex-col bg-white">
             <div className="container mx-auto">
               <h1 className="font-[Poppins] font-medium text-2xl">Modules downloaded</h1>
-              <Card className="mt-6 w-1/2">
+              <Card className="mt-6 lg:w-1/2">
                 <CardBody className="overflow-scroll h-[500px]">
                   <DownloadedModulesList/>
                 </CardBody>

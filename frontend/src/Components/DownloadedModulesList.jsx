@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserCourse } from '../Actions/userActions';
 import { Link } from 'react-router-dom';
-export function DownloadedModulesList({ list }) {
+export function DownloadedModulesList() {
     const { modules } = useSelector(state => state.myModules)
     const dispatch = useDispatch()
     useEffect(() => {
@@ -29,8 +29,9 @@ export function DownloadedModulesList({ list }) {
                             <Avatar size="sm" src={item.img.url} alt="user 1" withBorder />
                         </TimelineIcon>
                         <Typography variant="h5" color="blue-gray">
-                        
-                            {item.title}
+                            <Link to="/modules">
+                                {item.title}
+                            </Link>
                         </Typography>
                     </TimelineHeader>
                     <TimelineBody className="pb-8">
