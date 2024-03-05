@@ -54,6 +54,9 @@ import {
     ADD_COURSE_REQUEST,
     ADD_COURSE_SUCCESS,
     ADD_COURSE_FAIL,
+    GET_MODULES_REQUEST,
+    GET_MODULES_SUCCESS,
+    GET_MODULES_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -481,7 +484,7 @@ export const addUserCourse = (id) => async (dispatch) => {
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/course/add/${id}`, null, config)
+        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/modules/add/${id}`, null, config)
         dispatch({
             type: ADD_COURSE_SUCCESS,
             payload: data.success
@@ -489,6 +492,29 @@ export const addUserCourse = (id) => async (dispatch) => {
     }catch(error){
         dispatch({
             type: ADD_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getUserCourse = () => async (dispatch) => {
+    try{
+        dispatch({ type: GET_MODULES_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        
+        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/modules/downloaded`, config)
+        dispatch({
+            type: GET_MODULES_SUCCESS,
+            payload: data.user
+        })
+    }catch(error){
+        dispatch({
+            type: GET_MODULES_FAIL,
             payload: error.response.data.message
         })
     }
