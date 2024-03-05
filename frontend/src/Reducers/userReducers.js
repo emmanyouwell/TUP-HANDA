@@ -55,7 +55,9 @@ import {
     ADD_COURSE_SUCCESS,
     ADD_COURSE_FAIL,
     ADD_COURSE_RESET,
-    
+    GET_MODULES_REQUEST,
+    GET_MODULES_SUCCESS,
+    GET_MODULES_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -346,9 +348,11 @@ export const userCourseReducer = (state = { users: [] }, action) => {
 export const addUserCourse = (state = {}, action) => {
     switch (action.type) {
         case ADD_COURSE_REQUEST:
+        case GET_MODULES_REQUEST:
             return {
                 ...state,
                 loading: true,
+                
             }
         case ADD_COURSE_SUCCESS:
             return {
@@ -356,7 +360,14 @@ export const addUserCourse = (state = {}, action) => {
                 loading: false,
                 success: action.payload
             }
+        case GET_MODULES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                modules: action.payload
+            }
         case ADD_COURSE_FAIL:
+        case GET_MODULES_FAIL:
             return {
                 ...state,
                 loading: false,
