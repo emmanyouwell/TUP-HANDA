@@ -9,7 +9,7 @@ const Modules = require('../models/modules')
 exports.registerUser = async (req, res, next) => {
 
     let images = []
-    
+
     if (!req.body.avatar) {
         req.body.avatar = 'https://res.cloudinary.com/dtrr0ihcb/image/upload/v1700742284/LTC_avatars/default_avatar_bla84n.jpg'
         // console.log(req.body.avatar + 'default')
@@ -54,10 +54,48 @@ exports.registerUser = async (req, res, next) => {
             success: false,
             message: 'User not created'
         })
-        sendToken(user, 200, res)
+    // sendToken(user, 200, res)
+    const confirmationToken = user.getConfirmEmailToken()
+    await user.save({ validateBeforeSave: false })
+    const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+    const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
+    try{
+        await sendEmail({
+            email: user.email,
+            subject: 'Account Activation',
+            message
+        })
+        res.status(200).json({
+            success: true,
+            message: `Email sent to: ${user.email}`
+        })
+    }catch(error){
+        user.confirmEmailToken = undefined
+        user.confirmTokenExpire = undefined
+        await user.save({ validateBeforeSave: false })
+        return res.status(500).json({ error: error.message })
     
+    }
+}
 
-  
+exports.confirmEmail = async (req, res, next) => {
+    const confirmEmailToken = crypto.createHash('sha256').update(req.params.token).digest('hex')
+    const user = await User.findOne({
+        confirmEmailToken,
+        confirmTokenExpire: { $gt: Date.now() }
+    })
+    if (!user) {
+        return res.status(400).json({ message: 'Invalid token or token has expired' })
+    }
+    if (user.isVerified) {
+        return res.status(400).json({ message: 'Email is already verified' })
+    }
+
+    user.isVerified = true;
+    user.confirmEmailToken = undefined;
+    user.confirmTokenExpire = undefined;
+    await user.save({ validateBeforeSave: false })
+    sendToken(user, 200, res)
 }
 
 exports.loginUser = async (req, res, next) => {
@@ -72,7 +110,12 @@ exports.loginUser = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password')
     if (!user) {
         return res.status(401).json({
-            message: 'Invalid Email or Password'
+            message: 'No user found with this email'
+        })
+    }
+    if (!user.isVerified) {
+        return res.status(401).json({
+            message: 'Your email is not verified'
         })
     }
     const isPasswordMatched = await user.comparePassword(password)
@@ -257,7 +300,7 @@ exports.updateProfile = async (req, res, next) => {
                 let coverDataUri = cover[i]
                 const result = await cloudinary.v2.uploader.upload(coverDataUri, {
                     folder: 'TUPHANDA_COVER_PHOTO',
-                    
+
                 })
                 coverLinks.push({
                     public_id: result.public_id,
@@ -276,7 +319,7 @@ exports.updateProfile = async (req, res, next) => {
         req.body.coverAvatar = coverLinks
     }
 
-  
+
     user = await User.findByIdAndUpdate(req.user.id, req.body, {
         new: true,
         runValidators: true,
@@ -287,7 +330,7 @@ exports.updateProfile = async (req, res, next) => {
             message: 'User not updated'
         })
     }
-    else{
+    else {
         console.log(user)
     }
 
@@ -364,25 +407,25 @@ exports.updateUser = async (req, res, next) => {
 
 exports.getAdminUsers = async (req, res, next) => {
     const resPerPage = 5;
-	const usersCount = await User.countDocuments();
-	const apiFeatures = new APIFeatures(User.find(), req.query).search().filter()
-	apiFeatures.pagination(resPerPage);
-	const users = await apiFeatures.query;
-	const filteredUsersCount = await User.countDocuments(apiFeatures.query.getFilter());
-	if (!users) {
-		return res.status(404).json({
-			success: false,
-			message: 'No Users'
-		})
-	}
-	res.status(200).json({
-		success: true,
-		count: users.length,
-		usersCount,
-		users,
-		resPerPage,
-		filteredUsersCount,
-	})
+    const usersCount = await User.countDocuments();
+    const apiFeatures = new APIFeatures(User.find(), req.query).search().filter()
+    apiFeatures.pagination(resPerPage);
+    const users = await apiFeatures.query;
+    const filteredUsersCount = await User.countDocuments(apiFeatures.query.getFilter());
+    if (!users) {
+        return res.status(404).json({
+            success: false,
+            message: 'No Users'
+        })
+    }
+    res.status(200).json({
+        success: true,
+        count: users.length,
+        usersCount,
+        users,
+        resPerPage,
+        filteredUsersCount,
+    })
 }
 
 exports.updateRole = async (req, res, next) => {
@@ -390,7 +433,7 @@ exports.updateRole = async (req, res, next) => {
     if (role.role === 'admin') {
         const user = await User.findByIdAndUpdate(req.params.id, {
             role: 'user'
-        },{
+        }, {
             new: true,
             runValidators: true,
         })
@@ -404,10 +447,10 @@ exports.updateRole = async (req, res, next) => {
             success: true
         })
     }
-    else if (role.role === 'user'){
+    else if (role.role === 'user') {
         const user = await User.findByIdAndUpdate(req.params.id, {
             role: 'admin'
-        },{
+        }, {
             new: true,
             runValidators: true,
         })
@@ -421,7 +464,7 @@ exports.updateRole = async (req, res, next) => {
             success: true
         })
     }
-   
+
 }
 
 exports.getUserPerDepartment = async (req, res, next) => {
@@ -445,46 +488,46 @@ exports.getUserPerCourse = async (req, res, next) => {
         {
             $group: {
                 _id: "$course",
-                totalUsers: {$sum: 1}
+                totalUsers: { $sum: 1 }
             }
         }
     ])
     res.status(200).json({
-        success:true,
+        success: true,
         usersPerCourse
     })
 }
 
 exports.addDownloadedModule = async (req, res, next) => {
-    try{
+    try {
         const user = await User.findById(req.user.id)
         const module = await Modules.findById(req.params.id)
-     
+
         if (!user.downloadedModules.includes(module._id)) {
             user.downloadedModules.push(module._id);
             await user.save();
-          }
-         res.status(200).json({
-              success: true,
-              user
-         })
-    }catch(error){
+        }
+        res.status(200).json({
+            success: true,
+            user
+        })
+    } catch (error) {
         res.status(400).json({
             success: false,
             message: error.message
         })
     }
-  
+
 }
 
 exports.getDownloadedModules = async (req, res, next) => {
-    try{
+    try {
         const user = await User.findById(req.user.id).populate('downloadedModules')
         res.status(200).json({
             success: true,
             user
         })
-    }catch(error){
+    } catch (error) {
         res.status(400).json({
             success: false,
             message: error.message
