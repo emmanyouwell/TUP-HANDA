@@ -89,6 +89,13 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Modules'
     }],
+    isVerified: {
+        type: Boolean,
+        default: false
+    
+    },
+    confirmEmailToken: String,
+    confirmTokenExpire: Date,
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
@@ -110,6 +117,16 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
 }
 
+userSchema.methods.getConfirmEmailToken = function () {
+    const confirmationToken = crypto.randomBytes(20).toString('hex');
+
+    this.confirmEmailToken = crypto.createHash('sha256').update(confirmationToken).digest('hex')
+
+    this.confirmTokenExpire = Date.now() + 30 * 60 * 1000
+
+    return confirmationToken
+
+}
 userSchema.methods.getResetPasswordToken = function () {
     // Generate token
     const resetToken = crypto.randomBytes(20).toString('hex');
