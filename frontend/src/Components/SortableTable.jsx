@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {
     MagnifyingGlassIcon,
@@ -48,6 +48,7 @@ import Loader from './Loader';
 export function SortableTable({ modules, modulesCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword }) {
     const dispatch = useDispatch();
     const totalPage = Math.ceil(modulesCount / resPerPage);
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const { error: deleteError, isDeleted } = useSelector(state => state.module)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
@@ -175,7 +176,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                     : "p-4 border-b border-blue-gray-50";
 
                                 return (
-                                    <tr key={_id}>
+                                    <tr key={_id} className='h-10 overflow-hidden'>
                                         <td className={classes}>
                                             <div className="flex justify-between items-center">
                                                 <Link to={`/admin/modules/${_id}`}>
@@ -227,16 +228,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                                 {title}
                                             </Typography>
                                         </td>
-                                        {/* <td className={classes}>
-                                            <div className="w-max">
-                                                <Chip
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    value={online ? "online" : "offline"}
-                                                    color={online ? "green" : "blue-gray"}
-                                                />
-                                            </div>
-                                        </td> */}
+                                       
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -246,7 +238,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                                 {shortDesc}
                                             </Typography>
                                         </td>
-                                        <td className={classes}>
+                                        <td className={`${classes} ${isDescriptionExpanded ? '' : 'truncate'} `} onClick={()=>setIsDescriptionExpanded(!isDescriptionExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"

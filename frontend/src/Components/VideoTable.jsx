@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import {
     MagnifyingGlassIcon,
@@ -48,6 +48,7 @@ import { getVideos, clearErrors, deleteVideo, getAdminVideos } from '../Actions/
 import { DELETE_VIDEO_RESET } from '../Constants/videoConstants';
 export function VideoTable({ videos, videosCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword, loading }) {
     const dispatch = useDispatch();
+    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
     const totalPage = Math.ceil(videosCount / resPerPage);
     const {error: deleteError, isDeleted} = useSelector(state => state.video)
     const navigate = useNavigate();
@@ -173,7 +174,7 @@ export function VideoTable({ videos, videosCount, resPerPage, currentPage, setCu
                                     : "p-4 border-b border-blue-gray-50";
 
                                 return (
-                                    <tr key={_id}>
+                                    <tr key={_id} className="h-10 overflow-hidden">
                                         <td className={classes}>
                                             <div className="flex justify-between items-center">
                                             <Link to={`/admin/videos/${_id}`}>
@@ -224,7 +225,7 @@ export function VideoTable({ videos, videosCount, resPerPage, currentPage, setCu
                                                 {shortDesc}
                                             </Typography>
                                         </td>
-                                        <td className={classes}>
+                                        <td className={`${classes} ${isDescriptionExpanded ? '' : 'truncate'}`} onClick={()=>setIsDescriptionExpanded(!isDescriptionExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
