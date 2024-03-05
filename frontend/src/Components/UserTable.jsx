@@ -38,7 +38,7 @@ const TABS = [
     },
 ];
 
-const TABLE_HEAD = ["Actions", "User ID", "Name", "Email", "Phone number", "Address", "City", "Country", "Role"];
+const TABLE_HEAD = ["Actions", "User ID", "Name", "Email", "Phone number", "Address", "City", "Country","Department", "Course", "Role"];
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -182,7 +182,7 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                                 </div>
                             </td>
                         </tr> : users.map(
-                            ({ firstName, lastName, email, address, phoneNo, city, country, _id, role }, index) => {
+                            ({  department, course, firstName, lastName, email, address, phoneNo, city, country, _id, role }, index) => {
                                 const isLast = index === users.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -277,6 +277,30 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                                             >
                                                 {country}
                                             </Typography>
+                                        </td>
+                                        <td className={classes}>
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {department}
+                                                </Typography>
+
+                                            </div>
+                                        </td>
+                                        <td className={classes}>
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {course}
+                                                </Typography>
+
+                                            </div>
                                         </td>
                                         <td className={classes}>
                                             <Typography

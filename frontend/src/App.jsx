@@ -55,7 +55,7 @@ function MainContent() {
   return (
     <>
     
-    <div className={`flex ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
+    <div className={`flex  ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
       {isAdminUser && isAdminRoute && <AdminSidebar />}
 
       <ScrollToTop>

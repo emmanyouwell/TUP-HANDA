@@ -43,12 +43,13 @@ const Dashboard = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-20">
             <div className="flex justify-center items-center">
-              <UserDepartmentCharts/>
+              <UserDepartmentCharts />
             </div>
             <div className="flex justify-center items-center">
-              <UserCourseCharts/>
+              <UserCourseCharts />
             </div>
           </div>
+
         </div>
 
 

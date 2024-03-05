@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Pie } from 'react-chartjs-2';
+import { Pie, PolarArea } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserPerCourse } from '../../Actions/userActions';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, RadialLinearScale } from "chart.js";
 import Loader from '../Loader';
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, RadialLinearScale);
 
 
 
@@ -16,8 +16,7 @@ const UserCourseCharts = () => {
         aspectRatio: 1,
         plugins: {
             legend: {
-                position: 'bottom',
-                align: 'center',
+                display: false
             },
             title: {
                 display: true,
@@ -30,7 +29,7 @@ const UserCourseCharts = () => {
         dispatch(getUserPerCourse());
     }, [dispatch, error])
     useEffect(() => {
-        if (userData){
+        if (userData) {
             setPieData({
                 labels: userData.map(item => item._id || 'Unknown'),
                 datasets: [
@@ -57,12 +56,12 @@ const UserCourseCharts = () => {
                 ],
             })
         }
-       
+
     }, [userData])
     return (
-        <div style={{ width: '800px', height: 'auto' }}>
-            <h1 className='text-center mb-8 font-bold font-[Poppins] text-2xl'>Users per Courses</h1>
-            {loading ? <Loader /> : <Pie data={pieData} options={options} className="shadow-xl" />}
+        <div style={{ maxWidth: '800px', height: 'auto' }}>
+            <h1 className='text-center mb-8 font-bold font-[Poppins] text-2xl'>Users per Department</h1>
+            {loading ? <Loader /> : <PolarArea data={pieData} options={options} />}
         </div>
     )
 }

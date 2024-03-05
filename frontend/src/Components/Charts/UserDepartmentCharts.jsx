@@ -19,6 +19,7 @@ const UserDepartmentCharts = () => {
       legend: {
         position: 'bottom',
         align: 'center',
+        display:false
       },
       title: {
         display: true,
@@ -26,19 +27,19 @@ const UserDepartmentCharts = () => {
       }
     }
   };
-  const [pieData, setPieData] = useState({labels: [], datasets: []})
+  const [pieData, setPieData] = useState({ labels: [], datasets: [] })
   useEffect(() => {
     dispatch(getUserPerDepartment());
   }, [dispatch, error])
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     if (userData) {
       console.log(userData)
       setPieData({
-        labels: userData.map(item=>item._id || 'Unknown'),
+        labels: userData.map(item => item._id || 'Unknown'),
         datasets: [
           {
-            data: userData.map(item=>item.totalUsers),
+            data: userData.map(item => item.totalUsers),
             backgroundColor: [
               'rgba(255, 99, 132, 1)',
               'rgba(54, 162, 235, 1)',
@@ -60,15 +61,15 @@ const UserDepartmentCharts = () => {
         ],
       });
     }
-  },[userData])
-  
+  }, [userData])
+
 
   return (
 
-    <div style={{ width: '800px', height: 'auto' }}>
+    <div style={{ maxWidth: '800px', height: 'auto' }}>
       <h1 className='text-center mb-8 font-bold font-[Poppins] text-2xl'>Users per Department</h1>
-    {loading ? <Loader/> : <Pie data={pieData} options={options}  className="shadow-xl"/>}
-  </div>
+      {loading ? <Loader /> : <Pie data={pieData} options={options}  />}
+    </div>
   )
 }
 
