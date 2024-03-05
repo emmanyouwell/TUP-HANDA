@@ -4,6 +4,7 @@ const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
 const cloudinary = require('cloudinary')
 const APIFeatures = require('../utils/apiFeatures')
+const Modules = require('../models/modules')
 
 exports.registerUser = async (req, res, next) => {
 
@@ -452,4 +453,26 @@ exports.getUserPerCourse = async (req, res, next) => {
         success:true,
         usersPerCourse
     })
+}
+
+exports.addDownloadedModule = async (req, res, next) => {
+    try{
+        const user = await User.findById(req.user.id)
+        const module = await Modules.findById(req.params.id)
+     
+        if (!user.downloadedModules.includes(module._id)) {
+            user.downloadedModules.push(module._id);
+            await user.save();
+          }
+         res.status(200).json({
+              success: true,
+              user
+         })
+    }catch(error){
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+  
 }
