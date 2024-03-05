@@ -17,7 +17,7 @@ import Loader from "../../Components/Loader";
 
 const Register = () => {
     const dispatch = useDispatch()
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth)
+    const { isRegistered, error, loading } = useSelector(state => state.auth)
     const countriesList = Object.values(countries)
     const [course, setCourse] = useState([])
     const [department, setDepartment] = useState([])
@@ -158,8 +158,11 @@ const Register = () => {
 
     let navigate = useNavigate()
     useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/')
+        if (isRegistered) {
+            navigate('/email-activation')
+        }
+        else{
+
         }
         if (error) {
             console.log(error)
@@ -168,7 +171,7 @@ const Register = () => {
 
         getDepartment()
 
-    }, [error, isAuthenticated, dispatch, navigate])
+    }, [error, isRegistered, dispatch, navigate])
 
     const onChange = e => {
 
