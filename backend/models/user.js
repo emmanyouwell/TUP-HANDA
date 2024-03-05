@@ -85,6 +85,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    downloadedModules: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Modules'
+    }],
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
