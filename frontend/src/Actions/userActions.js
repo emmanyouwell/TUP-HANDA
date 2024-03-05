@@ -96,6 +96,7 @@ export const register = (userData) => async (dispatch) => {
             position: toast.POSITION.BOTTOM_RIGHT
 
         })
+        
 
     } catch (error) {
         dispatch({
@@ -135,7 +136,7 @@ export const login = (email, password) => async (dispatch) => {
             type: LOGIN_FAIL,
             payload: error.response.data.message
         })
-        toast.error("Invalid email or password", {
+        toast.error(error.response.data.message, {
             position: toast.POSITION.BOTTOM_RIGHT
         })
     }
