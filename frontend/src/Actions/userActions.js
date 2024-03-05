@@ -51,6 +51,9 @@ import {
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
     USER_COURSE_FAIL,
+    ADD_COURSE_REQUEST,
+    ADD_COURSE_SUCCESS,
+    ADD_COURSE_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -464,6 +467,28 @@ export const getUserPerCourse = () => async (dispatch) => {
     }catch(error){
         dispatch({
             type: USER_COURSE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const addUserCourse = (id) => async (dispatch) => {
+    try{
+        dispatch({ type: ADD_COURSE_REQUEST })
+        const config = {
+            headers: {
+                
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/course/add/${id}`, null, config)
+        dispatch({
+            type: ADD_COURSE_SUCCESS,
+            payload: data.success
+        })
+    }catch(error){
+        dispatch({
+            type: ADD_COURSE_FAIL,
             payload: error.response.data.message
         })
     }
