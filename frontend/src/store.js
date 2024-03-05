@@ -27,8 +27,8 @@ const reducer = combineReducers({
 })
 
 let initialState = {
-    user:JSON.parse(sessionStorage.getItem('user'))||{},
-    auth:JSON.parse(sessionStorage.getItem('user'))||{},
+    user: sessionStorage.getItem('user') && sessionStorage.getItem('user') !== "undefined" ? JSON.parse(sessionStorage.getItem('user')) : {},
+    auth: sessionStorage.getItem('user') && sessionStorage.getItem('user') !== "undefined" ? JSON.parse(sessionStorage.getItem('user')) : {},
 }
 
 const middlware = [thunk]
