@@ -1,15 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
+// import {
+//     Button,
+//     Dialog,
+//     DialogHeader,
+//     DialogBody,
+//     DialogFooter,
+//     Typography,
+//     Card,
+//     Chip
+// } from "@material-tailwind/react";
 import {
+    Collapse,
     Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-    Typography,
     Card,
-    Chip
+    Typography,
+    CardBody,
 } from "@material-tailwind/react";
 const VideoCard = ({ title, description, link, shortDesc }) => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(!open);
+
     return (
         <>
             <div className="relative flex w-full  flex-col justify-between rounded-xl bg-white bg-clip-border text-gray-700 shadow-md h-full">
@@ -26,22 +36,49 @@ const VideoCard = ({ title, description, link, shortDesc }) => {
                     <p className="block font-sans text-base font-light leading-relaxed text-inherit antialiased ">
                         {shortDesc ? shortDesc : 'Short description here'}
                     </p>
-                  
+
 
                 </div>
                 <div>
-                    {/* <div className="p-5 flex flex-col gap-3">
-                    <button onClick={handleOpen} className=" select-none rounded-lg bg-info py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Read more</button>
-                    <button onClick={onButtonClick} data-ripple-light="true" type="button" className=" select-none rounded-lg bg-warning py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                        Download PDF
-                    </button>
-
-
-
-                </div> */}
+                    <div className="p-5 flex flex-col gap-3">
+                        <button onClick={handleOpen} className=" select-none rounded-lg bg-info py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Read more</button>
+                        
+                    </div>
+                    <Collapse open={open}>
+                            <Card className="mt-4 mx-auto w-full">
+                                <CardBody>
+                                    <Typography>
+                                       {description}
+                                    </Typography>
+                                </CardBody>
+                            </Card>
+                        </Collapse>
                 </div>
 
             </div>
+            {/* <Dialog open={open} handler={handleOpen}>
+                <DialogHeader>{title && title}</DialogHeader>
+                <DialogBody className="h-[42rem] overflow-scroll">
+                    <Card
+                        className="h-[auto] w-full cursor-pointer overflow-hidden transition-opacity hover:opacity-90 mb-8"
+                        onClick={handleOpen}
+                    >
+                       
+                    </Card>
+
+                    <Typography className="font-normal">
+                        {description && description}
+                    </Typography>
+                </DialogBody>
+                <DialogFooter className="space-x-2">
+                    
+                    <Button variant="gradient" color="amber" onClick={handleOpen}>
+                        Close
+                    </Button>
+                </DialogFooter>
+            </Dialog> */}
+
+
 
         </>
 
