@@ -58,16 +58,27 @@ import {
     GET_MODULES_REQUEST,
     GET_MODULES_SUCCESS,
     GET_MODULES_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    VERIFY_LOGIN_FAIL,
+    VERIFY_LOGIN_REQUEST,
+    VERIFY_LOGIN_SUCCESS
 } from '../Constants/userConstants'
 
 export const authReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case REGISTER_USER_REQUEST:
+            
             return {
                 ...state,
                 loading: true,
                 isRegistered: false
+            }
+        case VERIFY_LOGIN_REQUEST:
+            return{
+                ...state,
+                loading: true,
+                isAuthenticated: false,
+                isVerified: false
             }
         case LOGIN_REQUEST:
         case LOAD_USER_REQUEST:
@@ -76,14 +87,18 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 loading: true,
                 isAuthenticated: false,
+                
             }
-       
+        
+            
         case LOGIN_SUCCESS:
         case LOAD_USER_SUCCESS:
+        case VERIFY_LOGIN_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
+                isVerified: true,
                 user: action.payload
             }
         case REGISTER_USER_SUCCESS:
@@ -98,6 +113,14 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 user:action.payload
             }
+        case VERIFY_LOGIN_FAIL:
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: action.payload.isAuthenticated,
+                isVerified: action.payload.isVerified,
+                error: action.payload.message
+            }
         case REGISTER_USER_FAIL:
         case LOGIN_FAIL:
         case LOAD_USER_FAIL:
@@ -106,6 +129,7 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
+                
                 user: null,
                 error: action.payload
             }
