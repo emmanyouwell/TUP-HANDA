@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {Link} from 'react-router-dom'
 const Section1 = () => {
     return (
 
@@ -12,17 +12,21 @@ const Section1 = () => {
                             <h2 className="text-3xl font-bold sm:text-4xl">Stay ready, stay safe with TUP Handa</h2>
 
                             <p className="mt-4 text-gray-600">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut vero aliquid sint distinctio
-                                iure ipsum cupiditate? Quis, odit assumenda? Deleniti quasi inventore, libero reiciendis
-                                minima aliquid tempora. Obcaecati, autem.
+                            TUP HANDA is an innovative online platform designed to provide comprehensive training modules focused on disaster awareness and preparedness. It offers users a convenient and accessible way to learn essential skills and knowledge to effectively respond to various disasters. Through interactive courses, tutorials, and resources, TUP HANDA equips individuals and communities with the tools they need to mitigate risks and stay safe during emergencies.
+
+
+
+
+
+
                             </p>
 
-                            <a
-                                href="#"
+                            <Link
+                                to="/modules"
                                 className="mt-8 inline-block rounded bg-warning px-12 py-3 text-sm font-medium text-white transition hover:bg-primary hover:text-black focus:outline-none focus:ring focus:ring-yellow-400"
                             >
                                 See modules
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
@@ -54,7 +58,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Earthquakes</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Seismic safety and preparedness guidance.
                                 </p>
                             </a>
 
@@ -86,7 +90,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Typhoons</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Preparing for tropical storm emergencies.
                                 </p>
                             </a>
                             <a
@@ -117,7 +121,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Fire Outbreaks</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Prevention, safety, and response strategies.
                                 </p>
                             </a>
 
@@ -149,7 +153,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Emergency Kit Checklist</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Essentials for survival and readiness.
                                 </p>
                             </a>
 
@@ -183,7 +187,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Evacuation Plan</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Routes and procedures for safety.
                                 </p>
                             </a>
 
@@ -215,7 +219,7 @@ const Section1 = () => {
                                 <h2 className="mt-2 font-bold">Emergency Hotlines</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                    Lorem ipsum dolor sit amet consectetur.
+                                Critical contact information for emergencies.
                                 </p>
                             </a>
                         </div>

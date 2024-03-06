@@ -51,7 +51,7 @@ const Login = () => {
         if (error) {
         
             dispatch(clearErrors())
-            return (<ServerErrorPage />);
+           
         }
 
 
@@ -59,9 +59,7 @@ const Login = () => {
    
     return (
         <>
-            {/* <Navbar /> */}
-
-            <div className="relative min-h-screen p-10 flex flex-col justify-center items-center ">
+            {error ? <ServerErrorPage /> :<div className="relative min-h-screen p-10 flex flex-col justify-center items-center ">
                 <div className="absolute inset-0 filter opacity-30 bg-tuphanda bg-no-repeat bg-cover bg-center bg-fixed"></div>
                 <div className="container lg:w-[50%] z-10 ">
 
@@ -123,7 +121,9 @@ const Login = () => {
 
                     </div>
                 </div>
-            </div>
+            </div> }
+
+            
         </>
     )
 }
