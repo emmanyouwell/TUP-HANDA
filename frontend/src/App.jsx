@@ -34,7 +34,7 @@ import Footer1 from './Components/Footer1';
 import { useMediaQuery } from 'react-responsive';
 import EmailActivation from './Views/Users/EmailActivation';
 import EmailActivated from './Views/Users/EmailActivated';
-import NotFoundPage from './NotFoundPage';
+import NotFoundPage from './404';
 import ErrorBoundary from './ErrorBoundary'
 function HeaderComponent() {
   const location = useLocation()
