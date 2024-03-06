@@ -34,6 +34,8 @@ import Footer1 from './Components/Footer1';
 import { useMediaQuery } from 'react-responsive';
 import EmailActivation from './Views/Users/EmailActivation';
 import EmailActivated from './Views/Users/EmailActivated';
+import NotFoundPage from './NotFoundPage';
+import ErrorBoundary from './ErrorBoundary'
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -69,7 +71,11 @@ function MainContent() {
           {/* Open routes */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={
+          <ErrorBoundary>
+            <Login />
+          </ErrorBoundary>
+          } />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
           <Route path="/email-activation" element={<EmailActivation />} exact="true" />
@@ -162,7 +168,7 @@ function MainContent() {
           } />
 
 
-
+          <Route path="*" element={<NotFoundPage/>} />
 
         </Routes>
         <ToastContainer position="bottom-right" />
@@ -177,11 +183,12 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HeaderComponent />
-
-      <MainContent />
-  
     
+      <HeaderComponent />
+      
+      <MainContent />
+      
+      
     </BrowserRouter>
   )
 
