@@ -60,7 +60,7 @@ const UserCourseCharts = () => {
     }, [userData])
     return (
         <div style={{ maxWidth: '800px', height: 'auto' }}>
-            <h1 className='text-center mb-8 font-bold font-[Poppins] text-2xl'>Users per Department</h1>
+            <h1 className='text-center mb-8 font-bold font-[Poppins] text-2xl'>Users per Courses</h1>
             {loading ? <Loader /> : <PolarArea data={pieData} options={options} />}
         </div>
     )
