@@ -26,9 +26,12 @@ const EmailActivated = () => {
         </h2>
         
         <img src={myImage} alt="MyImage" /> {/* Add this line */}
+        <Link to="/login" className='hover:text-white'>
         <p className='mt-2 text-md font-bold btn btn-outline text-warning border-yellow-800 hover:border-yellow-800 hover:bg-yellow-700 hover:text-white'>
-          <Link to="/login" className='hover:text-white'>Log in now.</Link>
+        Log in now.
         </p>
+       </Link>
+
       </div>
     </div>
   </div>
