@@ -59,7 +59,7 @@ exports.registerUser = async (req, res, next) => {
     await user.save({ validateBeforeSave: false })
     const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
     const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
-    try{
+    try {
         await sendEmail({
             email: user.email,
             subject: 'Account Activation',
@@ -69,12 +69,12 @@ exports.registerUser = async (req, res, next) => {
             success: true,
             message: `Email sent to: ${user.email}`
         })
-    }catch(error){
+    } catch (error) {
         user.confirmEmailToken = undefined
         user.confirmTokenExpire = undefined
         await user.save({ validateBeforeSave: false })
         return res.status(500).json({ error: error.message })
-    
+
     }
 }
 
@@ -108,25 +108,51 @@ exports.loginUser = async (req, res, next) => {
     }
 
     const user = await User.findOne({ email }).select('+password')
+
     if (!user) {
         return res.status(401).json({
             message: 'No user found with this email'
         })
     }
-    if (!user.isVerified) {
-        return res.status(401).json({
-            message: 'Your email is not verified'
-        })
-    }
+
     const isPasswordMatched = await user.comparePassword(password)
 
-    if (!isPasswordMatched) {
+    if (!user.isVerified && isPasswordMatched) {
+        const confirmationToken = user.getConfirmEmailToken()
+        await user.save({ validateBeforeSave: false })
+        const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+        const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'Account Activation',
+                message
+            })
+            res.status(200).json({
+                success: true,
+                message: `Email Activation link sent to: ${user.email}`,
+                isVerified: user.isVerified,
+                isAuthenticated: true
+            })
+        } catch (error) {
+            user.confirmEmailToken = undefined
+            user.confirmTokenExpire = undefined
+            await user.save({ validateBeforeSave: false })
+            return res.status(500).json({ error: error.message })
+
+        }
+    }
+    else if (!isPasswordMatched) {
         return res.status(401).json({
-            message: 'Invalid Email or Password'
+            message: 'Invalid Email or Password',
+            isVerified: user.isVerified,
+            isAuthenticated: false
         })
     }
+    else {
+        sendToken(user, 200, res)
+    }
 
-    sendToken(user, 200, res)
 
 }
 
