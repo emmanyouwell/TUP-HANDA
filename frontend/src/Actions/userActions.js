@@ -155,9 +155,9 @@ export const login = (email, password, next) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOGIN_FAIL,
-            payload: error.message
+            payload: error.data.response.message
         })
-        toast.error(error.message, {
+        toast.error(error.data.response.message, {
             position: toast.POSITION.BOTTOM_RIGHT
         })
     }
