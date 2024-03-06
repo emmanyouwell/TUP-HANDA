@@ -57,6 +57,9 @@ import {
     GET_MODULES_REQUEST,
     GET_MODULES_SUCCESS,
     GET_MODULES_FAIL,
+    VERIFY_LOGIN_FAIL,
+    VERIFY_LOGIN_REQUEST,
+    VERIFY_LOGIN_SUCCESS,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -96,7 +99,7 @@ export const register = (userData) => async (dispatch) => {
             position: toast.POSITION.BOTTOM_RIGHT
 
         })
-        
+
 
     } catch (error) {
         dispatch({
@@ -110,7 +113,8 @@ export const register = (userData) => async (dispatch) => {
     }
 }
 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password, next) => async (dispatch) => {
+    
     try {
         dispatch({ type: LOGIN_REQUEST })
         const config = {
@@ -121,22 +125,39 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/login`, { email, password }, config)
-        authenticate(data, dispatch({
-            type: LOGIN_SUCCESS,
-            payload: data.user
-        }), toast.success('Logged in', {
-            position: toast.POSITION.BOTTOM_RIGHT
-        }))
+        console.log(data)
 
 
+        if (data.hasOwnProperty('isVerified') && !data.isVerified) {
+            dispatch({
+                type: VERIFY_LOGIN_FAIL,
+                payload: data
+            })
+            toast.success(data.message, {
+                position: toast.POSITION.BOTTOM_RIGHT
 
+            })
+            
+            next('/login/?redirect=email-activation')
+        }
+
+        else {
+            toast.success('Logged in', {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: data.user
+            })
+            authenticate(data, () => { })
+            
+        }
     } catch (error) {
-
         dispatch({
             type: LOGIN_FAIL,
-            payload: error.response.data.message
+            payload: error.message
         })
-        toast.error(error.response.data.message, {
+        toast.error(error.message, {
             position: toast.POSITION.BOTTOM_RIGHT
         })
     }
@@ -217,7 +238,7 @@ export const forgotPassword = (formData) => async (dispatch) => {
         toast.success(data.message, {
             position: toast.POSITION.BOTTOM_RIGHT
         });
-        
+
     } catch (error) {
         dispatch({
             type: FORGOT_PASSWORD_FAIL,
@@ -231,7 +252,7 @@ export const forgotPassword = (formData) => async (dispatch) => {
 
 export const resetPassword = (token, passwords) => async (dispatch) => {
     try {
-        
+
         const config = {
             headers: {
                 'Content-Type': 'application/json'
@@ -246,8 +267,8 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
         toast.success('Password Updated', {
             position: toast.POSITION.BOTTOM_RIGHT
         });
-        
-        
+
+
     } catch (error) {
         dispatch({
             type: NEW_PASSWORD_FAIL,
@@ -259,14 +280,14 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
     }
 }
 
-export const updateProfile = (userData) => async (dispatch) =>{
+export const updateProfile = (userData) => async (dispatch) => {
     try {
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${getToken()}`
             },
-            
+
         }
         dispatch({ type: UPDATE_PROFILE_REQUEST })
         const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/update`, userData, config)
@@ -275,12 +296,12 @@ export const updateProfile = (userData) => async (dispatch) =>{
             type: UPDATE_PROFILE_SUCCESS,
             payload: data.success
         })
-         toast.success('Profile Updated', {
+        toast.success('Profile Updated', {
             position: toast.POSITION.BOTTOM_RIGHT
         })
         sessionStorage.setItem('user', JSON.stringify(data.user))
-        
-       
+
+
     } catch (error) {
         console.log(error)
         dispatch({
@@ -300,11 +321,11 @@ export const updatePassword = (formData) => async (dispatch) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
-                
+
             }
         }
 
-        const {data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/update`, formData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/password/update`, formData, config)
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,
             payload: data.success
@@ -328,12 +349,12 @@ export const allUsers = () => async (dispatch) => {
     try {
         const config = {
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
         dispatch({ type: ALL_USERS_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/users/all`,config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/users/all`, config)
         dispatch({
             type: ALL_USERS_SUCCESS,
             payload: data.users
@@ -351,7 +372,7 @@ export const deleteUser = (id) => async (dispatch) => {
     try {
         const config = {
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
@@ -373,7 +394,7 @@ export const getAdminUsers = (currentPage = 1, keyword = '', price, category = '
     try {
         const config = {
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
@@ -384,7 +405,7 @@ export const getAdminUsers = (currentPage = 1, keyword = '', price, category = '
 
         link = `${process.env.REACT_APP_API}/api/v1/admin/users/all/?page=${currentPage}&keyword=${keyword}`
 
-        
+
         const { data } = await axios.get(link, config)
 
         dispatch({
@@ -412,12 +433,12 @@ export const updateRole = (id) => async (dispatch) => {
         dispatch({ type: CHANGE_ROLE_REQUEST })
         const config = {
             headers: {
-                
+
                 'Authorization': `Bearer ${getToken()}`
             },
-            
+
         }
-        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/user/${id}/role`,null, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/user/${id}/role`, null, config)
         dispatch({
             type: CHANGE_ROLE_SUCCESS,
             payload: data.success
@@ -431,21 +452,21 @@ export const updateRole = (id) => async (dispatch) => {
 }
 
 export const getUserPerDepartment = () => async (dispatch) => {
-    try{
+    try {
         dispatch({ type: USER_DEPARTMENT_REQUEST })
         const config = {
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/departments/user`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/departments/user`, config)
         dispatch({
             type: USER_DEPARTMENT_SUCCESS,
             payload: data.usersPerDepartment
         })
-                
-    }catch(error){
+
+    } catch (error) {
         dispatch({
             type: USER_DEPARTMENT_FAIL,
             payload: error.response.data.message
@@ -454,21 +475,21 @@ export const getUserPerDepartment = () => async (dispatch) => {
 }
 
 export const getUserPerCourse = () => async (dispatch) => {
-    try{
+    try {
         dispatch({ type: USER_COURSE_REQUEST })
         const config = {
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/courses/user`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/courses/user`, config)
         dispatch({
             type: USER_COURSE_SUCCESS,
             payload: data.usersPerCourse
         })
-                
-    }catch(error){
+
+    } catch (error) {
         dispatch({
             type: USER_COURSE_FAIL,
             payload: error.response.data.message
@@ -477,20 +498,20 @@ export const getUserPerCourse = () => async (dispatch) => {
 }
 
 export const addUserCourse = (id) => async (dispatch) => {
-    try{
+    try {
         dispatch({ type: ADD_COURSE_REQUEST })
         const config = {
             headers: {
-                
+
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        const {data} = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/modules/add/${id}`, null, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/modules/add/${id}`, null, config)
         dispatch({
             type: ADD_COURSE_SUCCESS,
             payload: data.success
         })
-    }catch(error){
+    } catch (error) {
         dispatch({
             type: ADD_COURSE_FAIL,
             payload: error.response.data.message
@@ -499,7 +520,7 @@ export const addUserCourse = (id) => async (dispatch) => {
 }
 
 export const getUserCourse = () => async (dispatch) => {
-    try{
+    try {
         dispatch({ type: GET_MODULES_REQUEST })
         const config = {
             headers: {
@@ -507,13 +528,13 @@ export const getUserCourse = () => async (dispatch) => {
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        
-        const {data} = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/modules/downloaded`, config)
+
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/modules/downloaded`, config)
         dispatch({
             type: GET_MODULES_SUCCESS,
             payload: data.user
         })
-    }catch(error){
+    } catch (error) {
         dispatch({
             type: GET_MODULES_FAIL,
             payload: error.response.data.message
