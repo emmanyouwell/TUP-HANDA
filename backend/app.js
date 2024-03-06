@@ -12,7 +12,7 @@ const modules = require('./routes/module');
 const videos = require('./routes/video')
 app.use(cors(
     {
-        origin: ["http://localhost:5173", "https://tuphanda.onrender.com"],
+        origin: ["http://localhost:5173", "https://tuphanda.onrender.com", "https://tup-handa.vercel.app/"],
         credentials: true
     }
 ))
