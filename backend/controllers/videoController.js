@@ -138,26 +138,34 @@ exports.getAdminVideos = async (req,res,next)=>{
 }
 
 exports.getArchivedVideos = async (req,res,next)=>{
-    const resPerPage = 5;
-    const videosCount = await ArchivedVideos.countDocuments();
-    const apiFeatures = new APIFeatures(ArchivedVideos.find(), req.query).search().filter()
-    apiFeatures.pagination(resPerPage);
-    const videos = await apiFeatures.query;
-    const filteredVideosCount = await ArchivedVideos.countDocuments(apiFeatures.query.getFilter());
-    if (!videos) {
-        return res.status(404).json({
-            success: false,
-            message: 'No Users'
+    try{
+        const resPerPage = 5;
+        const videosCount = await ArchivedVideos.countDocuments();
+        const apiFeatures = new APIFeatures(ArchivedVideos.find(), req.query).search().filter()
+        apiFeatures.pagination(resPerPage);
+        const videos = await apiFeatures.query;
+        const filteredVideosCount = await ArchivedVideos.countDocuments(apiFeatures.query.getFilter());
+        if (!videos) {
+            return res.status(404).json({
+                success: false,
+                message: 'No Users'
+            })
+        }
+        res.status(200).json({
+            success: true,
+            count: videos.length,
+            videosCount,
+            videos,
+            resPerPage,
+            filteredVideosCount,
         })
+    }catch(error){
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        });
     }
-    res.status(200).json({
-        success: true,
-        count: videos.length,
-        videosCount,
-        videos,
-        resPerPage,
-        filteredVideosCount,
-    })
+    
 }
 
 exports.restoreArchivedVideos = async (req, res, next) => {

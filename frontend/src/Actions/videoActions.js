@@ -20,6 +20,13 @@ import {
     UPDATE_VIDEO_SUCCESS,
     UPDATE_VIDEO_RESET,
     UPDATE_VIDEO_FAIL,
+    ARCHIVED_VIDEO_REQUEST,
+    ARCHIVED_VIDEO_SUCCESS,
+    ARCHIVED_VIDEO_FAIL,
+    RESTORE_VIDEO_REQUEST,
+    RESTORE_VIDEO_SUCCESS,
+    RESTORE_VIDEO_RESET,
+    RESTORE_VIDEO_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/videoConstants';
@@ -94,7 +101,7 @@ export const updateVideo = (id, videoData) => async (dispatch) => {
             }
             
         }
-        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`, videoData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/admin/video/${id}`, videoData, config)
        
         dispatch({
             type: UPDATE_VIDEO_SUCCESS,
@@ -116,7 +123,7 @@ export const deleteVideo = (id) => async (dispatch) => {
                 'Authorization': `Bearer ${getToken()}`
             }
         }
-        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`, config)
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/video/${id}`, config)
         dispatch({type: DELETE_VIDEO_SUCCESS, payload: data.success})
        
     } catch (error) {
@@ -159,6 +166,52 @@ export const getAdminVideos = (currentPage = 1, keyword = '', price, category = 
     } catch (error) {
         dispatch({
             type: ADMIN_VIDEOS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getArchivedVideos = (currentPage = 1, keyword = '') => async (dispatch) => {
+    try {
+        dispatch({ type: ARCHIVED_VIDEO_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos/archive/?page=${currentPage}&keyword=${keyword}`, config)
+        dispatch({
+            type: ARCHIVED_VIDEO_SUCCESS,
+            payload: data
+        })
+    }
+    catch (error) {
+        console.log(error)
+        dispatch({
+            type: ARCHIVED_VIDEO_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const restoreArchivedVideos = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: RESTORE_VIDEO_REQUEST })
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/videos/restore/${id}`, config)
+        dispatch({
+            type: RESTORE_VIDEO_SUCCESS,
+            payload: data.success
+        })
+    }
+    catch (error) {
+        dispatch({
+            type: RESTORE_VIDEO_FAIL,
             payload: error.response.data.message
         })
     }

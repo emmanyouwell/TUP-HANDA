@@ -3,7 +3,7 @@ import {thunk} from 'redux-thunk';
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer, userDepartmentReducer, userCourseReducer, addUserCourse  } from './Reducers/userReducers';
 import { checklistReducer } from './Reducers/checklistReducers';
 import { archiveModuleReducer, moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer, restoreModuleReducer } from './Reducers/moduleReducers';
-import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer } from './Reducers/videoReducer';
+import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer, restoreVideoReducer, archiveVideoReducer } from './Reducers/videoReducer';
 import { archiveCategoryReducer, categoriesReducer, categoryDetailsReducer, categoryReducer, newCategoriesReducer, restoreCategoryReducer} from './Reducers/categoryReducers';
 const reducer = combineReducers({
     
@@ -29,7 +29,9 @@ const reducer = combineReducers({
     videoDetails: videoDetailsReducer,
     videos: videosReducer,
     video: videoReducer,
-    
+    resVideo: restoreVideoReducer,
+    archiveVideo: archiveVideoReducer,
+
     categories: categoriesReducer,
     categoryDetails: categoryDetailsReducer,
     newCategory: newCategoriesReducer,

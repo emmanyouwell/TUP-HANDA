@@ -159,7 +159,7 @@ export function AdminSidebar() {
 
                     </ListItem>
                   </Link>
-                  <Link to="/admin/videos">
+                  <Link to="/admin/videos/archive">
                     <ListItem>
                       <ListItemPrefix>
                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />

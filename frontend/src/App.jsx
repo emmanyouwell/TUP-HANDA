@@ -41,6 +41,7 @@ import CreateCategory from './Views/Category/Admin/CreateCategory';
 import EditCategory from './Views/Category/Admin/EditCategory';
 import CategoryArchive from './Views/Admin/Archive/CategoryArchive';
 import ModuleArchive from './Views/Admin/Archive/ModuleArchive';
+import VideoArchive from './Views/Admin/Archive/VideoArchive';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -170,6 +171,11 @@ function MainContent() {
               <EditVideo />
             </ProtectedRoute>
           } />
+          <Route path="/admin/videos/archive" element={
+            <ProtectedRoute isAdmin={true}>
+              <VideoArchive/>
+            </ProtectedRoute>
+          }/>
 
           <Route path="/admin/users" element={
             <ProtectedRoute>

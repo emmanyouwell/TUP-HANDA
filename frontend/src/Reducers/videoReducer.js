@@ -20,6 +20,13 @@ import {
     UPDATE_VIDEO_SUCCESS,
     UPDATE_VIDEO_RESET,
     UPDATE_VIDEO_FAIL,
+    ARCHIVED_VIDEO_REQUEST,
+    ARCHIVED_VIDEO_SUCCESS,
+    ARCHIVED_VIDEO_FAIL,
+    RESTORE_VIDEO_REQUEST,
+    RESTORE_VIDEO_SUCCESS,
+    RESTORE_VIDEO_RESET,
+    RESTORE_VIDEO_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/videoConstants';
@@ -184,4 +191,69 @@ export const videoReducer = (state = {}, action) => {
             return state
     }
 
+}
+
+export const restoreVideoReducer = (state = {}, action) => {
+    switch (action.type) {
+        case RESTORE_VIDEO_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case RESTORE_VIDEO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isRestored: action.payload
+            }
+        case RESTORE_VIDEO_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case RESTORE_VIDEO_RESET:
+            return {
+                ...state,
+                isRestored: false
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const archiveVideoReducer = (state = {archivedVideos: []}, action) => {
+    switch (action.type) {
+        case ARCHIVED_VIDEO_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                archivedVideos: []
+            }
+        case ARCHIVED_VIDEO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                archivedVideos: action.payload.videos,
+                archivedVideosCount: action.payload.videosCount,
+                resPerPage: action.payload.resPerPage,
+                filteredArchivedVideosCount: action.payload.filteredVideosCount
+            }
+        case ARCHIVED_VIDEO_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state
+    }
 }

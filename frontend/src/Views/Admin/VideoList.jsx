@@ -29,7 +29,7 @@ const VideoList = () => {
     return (
         <>
             <div className="container p-10 mx-auto mt-5 flex min-h-screen justify-center items-center">
-                <VideoTable videos={videos} videosCount={count} resPerPage={resPerPage} loading={loading} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} />
+                <VideoTable header="Video List" videos={videos} videosCount={count} resPerPage={resPerPage} loading={loading} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} />
             </div>
 
         </>

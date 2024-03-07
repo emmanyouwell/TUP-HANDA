@@ -23,20 +23,7 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 
-const TABS = [
-    {
-        label: "All",
-        value: "all",
-    },
-    {
-        label: "Monitored",
-        value: "monitored",
-    },
-    {
-        label: "Unmonitored",
-        value: "unmonitored",
-    },
-];
+
 
 const TABLE_HEAD = ["Actions", "Category ID", "Name", "Slug"];
 import { DELETE_CATEGORY_RESET, RESTORE_CATEGORY_RESET } from '../Constants/categoryConstants'
