@@ -23,38 +23,26 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 
-const TABS = [
-    {
-        label: "All",
-        value: "all",
-    },
-    {
-        label: "Monitored",
-        value: "monitored",
-    },
-    {
-        label: "Unmonitored",
-        value: "unmonitored",
-    },
-];
 
 const TABLE_HEAD = ["Actions", "Module ID", "Image", "Title", "Short Description", "Description", "File"];
 import { DELETE_MODULE_RESET } from '../Constants/moduleConstants';
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteModule, clearErrors, getAdminModules } from '../Actions/modulesActions';
+import { getCategory, clearErrors as clearCategoryError } from '../Actions/categoryActions';
 import { toast } from 'react-toastify'
 import Loader from './Loader';
 
-export function SortableTable({ modules, modulesCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword }) {
+export function SortableTable({ modules, modulesCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword, category, setCategory }) {
     const dispatch = useDispatch();
     const totalPage = Math.ceil(modulesCount / resPerPage);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     const { error: deleteError, isDeleted } = useSelector(state => state.module)
+    const { categories, error: categoryError } = useSelector(state => state.categories)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteModule(id))
     }
-   
+
 
     const nextPageHandler = () => {
         console.log(currentPage);
@@ -78,9 +66,12 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
 
     }
     useEffect(() => {
-
+        dispatch(getCategory())
         if (deleteError) {
             dispatch(clearErrors())
+        }
+        if (categoryError) {
+            dispatch(clearCategoryError())
         }
         if (isDeleted) {
             navigate('/admin/modules');
@@ -90,7 +81,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
             })
             dispatch({ type: DELETE_MODULE_RESET })
         }
-    }, [dispatch, navigate, deleteError, isDeleted])
+    }, [dispatch, navigate, deleteError, isDeleted, categoryError])
     return (
         <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -105,11 +96,11 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                         <Link to="/modules">
-                        <Button variant="outlined" size="sm">
-                            view all
-                        </Button>
+                            <Button variant="outlined" size="sm">
+                                view all
+                            </Button>
                         </Link>
-                       
+
                         <Link to="/admin/modules/new">
                             <Button className="flex items-center gap-3" size="sm">
 
@@ -120,15 +111,24 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <Tabs value="all" className="w-full md:w-max">
-                        <TabsHeader>
-                            {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
-                                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                </Tab>
-                            ))}
-                        </TabsHeader>
-                    </Tabs>
+                    <div className="overflow-x-auto whitespace-nowrap">
+                        <Tabs value={category} className="w-full md:w-max transition-none ">
+                            <TabsHeader className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                                indicatorProps={{
+                                    className:
+                                        "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+                                    
+                                }}>
+                                <Tab value="all" className="h-12 text-center" onClick={() => setCategory('')}>All</Tab>
+                                {categories.map(({ _id, name }) => (
+                                    <Tab key={_id} value={_id} className="h-12 text-center" onClick={() => { setCategory(_id) }}>
+                                        &nbsp;&nbsp;{name}&nbsp;&nbsp;
+                                    </Tab>
+                                ))}
+                            </TabsHeader>
+                        </Tabs>
+                    </div>
+
                     <div className="w-full md:w-72">
                         <Input
                             label="Search"
@@ -168,7 +168,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                     <Loader />
                                 </div>
                             </td>
-                        </tr> : modules.map(
+                        </tr> : modules.length > 1 ? modules.map(
                             ({ img, title, description, file, shortDesc, _id }, index) => {
                                 const isLast = index === modules.length - 1;
                                 const classes = isLast
@@ -204,13 +204,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                                 >
                                                     {_id}
                                                 </Typography>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal opacity-70"
-                                                >
-                                                    {/* {org} */}
-                                                </Typography>
+                                               
                                             </div>
                                         </td>
                                         <td className={classes}>
@@ -228,7 +222,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                                 {title}
                                             </Typography>
                                         </td>
-                                       
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -238,7 +232,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                                 {shortDesc}
                                             </Typography>
                                         </td>
-                                        <td className={`${classes} ${isDescriptionExpanded ? '' : 'truncate'} `} onClick={()=>setIsDescriptionExpanded(!isDescriptionExpanded)}>
+                                        <td className={`${classes} ${isDescriptionExpanded ? '' : 'truncate'} `} onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
@@ -260,7 +254,12 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                     </tr>
                                 );
                             },
-                        )}
+                        ) : <tr className="w-full">
+                            <td colSpan={6}>
+                                <div className="flex p-10 justify-center items-center">
+                                    No modules found
+                                </div>
+                            </td></tr>}
                     </tbody>
                 </table>
             </CardBody>

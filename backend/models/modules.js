@@ -35,6 +35,10 @@ const moduleSchema = new mongoose.Schema({
         required: [true, 'Please enter Module short description'],
     
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categories'
+    },
     createdAt: {
         type: Date,
         default: Date.now

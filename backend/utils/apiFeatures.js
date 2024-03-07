@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 class APIFeatures {
     constructor(query, queryStr) {
         this.query = query;
@@ -17,15 +18,15 @@ class APIFeatures {
                     { firstName: keyword },
                     { lastName: keyword },
                     { email: keyword },
-                    {city: keyword},
-                    {address: keyword},
-                    {country: keyword},
-                    {title: keyword},
-                    {department: keyword},
-                    {course: keyword},
-                    {slug: keyword},
+                    { city: keyword },
+                    { address: keyword },
+                    { country: keyword },
+                    { title: keyword },
+                    { department: keyword },
+                    { course: keyword },
+                    { slug: keyword },
 
-                    
+
                     // Add other fields you want to search by
                 ]
             });
@@ -42,6 +43,10 @@ class APIFeatures {
         const removeFields = ['keyword', 'limit', 'page']
         removeFields.forEach(el => delete queryCopy[el]);
 
+        // Check if category field is present
+        if (queryCopy.category) {
+            queryCopy.category = new mongoose.Types.ObjectId(queryCopy.category);
+        }
         // Advance filter for price, ratings etc
         let queryStr = JSON.stringify(queryCopy);
         // console.log(queryStr);
@@ -59,5 +64,7 @@ class APIFeatures {
         this.query = this.query.limit(resPerPage).skip(skip);
         return this;
     }
+
+
 }
 module.exports = APIFeatures

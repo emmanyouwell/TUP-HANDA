@@ -136,7 +136,7 @@ export const clearErrors = () => async (dispatch) => {
     })
 }
 
-export const getAdminModules = (currentPage = 1, keyword = '', price, category = '') => async (dispatch) => {
+export const getAdminModules = (currentPage = 1, keyword = '', category = '') => async (dispatch) => {
     try {
         const config = {
             headers: {
@@ -149,8 +149,13 @@ export const getAdminModules = (currentPage = 1, keyword = '', price, category =
         })
         let link = ''
 
-        link = `${process.env.REACT_APP_API}/api/v1/admin/modules/all/?page=${currentPage}&keyword=${keyword}`
-
+        
+        if (category && category !== 'all'){
+            link = `${process.env.REACT_APP_API}/api/v1/admin/modules/all/?page=${currentPage}&keyword=${keyword}&category=${category}`
+        }
+        else{
+            link = `${process.env.REACT_APP_API}/api/v1/admin/modules/all/?page=${currentPage}&keyword=${keyword}`
+        }
         
         const { data } = await axios.get(link, config)
 
