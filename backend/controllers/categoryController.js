@@ -4,35 +4,35 @@ const APIFeatures = require('../utils/apiFeatures')
 const ArchivedCategory = require('../models/archives/archivedCategory');
 exports.createCategory = async (req, res, next) => {
 
-    try{
-        req.body.slug = slugify(req.body.name, {lower: true});
+    try {
+        req.body.slug = slugify(req.body.name, { lower: true });
         const category = await Category.create(req.body);
-        if (category){
+        if (category) {
             res.status(201).json({
                 success: true,
                 category
             })
         }
     }
-    catch(error){
+    catch (error) {
         return res.status(400).json({
-			success: false,
-			message: 'Category not created'
-		})
+            success: false,
+            message: 'Category not created'
+        })
     }
-    
-	
+
+
 }
 
 exports.getCategories = async (req, res, next) => {
-    try{
+    try {
         const categories = await Category.find()
         res.status(200).json({
             success: true,
             categories
         })
     }
-    catch(error){
+    catch (error) {
         return res.status(400).json({
             success: false,
             message: 'Categories not found'
@@ -41,21 +41,21 @@ exports.getCategories = async (req, res, next) => {
 }
 
 exports.getSingleCategory = async (req, res, next) => {
-	const category = await Category.findById(req.params.id);
-	if (!category) {
-		return res.status(404).json({
-			success: false,
-			message: 'Module not found'
-		})
-	}
-	res.status(200).json({
-		success: true,
-		category
-	})
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+        return res.status(404).json({
+            success: false,
+            message: 'Module not found'
+        })
+    }
+    res.status(200).json({
+        success: true,
+        category
+    })
 }
 
 exports.updateCategory = async (req, res, next) => {
-   
+
     let categories = await Category.findById(req.params.id);
     if (!categories) {
         return res.status(404).json({
@@ -63,31 +63,31 @@ exports.updateCategory = async (req, res, next) => {
             message: 'Category not found'
         })
     }
-    
-   
-    try{
-        if (req.body.name){
-            req.body.slug = slugify(req.body.name, {lower: true});
+
+
+    try {
+        if (req.body.name) {
+            req.body.slug = slugify(req.body.name, { lower: true });
         }
         const categories = await Category.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,
             useFindAndModify: false
         });
-        if (categories){
+        if (categories) {
             res.status(201).json({
                 success: true,
                 categories
             })
         }
     }
-    catch(error){
+    catch (error) {
         return res.status(400).json({
-			success: false,
-			message: 'Category not updated'
-		})
+            success: false,
+            message: 'Category not updated'
+        })
     }
-    
+
 }
 
 exports.deleteCategory = async (req, res, next) => {
@@ -111,7 +111,7 @@ exports.deleteCategory = async (req, res, next) => {
             message: 'Category archived'
         });
     } catch (error) {
-        
+
         return res.status(500).json({
             success: false,
             message: 'Server Error' + error
@@ -121,12 +121,26 @@ exports.deleteCategory = async (req, res, next) => {
 
 exports.getArchivedCategories = async (req, res, next) => {
     try {
-        const categories = await ArchivedCategory.find();
-
+        const resPerPage = 5;
+        const archivedCategoryCount = await ArchivedCategory.countDocuments();
+        const apiFeatures = new APIFeatures(ArchivedCategory.find(), req.query).search().filter()
+        apiFeatures.pagination(resPerPage);
+        const archivedCategories = await apiFeatures.query;
+        const filteredArchivedCategoriesCount = await ArchivedCategory.countDocuments(apiFeatures.query.getFilter());
+        if (!archivedCategories) {
+            return res.status(404).json({
+                success: false,
+                message: 'No Archived Categories'
+            })
+        }
         res.status(200).json({
             success: true,
-            categories
-        });
+            count: archivedCategories.length,
+            archivedCategoryCount,
+            archivedCategories,
+            resPerPage,
+            filteredArchivedCategoriesCount
+        })
     } catch (error) {
         return res.status(500).json({
             success: false,
@@ -157,33 +171,33 @@ exports.restoreArchivedCategories = async (req, res, next) => {
             message: 'Category restored'
         });
     } catch (error) {
+        console.error("Error during category restoration:", error);
         return res.status(500).json({
             success: false,
             message: 'Server Error'
         });
     }
-
 }
 
-exports.getAdminCategories = async (req,res,next)=>{
+exports.getAdminCategories = async (req, res, next) => {
     const resPerPage = 5;
-	const categoryCount = await Category.countDocuments();
-	const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter()
-	apiFeatures.pagination(resPerPage);
-	const categories = await apiFeatures.query;
-	const filteredModulesCount = await Category.countDocuments(apiFeatures.query.getFilter());
-	if (!categories) {
-		return res.status(404).json({
-			success: false,
-			message: 'No Users'
-		})
-	}
-	res.status(200).json({
-		success: true,
-		count: categories.length,
-		categoryCount,
-		categories,
-		resPerPage,
-		filteredModulesCount,
-	})
+    const categoryCount = await Category.countDocuments();
+    const apiFeatures = new APIFeatures(Category.find(), req.query).search().filter()
+    apiFeatures.pagination(resPerPage);
+    const categories = await apiFeatures.query;
+    const filteredCategoriesCount = await Category.countDocuments(apiFeatures.query.getFilter());
+    if (!categories) {
+        return res.status(404).json({
+            success: false,
+            message: 'No Users'
+        })
+    }
+    res.status(200).json({
+        success: true,
+        count: categories.length,
+        categoryCount,
+        categories,
+        resPerPage,
+        filteredCategoriesCount,
+    })
 }

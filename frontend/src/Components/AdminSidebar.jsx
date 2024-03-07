@@ -15,10 +15,7 @@ import {
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
+  ArchiveBoxIcon,
   PowerIcon,
   AdjustmentsHorizontalIcon,
 
@@ -112,6 +109,14 @@ export function AdminSidebar() {
                     Videos
                   </ListItem>
                 </Link>
+                <Link to="/admin/category">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Category
+                  </ListItem>
+                </Link>
                 <Link to="/admin/users">
                   <ListItem>
                     <ListItemPrefix>
@@ -122,8 +127,68 @@ export function AdminSidebar() {
                 </Link>
               </List>
             </AccordionBody>
+            </Accordion>
+            <Accordion
+            open={open === 3}
+            icon={
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? "rotate-180" : ""}`}
+              />
+            }
+          >
+            <ListItem className="p-0" selected={open === 3}>
+              <AccordionHeader onClick={() => handleOpen(3)} className="border-b-0 p-3">
+                <ListItemPrefix>
+                  <ArchiveBoxIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="mr-auto font-normal">
+                  Archive
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <Link to="/admin/modules">
+                  <ListItem>
+
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Modules
+
+                  </ListItem>
+                </Link>
+                <Link to="/admin/videos">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Videos
+                  </ListItem>
+                </Link>
+                <Link to="/admin/category/archive">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Category
+                  </ListItem>
+                </Link>
+                <Link to="/admin/users">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Users
+                  </ListItem>
+                </Link>
+                
+              </List>
+            </AccordionBody>
           </Accordion>
-         
+          <hr className="my-2 border-blue-gray-50" />
+          
           <Link to="/" onClick={logoutHandler}>
             <ListItem>
               <ListItemPrefix>
@@ -213,7 +278,47 @@ export function AdminSidebar() {
               </List>
             </AccordionBody>
           </Accordion>
-         
+          <hr className="my-2 border-blue-gray-50" />
+          <ListItem className="p-0" selected={open === 2}>
+              <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
+                <ListItemPrefix>
+                  <AdjustmentsHorizontalIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                <Typography color="blue-gray" className="mr-auto font-normal">
+                  Manage
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className="py-1">
+              <List className="p-0">
+                <Link to="/admin/modules">
+                  <ListItem>
+
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Modules
+
+                  </ListItem>
+                </Link>
+                <Link to="/admin/videos">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Videos
+                  </ListItem>
+                </Link>
+                <Link to="/admin/users">
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Users
+                  </ListItem>
+                </Link>
+              </List>
+            </AccordionBody>
           <Link to="/" onClick={logoutHandler}>
             <ListItem>
               <ListItemPrefix>

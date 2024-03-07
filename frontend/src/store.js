@@ -4,6 +4,7 @@ import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userD
 import { checklistReducer } from './Reducers/checklistReducers';
 import { moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer } from './Reducers/moduleReducers';
 import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer } from './Reducers/videoReducer';
+import { archiveCategoryReducer, categoriesReducer, categoryDetailsReducer, categoryReducer, newCategoriesReducer, restoreCategoryReducer} from './Reducers/categoryReducers';
 const reducer = combineReducers({
     
     auth: authReducer,
@@ -22,7 +23,13 @@ const reducer = combineReducers({
     newVideo: newVideosReducer,
     videoDetails: videoDetailsReducer,
     videos: videosReducer,
-    video: videoReducer
+    video: videoReducer,
+    categories: categoriesReducer,
+    categoryDetails: categoryDetailsReducer,
+    newCategory: newCategoriesReducer,
+    category: categoryReducer,
+    resCategory: restoreCategoryReducer,
+    archiveCategory: archiveCategoryReducer
 
 })
 

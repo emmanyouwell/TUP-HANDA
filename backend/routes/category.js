@@ -9,7 +9,7 @@ router.post('/admin/category/new', isAuthenticatedUser, authorizeRoles('admin'),
 router.get('/categories', getCategories)
 router.get('/category/:id', getSingleCategory)
 router.get('/admin/category/archive', isAuthenticatedUser, authorizeRoles('admin'), getArchivedCategories)
-router.delete('/admin/category/archive/:id', isAuthenticatedUser, authorizeRoles('admin'), restoreArchivedCategories)
+router.route('/admin/category/restore/:id', isAuthenticatedUser, authorizeRoles('admin')).delete(restoreArchivedCategories)
 router.route('/admin/category/:id', isAuthenticatedUser, authorizeRoles('admin')).put(updateCategory).delete(deleteCategory)
 router.get('/admin/category/all', isAuthenticatedUser, authorizeRoles('admin'), getAdminCategories)
 module.exports = router

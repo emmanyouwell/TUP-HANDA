@@ -36,6 +36,10 @@ import EmailActivation from './Views/Users/EmailActivation';
 import EmailActivated from './Views/Users/EmailActivated';
 import NotFoundPage from './404';
 import ErrorBoundary from './ErrorBoundary'
+import CategoryList from './Views/Admin/CategoryList';
+import CreateCategory from './Views/Category/Admin/CreateCategory';
+import EditCategory from './Views/Category/Admin/EditCategory';
+import CategoryArchive from './Views/Admin/Archive/CategoryArchive';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -166,7 +170,26 @@ function MainContent() {
               <UserList />
             </ProtectedRoute>
           } />
-
+          <Route path="/admin/category" element={
+            <ProtectedRoute isAdmin={true}>
+              <CategoryList />
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/category/new" element={
+            <ProtectedRoute isAdmin={true}>
+              <CreateCategory/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/category/:id" element={
+            <ProtectedRoute isAdmin={true}>
+              <EditCategory/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/admin/category/archive" element={
+            <ProtectedRoute isAdmin={true}>
+              <CategoryArchive/>
+            </ProtectedRoute>
+          }/>
 
           <Route path="*" element={<NotFoundPage/>} />
 
