@@ -106,7 +106,7 @@ export const register = (userData) => async (dispatch) => {
             type: REGISTER_USER_FAIL,
             payload: error.response.data.message
         })
-        toast.error("Registered failed", {
+        toast.error(error.response.data.message, {
             position: toast.POSITION.BOTTOM_RIGHT
 
         })

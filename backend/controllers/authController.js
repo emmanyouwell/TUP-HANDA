@@ -8,6 +8,13 @@ const Modules = require('../models/modules')
 
 exports.registerUser = async (req, res, next) => {
 
+    const userExists = await User.findOne({ email: req.body.email });
+    if (userExists) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email already in use.'
+        })
+    }
     let images = []
 
     if (!req.body.avatar) {
@@ -120,7 +127,7 @@ exports.loginUser = async (req, res, next) => {
     if (!user.isVerified && isPasswordMatched) {
         const confirmationToken = user.getConfirmEmailToken()
         await user.save({ validateBeforeSave: false })
-        const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+        const confirmEmailUrl = `${req.protocol}://${process.env.PRODUCTION_URL ? process.env.PRODUCTION_URL : 'localhost:5173'}/confirm/${confirmationToken}`
         const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
         try {
             await sendEmail({
