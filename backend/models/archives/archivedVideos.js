@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const videoSchema = new mongoose.Schema({
+const archivedVideoSchema = new mongoose.Schema({
     title:{
         type: String,
         required: [true, 'Please enter Module title'],
@@ -25,4 +25,4 @@ const videoSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('Videos', videoSchema);
+module.exports = mongoose.model('ArchivedVideos', archivedVideoSchema);
