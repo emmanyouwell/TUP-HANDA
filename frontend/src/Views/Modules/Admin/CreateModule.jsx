@@ -6,8 +6,7 @@ import img from '../../../assets/default_avatar.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearErrors, createModules } from '../../../Actions/modulesActions'
 import { NEW_MODULE_RESET } from "../../../Constants/moduleConstants";
-import Navbar from "../../../Components/Navbar";
-
+import { getCategory, clearErrors as clearCategoryError } from "../../../Actions/categoryActions";
 import { toast } from 'react-toastify'
 import Loader from "../../../Components/Loader";
 
@@ -15,6 +14,7 @@ const CreateModule = () => {
 
     const dispatch = useDispatch()
     const { success, error, loading } = useSelector(state => state.newModule)
+    const { categories, error: categoryError } = useSelector(state => state.categories)
     const [imagePreview, setImagePreview] = useState(img)
     const [image, setImage] = useState('')
     const [filename, setFilename] = useState('')
@@ -38,8 +38,8 @@ const CreateModule = () => {
         initialValues: {
             title: '',
             description: '',
-            shortDesc: ''
-
+            shortDesc: '',
+            category: ''
         },
         onSubmit: (values) => {
             const formData = new FormData()
@@ -48,16 +48,16 @@ const CreateModule = () => {
             formData.append('image', image)
             formData.append('pdf', file)
             formData.set('shortDesc', values.shortDesc)
+            formData.set('category', values.category)
 
-            console.log('submitted')
             //create module action
             dispatch(createModules(formData))
         },
         validationSchema: Yup.object({
             title: Yup.string().required('Module title is required'),
             description: Yup.string().required('Module description is required'),
-            shortDesc: Yup.string().required('Short Description is required')
-
+            shortDesc: Yup.string().required('Short Description is required'),
+            category: Yup.string().required('Category is required')
         })
     })
 
@@ -79,7 +79,13 @@ const CreateModule = () => {
             dispatch({ type: NEW_MODULE_RESET })
 
         }
-
+        if (categoryError) {
+            toast.error(categoryError, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+            dispatch(clearCategoryError())
+        }
+        dispatch(getCategory())
 
     }, [error, success, dispatch, navigate])
 
@@ -168,10 +174,8 @@ const CreateModule = () => {
 
                                                 </div>
                                             </div>
-
-
                                             {/* Module Title */}
-                                            <div className="sm:col-span-3">
+                                            <div className="sm:col-span-full">
                                                 <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
                                                     Title
                                                 </label>
@@ -194,7 +198,7 @@ const CreateModule = () => {
                                                 </div>
                                             </div>
                                             {/* Short Description */}
-                                            <div className="sm:col-span-3">
+                                            <div className="sm:col-span-full">
                                                 <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
                                                     Short Description
                                                 </label>
@@ -214,6 +218,36 @@ const CreateModule = () => {
                                                 <div className="text-error italic">
                                                     <small>
                                                         {Formik.errors.shortDesc && Formik.touched.shortDesc && Formik.errors.shortDesc}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div className="col-span-full">
+                                                <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
+                                                    Category
+                                                </label>
+                                                <div className="mt-2">
+                                                    <select
+                                                        id="category"
+                                                        name="category"
+                                                        autoComplete="category-name"
+                                                        onChange={Formik.handleChange}
+                                                        value={Formik.values.category}
+                                                        onBlur={Formik.handleBlur}
+                                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                    >
+                                                        <option value="a">Select category</option>
+                                                        {categories.map((c) => (
+                                                            <option key={c._id} value={c._id}>
+                                                                {c.name}
+                                                            </option>
+                                                        ))}
+
+                                                    </select>
+
+                                                </div>
+                                                <div className="text-error italic">
+                                                    <small>
+                                                        {Formik.errors.category && Formik.touched.category && Formik.errors.category}
                                                     </small>
                                                 </div>
                                             </div>

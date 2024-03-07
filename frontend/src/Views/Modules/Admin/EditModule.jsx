@@ -12,7 +12,7 @@ import Loader from "../../../Components/Loader";
 const EditModule = () => {
     const { id } = useParams()
     const dispatch = useDispatch()
-    const {categories, loading: categoryLoading, error: categoryError} = useSelector(state => state.categories)
+    const { categories, loading: categoryLoading, error: categoryError } = useSelector(state => state.categories)
     const { error, modules } = useSelector(state => state.moduleDetails)
     const { loading, error: updateError, isUpdated } = useSelector(state => state.module)
     const [imagePreview, setImagePreview] = useState(img)
@@ -75,7 +75,7 @@ const EditModule = () => {
         if (updateError) {
             dispatch(clearErrors())
         }
-        if (categoryError){
+        if (categoryError) {
             dispatch(clearCategoryError())
         }
         if (isUpdated) {
@@ -88,7 +88,7 @@ const EditModule = () => {
 
         }
 
-        
+
     }, [error, dispatch, isUpdated, updateError, navigate, id, categoryError])
 
     useEffect(() => {
@@ -97,10 +97,10 @@ const EditModule = () => {
             Formik.values.title = modules.title
             Formik.values.description = modules.description
             Formik.values.shortDesc = modules.shortDesc
-            if (modules.category){
+            if (modules.category) {
                 Formik.values.category = modules.category
             }
-            
+
             if (modules && modules.img) {
                 setImagePreview(modules.img.url)
             }
@@ -240,35 +240,35 @@ const EditModule = () => {
                                         </div>
 
                                         <div className="col-span-full">
-                                        <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
-                                            Category
-                                        </label>
-                                        <div className="mt-2">
-                                            <select
-                                                id="category"
-                                                name="category"
-                                                autoComplete="category-name"
-                                                onChange={Formik.handleChange}
-                                                value={Formik.values.category}
-                                                onBlur={Formik.handleBlur}
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                            >
-                                                <option value="a">Select category</option>
-                                                {categories.map((c) => (
-                                                    <option key={c._id} value={c._id}>
-                                                        {c.name}
-                                                    </option>
-                                                ))}
+                                            <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
+                                                Category
+                                            </label>
+                                            <div className="mt-2">
+                                                <select
+                                                    id="category"
+                                                    name="category"
+                                                    autoComplete="category-name"
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.category}
+                                                    onBlur={Formik.handleBlur}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                >
+                                                    <option value="a">Select category</option>
+                                                    {categories.map((c) => (
+                                                        <option key={c._id} value={c._id}>
+                                                            {c.name}
+                                                        </option>
+                                                    ))}
 
-                                            </select>
+                                                </select>
 
+                                            </div>
+                                            <div className="text-error italic">
+                                                <small>
+                                                    {Formik.errors.category && Formik.touched.category && Formik.errors.category}
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div className="text-error italic">
-                                            <small>
-                                                {Formik.errors.category && Formik.touched.category && Formik.errors.category}
-                                            </small>
-                                        </div>
-                                    </div>
                                         {/* Description */}
                                         <div className="col-span-full">
                                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">

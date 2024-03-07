@@ -168,7 +168,7 @@ export function SortableTable({ modules, modulesCount, resPerPage, currentPage, 
                                     <Loader />
                                 </div>
                             </td>
-                        </tr> : modules.length > 1 ? modules.map(
+                        </tr> : modules.length >= 1 ? modules.map(
                             ({ img, title, description, file, shortDesc, _id }, index) => {
                                 const isLast = index === modules.length - 1;
                                 const classes = isLast
