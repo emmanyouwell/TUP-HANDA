@@ -32,7 +32,7 @@ const ModuleList = () => {
   return (
     <>
       <div className="container mx-auto mt-5 p-10 flex justify-center items-center">
-        <SortableTable loading={loading} modules={modules} modulesCount={count} resPerPage={resPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} setCategory={setCategory} category={category} /> 
+        <SortableTable header="Module List" loading={loading} modules={modules} modulesCount={count} resPerPage={resPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} setCategory={setCategory} category={category} /> 
         
       </div>
     </>

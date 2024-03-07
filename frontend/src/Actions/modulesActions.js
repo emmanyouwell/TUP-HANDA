@@ -20,6 +20,13 @@ import {
     UPDATE_MODULE_SUCCESS,
     UPDATE_MODULE_RESET,
     UPDATE_MODULE_FAIL,
+    RESTORE_MODULE_REQUEST,
+    RESTORE_MODULE_SUCCESS,
+    RESTORE_MODULE_RESET,
+    RESTORE_MODULE_FAIL,
+    ARCHIVED_MODULE_REQUEST,
+    ARCHIVED_MODULE_SUCCESS,
+    ARCHIVED_MODULE_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/moduleConstants';
@@ -167,6 +174,62 @@ export const getAdminModules = (currentPage = 1, keyword = '', category = '') =>
     } catch (error) {
         dispatch({
             type: ADMIN_MODULES_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getArchivedModules = (currentPage = 1, keyword = '', category='') => async (dispatch) => {
+    try {
+        dispatch({ type: ARCHIVED_MODULE_REQUEST })
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        let link = ''
+        if (category && category !== 'all'){
+            link = `${process.env.REACT_APP_API}/api/v1/admin/modules/archive/?page=${currentPage}&keyword=${keyword}&category=${category}`
+        }
+        else{
+            link = `${process.env.REACT_APP_API}/api/v1/admin/modules/archive/?page=${currentPage}&keyword=${keyword}`
+        }
+        
+        const { data } = await axios.get(link, config)
+        // console.log(data)
+        dispatch({
+            type: ARCHIVED_MODULE_SUCCESS,
+            payload: data
+        })
+    }
+    catch (error) {
+        console.log(error.message)
+        dispatch({
+            type: ARCHIVED_MODULE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const restoreArchivedModules = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: RESTORE_MODULE_REQUEST })
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        const { data } = await axios.delete(`${process.env.REACT_APP_API}/api/v1/admin/modules/restore/${id}`, config)
+        console.log(data)
+        dispatch({
+            type: RESTORE_MODULE_SUCCESS,
+            payload: data.success
+        })
+    }
+    catch (error) {
+        dispatch({
+            type: RESTORE_MODULE_FAIL,
             payload: error.response.data.message
         })
     }

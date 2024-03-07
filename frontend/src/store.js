@@ -2,7 +2,7 @@ import { legacy_createStore as createStore, combineReducers, applyMiddleware } f
 import {thunk} from 'redux-thunk';
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer, userDepartmentReducer, userCourseReducer, addUserCourse  } from './Reducers/userReducers';
 import { checklistReducer } from './Reducers/checklistReducers';
-import { moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer } from './Reducers/moduleReducers';
+import { archiveModuleReducer, moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer, restoreModuleReducer } from './Reducers/moduleReducers';
 import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer } from './Reducers/videoReducer';
 import { archiveCategoryReducer, categoriesReducer, categoryDetailsReducer, categoryReducer, newCategoriesReducer, restoreCategoryReducer} from './Reducers/categoryReducers';
 const reducer = combineReducers({
@@ -15,15 +15,21 @@ const reducer = combineReducers({
     allUsers: allUsersReducer,
     userDetails: userDetailsReducer,
     myModules: addUserCourse,
+    
     checklist: checklistReducer,
+
     newModule: newModulesReducer,
     modules: modulesReducer,
     moduleDetails: modulesDetailsReducer,
     module: moduleReducer,
+    resModule: restoreModuleReducer,
+    archiveModule: archiveModuleReducer,
+    
     newVideo: newVideosReducer,
     videoDetails: videoDetailsReducer,
     videos: videosReducer,
     video: videoReducer,
+    
     categories: categoriesReducer,
     categoryDetails: categoryDetailsReducer,
     newCategory: newCategoriesReducer,

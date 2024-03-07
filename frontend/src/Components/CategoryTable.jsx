@@ -39,24 +39,24 @@ const TABS = [
 ];
 
 const TABLE_HEAD = ["Actions", "Category ID", "Name", "Slug"];
-import {DELETE_CATEGORY_RESET, RESTORE_CATEGORY_RESET} from '../Constants/categoryConstants'
+import { DELETE_CATEGORY_RESET, RESTORE_CATEGORY_RESET } from '../Constants/categoryConstants'
 import { useDispatch, useSelector } from 'react-redux'
-import { archiveCategory, clearErrors, getAdminCategory, restoreArchivedCategory, getArchivedCategories} from '../Actions/categoryActions';
+import { archiveCategory, clearErrors, getAdminCategory, restoreArchivedCategory, getArchivedCategories } from '../Actions/categoryActions';
 import { toast } from 'react-toastify'
 import Loader from './Loader';
 
 
 
-export function CategoryTable({header, category, categoryCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword }) {
+export function CategoryTable({ header, category, categoryCount, resPerPage, currentPage, setCurrentPage, keyword, loading, setKeyword }) {
     const dispatch = useDispatch();
     const totalPage = Math.ceil(categoryCount / resPerPage);
     const { error: deleteError, isDeleted } = useSelector(state => state.category)
-    const {isRestored, error: restoreError} = useSelector(state=>state.resCategory)
+    const { isRestored, error: restoreError } = useSelector(state => state.resCategory)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(archiveCategory(id))
     }
-   
+
     const restoreCategory = (id) => {
         dispatch(restoreArchivedCategory(id))
     }
@@ -87,7 +87,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
         if (deleteError) {
             dispatch(clearErrors())
         }
-        if (restoreError){
+        if (restoreError) {
             dispatch(clearErrors())
         }
         if (isDeleted) {
@@ -98,7 +98,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
             })
             dispatch({ type: DELETE_CATEGORY_RESET })
         }
-        if (isRestored){
+        if (isRestored) {
             navigate('/admin/category/archive');
             dispatch(getArchivedCategories(currentPage, keyword))
             toast.success('Category restored successfully', {
@@ -106,7 +106,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
             })
             dispatch({ type: RESTORE_CATEGORY_RESET })
         }
-    }, [dispatch, navigate, deleteError, isDeleted,isRestored, restoreError])
+    }, [dispatch, navigate, deleteError, isDeleted, isRestored, restoreError])
     return (
         <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -120,31 +120,22 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Link to="/admin/category">
-                        <Button variant="outlined" size="sm">
-                            view all
-                        </Button>
-                        </Link>
-                       
-                        <Link to="/admin/category/new">
+                        {header === "Category Archive List" ? <Link to="/admin/category"> <Button variant="outlined" size="sm">
+                            Manage
+                        </Button></Link> : ''}
+
+                        {header === "Category Archive List" ? '' : <Link to="/admin/category/new">
                             <Button className="flex items-center gap-3" size="sm">
 
                                 <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Category
 
                             </Button>
-                        </Link>
+                        </Link>}
+                        
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <Tabs value="all" className="w-full md:w-max">
-                        <TabsHeader>
-                            {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
-                                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                </Tab>
-                            ))}
-                        </TabsHeader>
-                    </Tabs>
+                   
                     <div className="w-full md:w-72">
                         <Input
                             label="Search"
@@ -185,7 +176,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
                                 </div>
                             </td>
                         </tr> : category.map(
-                            ({ _id, name,slug}, index) => {
+                            ({ _id, name, slug }, index) => {
                                 const isLast = index === category.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -198,22 +189,22 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
                                                 {header === "Category Archive List" ?
                                                     <Tooltip content="Restore category">
                                                         <IconButton variant="text">
-                                                            <ArrowPathIcon className="h-4 w-4" onClick={()=>restoreCategory(_id)} />
+                                                            <ArrowPathIcon className="h-4 w-4" onClick={() => restoreCategory(_id)} />
                                                         </IconButton>
                                                     </Tooltip>
-                                                : <><Link to={`/admin/category/${_id}`}>
-                                                    <Tooltip content="Edit category">
-                                                        <IconButton variant="text">
-                                                            <PencilIcon className="h-4 w-4" />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </Link>
-                                                <Tooltip content="Archive category">
-                                                    <IconButton variant="text">
-                                                        <ArchiveBoxIcon className="h-4 w-4" onClick={() => deleteHandler(_id)} />
-                                                    </IconButton>
-                                                </Tooltip></>}
-                                                
+                                                    : <><Link to={`/admin/category/${_id}`}>
+                                                        <Tooltip content="Edit category">
+                                                            <IconButton variant="text">
+                                                                <PencilIcon className="h-4 w-4" />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </Link>
+                                                        <Tooltip content="Archive category">
+                                                            <IconButton variant="text">
+                                                                <ArchiveBoxIcon className="h-4 w-4" onClick={() => deleteHandler(_id)} />
+                                                            </IconButton>
+                                                        </Tooltip></>}
+
 
                                             </div>
 
@@ -236,7 +227,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
                                                 </Typography>
                                             </div>
                                         </td>
-                                       
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -246,7 +237,7 @@ export function CategoryTable({header, category, categoryCount, resPerPage, curr
                                                 {name}
                                             </Typography>
                                         </td>
-                                       
+
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"

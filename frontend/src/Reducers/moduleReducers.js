@@ -20,6 +20,13 @@ import {
     UPDATE_MODULE_SUCCESS,
     UPDATE_MODULE_RESET,
     UPDATE_MODULE_FAIL,
+    RESTORE_MODULE_REQUEST,
+    RESTORE_MODULE_SUCCESS,
+    RESTORE_MODULE_RESET,
+    RESTORE_MODULE_FAIL,
+    ARCHIVED_MODULE_REQUEST,
+    ARCHIVED_MODULE_SUCCESS,
+    ARCHIVED_MODULE_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/moduleConstants';
@@ -191,4 +198,69 @@ export const moduleReducer = (state = {}, action) => {
             return state
     }
 
+}
+
+export const restoreModuleReducer = (state = {}, action) => {
+    switch (action.type) {
+        case RESTORE_MODULE_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case RESTORE_MODULE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isRestored: action.payload
+            }
+        case RESTORE_MODULE_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case RESTORE_MODULE_RESET:
+            return {
+                ...state,
+                isRestored: false
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state
+    }
+}
+
+export const archiveModuleReducer = (state = {archivedModules: []}, action) => {
+    switch (action.type) {
+        case ARCHIVED_MODULE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                archivedModules: []
+            }
+        case ARCHIVED_MODULE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                archivedModules: action.payload.archivedModules,
+                archivedModulesCount: action.payload.archivedModulesCount,
+                resPerPage: action.payload.resPerPage,
+                filteredArchivedModulesCount: action.payload.filteredArchivedModulesCount
+            }
+        case ARCHIVED_MODULE_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+        default:
+            return state
+    }
 }

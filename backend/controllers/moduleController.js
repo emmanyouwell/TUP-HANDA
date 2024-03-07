@@ -1,7 +1,7 @@
 const Modules = require('../models/modules');
 const cloudinary = require('cloudinary')
 const APIFeatures = require('../utils/apiFeatures')
-
+const ArchivedModule = require('../models/archives/archivedModule')
 exports.createModule = async (req, res, next) => {
     let fileLink = {}
     
@@ -179,18 +179,32 @@ exports.updateModule = async (req, res, next) => {
 }
 
 exports.deleteModule = async (req, res, next) => {
-	const modules = await Modules.findByIdAndDelete(req.params.id);
-	if (!modules) {
-		return res.status(404).json({
-			success: false,
-			message: 'Module not found'
-		})
-	}
+	try {
+        const modules = await Modules.findById(req.params.id);
+        if (!modules) {
+            return res.status(404).json({
+                success: false,
+                message: 'Module not found'
+            });
+        }
 
-	res.status(200).json({
-		success: true,
-		message: 'Module deleted'
-	})
+        // Create a new document in the archivedCategories collection
+        await ArchivedModule.create(modules.toObject());
+
+        // Remove the document from the categories collection
+        await Modules.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            success: true,
+            message: 'Module archived'
+        });
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error' + error
+        });
+    }
 }
 
 exports.getAdminModules = async (req,res,next)=>{
@@ -214,4 +228,64 @@ exports.getAdminModules = async (req,res,next)=>{
 		resPerPage,
 		filteredModulesCount,
 	})
+}
+
+exports.getArchivedModules = async (req, res, next) => {
+    try {
+        const resPerPage = 5;
+        const archivedModulesCount = await ArchivedModule.countDocuments();
+        const apiFeatures = new APIFeatures(ArchivedModule.find(), req.query).search().filter()
+        apiFeatures.pagination(resPerPage);
+        const archivedModules = await apiFeatures.query;
+        const filteredArchivedModulesCount = await ArchivedModule.countDocuments(apiFeatures.query.getFilter());
+        if (!archivedModules) {
+            return res.status(404).json({
+                success: false,
+                message: 'No Archived Modules'
+            })
+        }
+        res.status(200).json({
+            success: true,
+            count: archivedModules.length,
+            archivedModulesCount,
+            archivedModules,
+            resPerPage,
+            filteredArchivedModulesCount
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        });
+    }
+
+}
+
+exports.restoreArchivedModules = async (req, res, next) => {
+    try {
+        const modules = await ArchivedModule.findById(req.params.id);
+        if (!modules) {
+            return res.status(404).json({
+                success: false,
+                message: 'Module not found'
+            });
+        }
+
+        // Create a new document in the archivedCategories collection
+        await Modules.create(modules.toObject());
+
+        // Remove the document from the categories collection
+        await ArchivedModule.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            success: true,
+            message: 'Module restored'
+        });
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error' + error
+        });
+    }
 }

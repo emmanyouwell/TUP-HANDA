@@ -149,7 +149,7 @@ export function AdminSidebar() {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <Link to="/admin/modules">
+                  <Link to="/admin/modules/archive">
                     <ListItem>
 
                       <ListItemPrefix>
