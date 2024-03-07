@@ -17,7 +17,7 @@ const Modules = () => {
   return (
     <>
       <div className="container mx-auto  p-10 mt-10">
-        {loading ? <div className="min-h-screen"><Loader/></div> : <> <h1 className="mb-20 font-bold text-3xl md:text-4xl lg:text-5xl font-[Poppins]">Read our downloadable modules!</h1>
+        {loading ? <div className="min-h-screen"><Loader/></div> : <> <h1 className="mb-20 font-bold text-3xl md:text-4xl lg:text-3xl font-[Poppins]">Read our downloadable modules!</h1>
           {modules && modules.length > 0 ? <div className="grid justify-items-center items-center justify-center gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{modules.map(m=> <ModuleCard key={m._id} img={m.img.url} link={m.file.url} title={m.title} id={m._id} description={m.description} shortDesc={m.shortDesc} /> )}</div>: <p>No modules yet</p>}</>}
        
       </div>

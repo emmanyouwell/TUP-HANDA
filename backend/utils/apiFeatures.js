@@ -23,6 +23,8 @@ class APIFeatures {
                     {title: keyword},
                     {department: keyword},
                     {course: keyword},
+                    {slug: keyword},
+
                     
                     // Add other fields you want to search by
                 ]

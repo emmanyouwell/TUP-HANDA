@@ -9,7 +9,8 @@ const check = require('./routes/checklist');
 const dept = require('./routes/department');
 const course = require('./routes/course');
 const modules = require('./routes/module');
-const videos = require('./routes/video')
+const videos = require('./routes/video');
+const category = require('./routes/category');
 app.use(cors(
     {
         origin: ["http://localhost:5173", "https://tuphanda.onrender.com", "https://tup-handa.vercel.app"],
@@ -21,6 +22,7 @@ app.use(express.urlencoded({limit: '50mb', extended: true}))
 app.use(cookie())
 
 // app.use('/api/v1',products);
+app.use('/api/v1', category);
 app.use('/api/v1', auth);
 app.use('/api/v1',check);
 app.use('/api/v1',dept);
