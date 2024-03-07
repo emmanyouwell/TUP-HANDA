@@ -118,24 +118,11 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                             See information about all users
                         </Typography>
                     </div>
-                    <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                        <Button variant="outlined" size="sm">
-                            view all
-                        </Button>
-
-                    </div>
+                   
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-                    <Tabs value="all" className="w-full md:w-max">
-                        <TabsHeader>
-                            {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
-                                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                                </Tab>
-                            ))}
-                        </TabsHeader>
-                    </Tabs>
-                    {/* <form onSubmit={handleSubmit} className="w-full md:w-72 relative"> */}
+                   
+                   
                     <div className="w-full md:w-72">
                         <Input
                             label="Search"
@@ -145,10 +132,7 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                         />
                     </div>
 
-                    {/* <button type="submit" className="absolute right-0 top-0 mt-2 mr-2">
-                            <MagnifyingGlassIcon className="h-5 w-5" />
-                        </button>
-                    </form> */}
+                   
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll px-0">

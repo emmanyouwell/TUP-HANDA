@@ -36,6 +36,9 @@ export function SortableTable({ header, modules, modulesCount, resPerPage, curre
     const dispatch = useDispatch();
     const totalPage = Math.ceil(modulesCount / resPerPage);
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+    const [isShortDescExpanded, setIsShortDescExpanded] = useState(false);
+    const [isTitleExpanded, setIsTitleExpanded] = useState(false);
+    const [isFileExpanded, setIsFileExpanded] = useState(false);
     const { error: deleteError, isDeleted } = useSelector(state => state.module)
     const { categories, error: categoryError } = useSelector(state => state.categories)
     const {isRestored, error: restoreError} = useSelector(state => state.resModule)
@@ -238,21 +241,21 @@ export function SortableTable({ header, modules, modulesCount, resPerPage, curre
 
                                             </div>
                                         </td>
-                                        <td className={classes}>
+                                        <td className={`${classes} ${isTitleExpanded ? '' : 'truncate'} `} onClick={() => setIsTitleExpanded(!isTitleExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
+                                                className="font-normal max-w-[200px]"
                                             >
                                                 {title}
                                             </Typography>
                                         </td>
 
-                                        <td className={classes}>
+                                        <td className={`${classes} ${isShortDescExpanded ? '' : 'truncate'} `} onClick={() => setIsShortDescExpanded(!isShortDescExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
+                                                className="font-normal max-w-[200px]"
                                             >
                                                 {shortDesc}
                                             </Typography>
@@ -266,11 +269,11 @@ export function SortableTable({ header, modules, modulesCount, resPerPage, curre
                                                 {description}
                                             </Typography>
                                         </td>
-                                        <td className={classes}>
+                                        <td className={`${classes} ${isFileExpanded ? '' : 'truncate'} `} onClick={() => setIsFileExpanded(!isFileExpanded)}>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
+                                                className="font-normal max-w-[200px]"
                                             >
                                                 <a href={file.url}>{file.url}</a>
                                             </Typography>

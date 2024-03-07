@@ -208,7 +208,7 @@ exports.deleteModule = async (req, res, next) => {
 }
 
 exports.getAdminModules = async (req,res,next)=>{
-    const resPerPage = 5;
+    const resPerPage = 6;
 	const modulesCount = await Modules.countDocuments();
 	const apiFeatures = new APIFeatures(Modules.find(), req.query).search().filter()
 	apiFeatures.pagination(resPerPage);
