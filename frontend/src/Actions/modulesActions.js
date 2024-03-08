@@ -61,16 +61,35 @@ export const createModules = (moduleData) => async (dispatch) => {
     }
 }
 
-export const getModules = () => async (dispatch) => {
-    try{
-        dispatch({ type: ALL_MODULES_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/modules`)
+export const getModules = (currentPage=1, keyword='', category='') => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({
+            type: ALL_MODULES_REQUEST
+        })
+        let link = ''
+
+        
+        if (category && category !== 'all'){
+            link = `${process.env.REACT_APP_API}/api/v1/modules?page=${currentPage}&keyword=${keyword}&category=${category}`
+        }
+        else{
+            link = `${process.env.REACT_APP_API}/api/v1/modules?page=${currentPage}&keyword=${keyword}`
+        }
+        
+        const { data } = await axios.get(link, config)
+
         dispatch({
             type: ALL_MODULES_SUCCESS,
             payload: data
         })
-       
-    }catch(error){
+
+    } catch (error) {
         dispatch({
             type: ALL_MODULES_FAIL,
             payload: error.response.data.message

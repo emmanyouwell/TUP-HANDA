@@ -61,22 +61,26 @@ exports.createModule = async (req, res, next) => {
 }
 
 exports.getModules = async (req, res, next) => {
-    try{
-        const modules = await Modules.find().populate('category')
-        
-      
-        res.status(200).json({
-            success: true,
-            modules,
-            
-        })
-    }
-    catch(error){
-        return res.status(400).json({
-            success: false,
-            message: error.message
-        })
-    }
+    const resPerPage = 3;
+	const modulesCount = await Modules.countDocuments();
+	const apiFeatures = new APIFeatures(Modules.find().populate('category'), req.query).search().filter()
+	apiFeatures.pagination(resPerPage);
+	const modules = await apiFeatures.query;
+	const filteredModulesCount = await Modules.countDocuments(apiFeatures.query.getFilter());
+	if (!modules) {
+		return res.status(404).json({
+			success: false,
+			message: 'No Users'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		count: modules.length,
+		modulesCount,
+		modules,
+		resPerPage,
+		filteredModulesCount,
+	})
 }
 
 exports.getSingleModule = async (req, res, next) => {

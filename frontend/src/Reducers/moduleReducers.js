@@ -45,9 +45,9 @@ export const modulesReducer = (state = { modules: [] }, action) => {
                 ...state,
                 loading: false,
                 modules: action.payload.modules,
-                // productsCount: action.payload.productsCount,
-                // resPerPage: action.payload.resPerPage,
-                // filteredProductsCount: action.payload.filteredProductsCount
+                modulesCount: action.payload.modulesCount,
+                resPerPage: action.payload.resPerPage,
+                filteredModulesCount: action.payload.filteredModulesCount
             }
         case ADMIN_MODULES_SUCCESS:
             return {
