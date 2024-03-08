@@ -36,15 +36,34 @@ import axios from 'axios'
 import { authenticate, getToken, logout } from '../utils/helper'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-export const getVideos = () => async (dispatch) => {
-    try{
-        dispatch({ type: ALL_VIDEOS_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos`)
+export const getVideos = (currentPage=1, keyword='', category='') => async (dispatch) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${getToken()}`
+            }
+        }
+        dispatch({
+            type: ALL_VIDEOS_REQUEST
+        })
+        let link = ''
+        if (category && category !== 'all'){
+            link = `${process.env.REACT_APP_API}/api/v1/admin/videos/?page=${currentPage}&keyword=${keyword}&category=${category}`
+        }
+        else{
+            link = `${process.env.REACT_APP_API}/api/v1/admin/videos/?page=${currentPage}&keyword=${keyword}`
+        }
+       
+
+        const { data } = await axios.get(link, config)
+
         dispatch({
             type: ALL_VIDEOS_SUCCESS,
             payload: data
         })
-    }catch (error){
+
+    } catch (error) {
         dispatch({
             type: ALL_VIDEOS_FAIL,
             payload: error.response.data.message
@@ -78,7 +97,7 @@ export const createVideos = (formData) => async (dispatch) => {
 export const getSingleVideo = (id) => async (dispatch) => {
     try{
         dispatch({ type: VIDEO_DETAILS_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/video/${id}`)
         dispatch({
             type: VIDEO_DETAILS_SUCCESS,
             payload: data.videos
@@ -140,7 +159,7 @@ export const clearErrors = () => async (dispatch) => {
 
     })
 }
-export const getAdminVideos = (currentPage = 1, keyword = '', price, category = '') => async (dispatch) => {
+export const getAdminVideos = (currentPage = 1, keyword = '', category = '') => async (dispatch) => {
     try {
         const config = {
             headers: {
@@ -152,8 +171,13 @@ export const getAdminVideos = (currentPage = 1, keyword = '', price, category = 
             type: ADMIN_VIDEOS_REQUEST
         })
         let link = ''
-
-        link = `${process.env.REACT_APP_API}/api/v1/admin/all/videos/?page=${currentPage}&keyword=${keyword}`
+        if (category && category !== 'all'){
+            link = `${process.env.REACT_APP_API}/api/v1/admin/all/videos/?page=${currentPage}&keyword=${keyword}&category=${category}`
+        }
+        else{
+            link = `${process.env.REACT_APP_API}/api/v1/admin/all/videos/?page=${currentPage}&keyword=${keyword}`
+        }
+       
 
         
         const { data } = await axios.get(link, config)

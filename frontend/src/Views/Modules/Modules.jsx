@@ -58,7 +58,7 @@ const Modules = () => {
     }
 
   }
-  
+
   const totalPage = Math.ceil(count / resPerPage);
   const next = () => {
     if (active === totalPage) return;
@@ -74,7 +74,7 @@ const Modules = () => {
   return (
     <>
       <div className="container mx-auto  p-10 mt-10">
-         <> <h1 className="mb-5 font-bold text-3xl md:text-4xl lg:text-3xl font-[Poppins]">Read our downloadable modules!</h1>
+        <> <h1 className="mb-5 font-bold text-3xl md:text-4xl lg:text-3xl font-[Poppins]">Read our downloadable modules!</h1>
           <p className='mb-5 leading-3 italic'>If the PDF failed to load, please check your internet connection and try again</p>
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="overflow-x-auto whitespace-nowrap w-full">
@@ -85,9 +85,9 @@ const Modules = () => {
                       "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
 
                   }}>
-                  <Tab value="all" className="h-12 text-center z-10" onClick={() => { setCategory('all'); setKeyword(''); setInput(''); setActive(1)}}>All</Tab>
+                  <Tab value="all" className="h-12 text-center z-10" onClick={() => { setCategory('all'); setKeyword(''); setInput(''); setActive(1) }}>All</Tab>
                   {categories.map(({ _id, name }) => (
-                    <Tab key={_id} value={_id} className="h-12 text-center z-10" onClick={() => { setCategory(_id); setInput(''); setKeyword(''); setActive(1)}}>
+                    <Tab key={_id} value={_id} className="h-12 text-center z-10" onClick={() => { setCategory(_id); setInput(''); setKeyword(''); setActive(1) }}>
                       &nbsp;&nbsp;{name}&nbsp;&nbsp;
                     </Tab>
                   ))}
@@ -129,11 +129,13 @@ const Modules = () => {
             </IconButton>
           </div>
           {loading ? <div className="min-h-screen mt-20"><Loader /></div> :
-          modules && modules.length > 0 ?
-            <div className="grid justify-items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-6 mb-20">{modules.map(m => <div key={m._id} className="col-span-full lg:col-span-3 2xl:col-span-2 ">
-              <ModuleCard img={m.img.url} link={m.file.url} title={m.title} id={m._id} description={m.description} shortDesc={m.shortDesc} category={m.category ? m.category : 'None'} />
-            </div>)}</div> : <EmptyPage />}
-            {/* Pagination */}
+            modules && modules.length > 0 ?
+              <div className="grid justify-items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-6 mb-20">
+                {modules.map(m => <div key={m._id} className="col-span-full lg:col-span-3 2xl:col-span-2 ">
+                  <ModuleCard img={m.img.url} link={m.file.url} title={m.title} id={m._id} description={m.description} shortDesc={m.shortDesc} category={m.category ? m.category : 'None'} />
+                </div>)}
+              </div> : <EmptyPage />}
+          {/* Pagination */}
           <div className="flex items-center justify-center gap-8">
             <IconButton
               size="sm"

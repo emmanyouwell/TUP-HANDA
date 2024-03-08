@@ -32,12 +32,14 @@ import Loader from './Loader'
 import { toast } from 'react-toastify'
 import { clearErrors, deleteVideo, getAdminVideos, getArchivedVideos, restoreArchivedVideos } from '../Actions/videoActions';
 import { DELETE_VIDEO_RESET, RESTORE_VIDEO_RESET } from '../Constants/videoConstants';
-export function VideoTable({ header, videos, videosCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword, loading }) {
+import { getCategory, clearErrors as clearCategoryError } from '../Actions/categoryActions';
+export function VideoTable({ header, category, setCategory, videos, videosCount, resPerPage, currentPage, setCurrentPage, keyword, setKeyword, loading }) {
     const dispatch = useDispatch();
     const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
     const totalPage = Math.ceil(videosCount / resPerPage);
     const { error: deleteError, isDeleted } = useSelector(state => state.video)
     const { isRestored, error: restoreError } = useSelector(state => state.resVideo)
+    const { categories, error: categoryError } = useSelector(state => state.categories)
     const navigate = useNavigate();
     const deleteHandler = (id) => {
         dispatch(deleteVideo(id))
@@ -65,7 +67,10 @@ export function VideoTable({ header, videos, videosCount, resPerPage, currentPag
 
     }
     useEffect(() => {
-
+        dispatch(getCategory())
+        if (categoryError) {
+            dispatch(clearCategoryError())
+        }
         if (deleteError) {
             dispatch(clearErrors())
         }
@@ -88,7 +93,7 @@ export function VideoTable({ header, videos, videosCount, resPerPage, currentPag
             })
             dispatch({ type: DELETE_VIDEO_RESET })
         }
-    }, [dispatch, navigate, deleteError, isDeleted, isRestored, restoreError])
+    }, [dispatch, navigate, deleteError, isDeleted, isRestored,categoryError, restoreError])
     return (
         <Card className="h-[auto] w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -122,6 +127,23 @@ export function VideoTable({ header, videos, videosCount, resPerPage, currentPag
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+                    <div className="overflow-x-auto whitespace-nowrap">
+                        <Tabs value={category} className="w-full md:w-max transition-none ">
+                            <TabsHeader className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
+                                indicatorProps={{
+                                    className:
+                                        "bg-transparent border-b-2 border-gray-900 shadow-none rounded-none",
+
+                                }}>
+                                <Tab value="all" className="h-12 text-center" onClick={() => setCategory('')}>All</Tab>
+                                {categories.map(({ _id, name }) => (
+                                    <Tab key={_id} value={_id} className="h-12 text-center" onClick={() => { setCategory(_id) }}>
+                                        &nbsp;&nbsp;{name}&nbsp;&nbsp;
+                                    </Tab>
+                                ))}
+                            </TabsHeader>
+                        </Tabs>
+                    </div>
 
                     <div className="w-full md:w-72">
                         <Input
@@ -162,7 +184,7 @@ export function VideoTable({ header, videos, videosCount, resPerPage, currentPag
                                     <Loader />
                                 </div>
                             </td>
-                        </tr> : videos.length >= 1 ?  videos.map(
+                        </tr> : videos.length >= 1 ? videos.map(
                             ({ title, description, videoLink, shortDesc, _id }, index) => {
                                 const isLast = index === videos.length - 1;
                                 const classes = isLast
@@ -254,7 +276,7 @@ export function VideoTable({ header, videos, videosCount, resPerPage, currentPag
                                     No videos found
                                 </div>
                             </td>
-                            </tr>}
+                        </tr>}
                     </tbody>
                 </table>
             </CardBody>

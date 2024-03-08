@@ -6,12 +6,14 @@ import img from '../../../assets/default_avatar.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSingleVideo, clearErrors, updateVideo } from "../../../Actions/videoActions";
 import { UPDATE_VIDEO_RESET } from "../../../Constants/videoConstants";
+import { getCategory, clearErrors as clearCategoryError } from "../../../Actions/categoryActions";
 import {toast} from 'react-toastify'
 import Loader from "../../../Components/Loader";
 const EditVideo = () => {
     const {id} = useParams()
     const dispatch = useDispatch()
     const {error, videos} = useSelector(state => state.videoDetails)
+    const {categories, error: categoryError} = useSelector(state => state.categories)
     const { loading, error: updateError, isUpdated } = useSelector(state => state.video)
     const getId = (url) => {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -26,8 +28,8 @@ const EditVideo = () => {
             title: '',
             description: '',
             shortDesc: '',
-            videoLink: ''
-
+            videoLink: '',
+            category: ''
         },
         onSubmit: (values) => {
             const videoId = getId(values.videoLink)
@@ -38,6 +40,7 @@ const EditVideo = () => {
             formData.set('description', values.description)
             formData.set('shortDesc', values.shortDesc)
             formData.set('videoLink', embed)
+            formData.set('category', values.category)
             // console.log(formData.get('title'))
             dispatch(updateVideo(videos._id, formData))
         },
@@ -45,8 +48,8 @@ const EditVideo = () => {
             title: Yup.string().required('Video title is required'),
             description: Yup.string().required('Video description is required'),
             shortDesc: Yup.string().required('Short description is required'),
-            videoLink: Yup.string().required('Video link is required')
-
+            videoLink: Yup.string().required('Video link is required'),
+            category: Yup.string().required('Category is required')
         })
     })
 
@@ -54,7 +57,10 @@ const EditVideo = () => {
     let navigate = useNavigate()
     useEffect(() => {
         dispatch(getSingleVideo(id));
-      
+        dispatch(getCategory())
+        if (categoryError){
+            dispatch(clearCategoryError())
+        }
         if (error) {
 
             dispatch(clearErrors())
@@ -73,7 +79,7 @@ const EditVideo = () => {
         }
 
         
-    }, [error, dispatch, isUpdated, updateError, navigate, id])
+    }, [error, dispatch, isUpdated, updateError, navigate, id, categoryError])
 
     useEffect(()=>{
         if (videos){
@@ -81,6 +87,12 @@ const EditVideo = () => {
             Formik.values.description = videos.description
             Formik.values.shortDesc = videos.shortDesc
             Formik.values.videoLink = videos.videoLink
+            if (videos.category) {
+                Formik.values.category = videos.category
+            }
+            else{
+                Formik.values.category = ''
+            }
         }
     },[videos])
 
@@ -175,6 +187,36 @@ const EditVideo = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="col-span-full">
+                                            <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
+                                                Category
+                                            </label>
+                                            <div className="mt-2">
+                                                <select
+                                                    id="category"
+                                                    name="category"
+                                                    autoComplete="category-name"
+                                                    onChange={Formik.handleChange}
+                                                    value={Formik.values.category}
+                                                    onBlur={Formik.handleBlur}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                >
+                                                    <option value="a">Select category</option>
+                                                    {categories.map((c) => (
+                                                        <option key={c._id} value={c._id}>
+                                                            {c.name}
+                                                        </option>
+                                                    ))}
+
+                                                </select>
+
+                                            </div>
+                                            <div className="text-error italic">
+                                                <small>
+                                                    {Formik.errors.category && Formik.touched.category && Formik.errors.category}
+                                                </small>
+                                            </div>
+                                        </div>
                             {/* Video Link */}
                             <div className="col-span-full">
                                 <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">

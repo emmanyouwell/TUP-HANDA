@@ -19,6 +19,11 @@ const videoSchema = new mongoose.Schema({
         required: [true, 'Please enter Module short description'],
     
     },
+    category: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Categories',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

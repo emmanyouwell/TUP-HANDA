@@ -25,19 +25,26 @@ exports.createVideo = async (req, res, next) => {
 }
 
 exports.getVideos = async (req, res, next) => {
-    try{
-        const videos = await Videos.find()
-        res.status(200).json({
-            success: true,
-            videos
-        })
-    }
-    catch(error){
-        return res.status(400).json({
-            success: false,
-            message: 'Videos not found'
-        })
-    }
+    const resPerPage = 3;
+	const videosCount = await Videos.countDocuments();
+	const apiFeatures = new APIFeatures(Videos.find().populate('category'), req.query).search().filter()
+	apiFeatures.pagination(resPerPage);
+	const videos = await apiFeatures.query;
+	const filteredVideosCount = await Videos.countDocuments(apiFeatures.query.getFilter());
+	if (!videos) {
+		return res.status(404).json({
+			success: false,
+			message: 'No Users'
+		})
+	}
+	res.status(200).json({
+		success: true,
+		count: videos.length,
+		videosCount,
+		videos,
+		resPerPage,
+		filteredVideosCount,
+	})
 }
 
 exports.getSingleVideo = async (req, res, next) => {
@@ -117,7 +124,7 @@ exports.deleteVideo = async (req, res, next) => {
 exports.getAdminVideos = async (req,res,next)=>{
     const resPerPage = 5;
 	const videosCount = await Videos.countDocuments();
-	const apiFeatures = new APIFeatures(Videos.find(), req.query).search().filter()
+	const apiFeatures = new APIFeatures(Videos.find().populate('category'), req.query).search().filter()
 	apiFeatures.pagination(resPerPage);
 	const videos = await apiFeatures.query;
 	const filteredVideosCount = await Videos.countDocuments(apiFeatures.query.getFilter());

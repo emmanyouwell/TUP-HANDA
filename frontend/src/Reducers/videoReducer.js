@@ -45,9 +45,9 @@ export const videosReducer = (state = { videos: [] }, action) => {
                 ...state,
                 loading: false,
                 videos: action.payload.videos,
-                // productsCount: action.payload.productsCount,
-                // resPerPage: action.payload.resPerPage,
-                // filteredProductsCount: action.payload.filteredProductsCount
+                videosCount: action.payload.videosCount,
+                resPerPage: action.payload.resPerPage,
+                filteredVideosCount: action.payload.filteredVideosCount
             }
         case ADMIN_VIDEOS_SUCCESS:
             return {
