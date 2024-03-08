@@ -87,7 +87,7 @@ const CreateModule = () => {
         }
         dispatch(getCategory())
 
-    }, [error, success, dispatch, navigate])
+    }, [error, success, dispatch, navigate, categoryError])
 
     const onChange = e => {
 
