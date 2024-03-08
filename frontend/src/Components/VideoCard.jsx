@@ -56,7 +56,7 @@ const VideoCard = ({ id, title, description, link, category, shortDesc }) => {
                   <YouTube
                     videoId={link.split('/embed/')[1]}
                     className="h-96"
-                    iframeClassName="relative mx-4 w-full h-full overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40"
+                    iframeClassName="relative w-full h-full overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40"
                     onPlay={addToWatchHistoryHandler}
                     
                   
