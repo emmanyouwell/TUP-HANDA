@@ -62,16 +62,19 @@ exports.createModule = async (req, res, next) => {
 
 exports.getModules = async (req, res, next) => {
     try{
-        const modules = await Modules.find()
+        const modules = await Modules.find().populate('category')
+        
+      
         res.status(200).json({
             success: true,
-            modules
+            modules,
+            
         })
     }
     catch(error){
         return res.status(400).json({
             success: false,
-            message: 'Module not found'
+            message: error.message
         })
     }
 }
@@ -210,7 +213,7 @@ exports.deleteModule = async (req, res, next) => {
 exports.getAdminModules = async (req,res,next)=>{
     const resPerPage = 6;
 	const modulesCount = await Modules.countDocuments();
-	const apiFeatures = new APIFeatures(Modules.find(), req.query).search().filter()
+	const apiFeatures = new APIFeatures(Modules.find().populate('category'), req.query).search().filter()
 	apiFeatures.pagination(resPerPage);
 	const modules = await apiFeatures.query;
 	const filteredModulesCount = await Modules.countDocuments(apiFeatures.query.getFilter());
@@ -232,7 +235,7 @@ exports.getAdminModules = async (req,res,next)=>{
 
 exports.getArchivedModules = async (req, res, next) => {
     try {
-        const resPerPage = 5;
+        const resPerPage = 6;
         const archivedModulesCount = await ArchivedModule.countDocuments();
         const apiFeatures = new APIFeatures(ArchivedModule.find(), req.query).search().filter()
         apiFeatures.pagination(resPerPage);

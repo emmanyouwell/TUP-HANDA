@@ -16,24 +16,38 @@ const ModuleList = () => {
     if (keyword === '') {
       dispatch(getAdminModules(currentPage, keyword, category))
     }
-    else{
+    else {
       setCurrentPage(1)
-      dispatch(getAdminModules(currentPage, keyword,category))
+      dispatch(getAdminModules(currentPage, keyword, category))
     }
-    
+
   }, [dispatch, error, keyword, currentPage, category])
-  useEffect(()=>{
+  useEffect(() => {
     console.log(category)
-  },[category])
-  let count = modulesCount
-  if (keyword){
+  }, [category])
+  let count = (modulesCount > 0 ? modulesCount : resPerPage)
+  if (keyword) {
+    if (filteredModulesCount > 0) {
       count = filteredModulesCount
+    }
+    else {
+      count = resPerPage
+    }
+  }
+  if (category) {
+    if (filteredModulesCount > 0) {
+      count = filteredModulesCount
+    }
+    else {
+      count = resPerPage
+    }
+
   }
   return (
     <>
       <div className="container mx-auto mt-5 p-10 flex justify-center items-center">
-        <SortableTable header="Module List" loading={loading} modules={modules} modulesCount={count} resPerPage={resPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} setCategory={setCategory} category={category} /> 
-        
+        <SortableTable header="Module List" loading={loading} modules={modules} modulesCount={count} resPerPage={resPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} setCategory={setCategory} category={category} />
+
       </div>
     </>
   )

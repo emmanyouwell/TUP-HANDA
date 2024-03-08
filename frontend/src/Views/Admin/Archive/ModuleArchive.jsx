@@ -18,10 +18,24 @@ const ModuleArchive = () => {
 
 
     }, [dispatch, error, keyword, currentPage, category])
-   
-    let count = archivedModulesCount
+
+    let count = (archivedModulesCount > 0 ? archivedModulesCount : resPerPage)
     if (keyword) {
-        count = filteredArchivedModulesCount
+        if (filteredArchivedModulesCount > 0) {
+            count = filteredArchivedModulesCount
+        }
+        else {
+            count = resPerPage
+        }
+    }
+    if (category) {
+        if (filteredArchivedModulesCount > 0) {
+            count = filteredArchivedModulesCount
+        }
+        else {
+            count = resPerPage
+        }
+
     }
     return (
         <>
