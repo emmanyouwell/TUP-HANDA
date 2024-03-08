@@ -60,6 +60,12 @@ import {
     VERIFY_LOGIN_FAIL,
     VERIFY_LOGIN_REQUEST,
     VERIFY_LOGIN_SUCCESS,
+    ADD_TO_WATCH_HISTORY_REQUEST,
+    ADD_TO_WATCH_HISTORY_SUCCESS,
+    ADD_TO_WATCH_HISTORY_FAIL,
+    GET_WATCH_HISTORY_REQUEST,
+    GET_WATCH_HISTORY_SUCCESS,
+    GET_WATCH_HISTORY_FAIL,
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -112,6 +118,7 @@ export const register = (userData) => async (dispatch) => {
         })
     }
 }
+
 
 export const login = (email, password, next) => async (dispatch) => {
     
@@ -541,3 +548,57 @@ export const getUserCourse = () => async (dispatch) => {
         })
     }
 }
+
+export const addToWatchHistory = (id) => async (dispatch) => {
+    try {
+        dispatch({
+          type: ADD_TO_WATCH_HISTORY_REQUEST,
+        });
+    
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+          }
+        };
+    
+        const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/watchHistory/${id}`, {}, config);
+    
+        dispatch({
+          type: ADD_TO_WATCH_HISTORY_SUCCESS,
+          payload: data.success
+        });
+      } catch (error) {
+        dispatch({
+          type: ADD_TO_WATCH_HISTORY_FAIL,
+          payload: error.response.data.message
+        });
+      }
+}
+export const getWatchHistory = () => async (dispatch) => {
+    try {
+      dispatch({
+        type: GET_WATCH_HISTORY_REQUEST,
+      });
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        }
+      };
+  
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/watchHistory`, config);
+  
+      dispatch({
+        type: GET_WATCH_HISTORY_SUCCESS,
+        payload: data.watchHistory
+      });
+    } catch (error) {
+        console.log(error.message)
+      dispatch({
+        type: GET_WATCH_HISTORY_FAIL,
+        payload: error.response.data.message
+      });
+    }
+  };

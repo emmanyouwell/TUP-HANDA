@@ -115,7 +115,7 @@ const VideoModules = () => {
                         </IconButton>
                         <Typography color="gray" className="font-normal">
                             Page <strong className="text-gray-900">{active}</strong> of{" "}
-                            <strong className="text-gray-900">{totalPage}</strong>
+                            <strong className="text-gray-900">{totalPage?totalPage : ''}</strong>
                         </Typography>
                         <IconButton
                             size="sm"
@@ -128,9 +128,9 @@ const VideoModules = () => {
                     </div>
                     {loading ? <div className="min-h-screen mt-20"><Loader /></div> :
                         videos && videos.length > 0 ?
-                        <div className="grid justify-items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-6 mb-20">
-                                {videos.map(video => ( <div key={video._id} className="col-span-full lg:col-span-3 2xl:col-span-2 ">
-                                    <VideoCard description={video.description} link={video.videoLink} title={video.title} shortDesc={video.shortDesc} category={video.category?video.category : 'none'} /></div>
+                            <div className="grid justify-items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-6 mb-20">
+                                {videos.map(video => (<div key={video._id} className="col-span-full lg:col-span-3 2xl:col-span-2 ">
+                                    <VideoCard id={video._id} description={video.description} link={video.videoLink} title={video.title} shortDesc={video.shortDesc} category={video.category ? video.category : 'none'} /></div>
                                 ))}
                             </div> : <EmptyPage />}
                     {/* Pagination */}
@@ -145,7 +145,7 @@ const VideoModules = () => {
                         </IconButton>
                         <Typography color="gray" className="font-normal">
                             Page <strong className="text-gray-900">{active}</strong> of{" "}
-                            <strong className="text-gray-900">{totalPage}</strong>
+                            <strong className="text-gray-900">{totalPage?totalPage:''}</strong>
                         </Typography>
                         <IconButton
                             size="sm"

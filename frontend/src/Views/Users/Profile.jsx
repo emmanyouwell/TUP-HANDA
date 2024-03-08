@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom'
 import Loader from "../../Components/Loader";
 import { DownloadedModulesList } from "../../Components/DownloadedModulesList";
+import  WatchHistoryList  from "../../Components/WatchHistoryList";
 export function Profile() {
 
   const { user, error, loading } = useSelector(state => state.auth)
@@ -52,7 +53,7 @@ export function Profile() {
 
                 <div className="mt-10 mb-10 sm:flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
                   <Link to="/profile/update"><Button className="bg-gray-900 sm:w-fit w-full lg:ml-auto">Edit Profile</Button></Link>
-                  <div className="flex justify-start py-4 pt-8 lg:pt-4  hidden sm:block">
+                  <div className="sm:flex justify-start py-4 pt-8 lg:pt-4  hidden ">
                     <div className="mr-4 p-3 text-center">
                       <br></br>
                       <br></br>
@@ -92,7 +93,7 @@ export function Profile() {
             <div className="container mx-auto flex flex-col lg:flex-row gap-10">
               <div className="lg:w-1/2 w-full">
               <h1 className="font-[Poppins] font-medium text-2xl">Modules downloaded</h1>
-              <Card className="mt-6 min-w-xs sm:w-full">
+              <Card className="mt-6 min-w-xs sm:w-full bg-gray-50">
                 <CardBody className="overflow-scroll h-[500px]">
                   <DownloadedModulesList/>
                 </CardBody>
@@ -102,9 +103,10 @@ export function Profile() {
              
               <div className="lg:w-1/2 w-full">
               <h1 className="font-[Poppins] font-medium text-2xl">Watch History</h1>
-              <Card className="mt-6  min-w-xs sm:w-full">
+              <Card className="mt-6  min-w-xs sm:w-full bg-gray-50" >
                 <CardBody className="overflow-scroll h-[500px]">
-                  <DownloadedModulesList/>
+                  <WatchHistoryList/>
+                  
                 </CardBody>
 
               </Card>

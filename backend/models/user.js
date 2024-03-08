@@ -89,6 +89,16 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Modules'
     }],
+    watchHistory: [{
+        video: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Videos'
+        },
+        watchedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     isVerified: {
         type: Boolean,
         default: false

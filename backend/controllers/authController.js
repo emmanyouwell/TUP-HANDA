@@ -567,3 +567,41 @@ exports.getDownloadedModules = async (req, res, next) => {
         })
     }
 }
+
+exports.addToWatchHistory = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const videoId = req.params.id; // Get the video's ID from req.params
+        const videoExists = user.watchHistory.some(video => video.video.toString() === videoId);
+    
+        if (videoExists) {
+          user.watchHistory = user.watchHistory.map(video =>
+            video.video.toString() === videoId ? { video: videoId, date: Date.now() } : video
+          );
+        } else {
+          user.watchHistory.push({ video: videoId, date: Date.now() });
+        }
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Video added to watch history' });
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+exports.getWatchHistory = async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id).populate('watchHistory.video');
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      user.watchHistory.sort((a, b) => new Date(b.watchedAt) - new Date(a.watchedAt));
+      res.status(200).json({ watchHistory: user.watchHistory });
+    } catch (error) {
+        console.log(error.message)
+      res.status(400).json({ message: error.message });
+    }
+  };

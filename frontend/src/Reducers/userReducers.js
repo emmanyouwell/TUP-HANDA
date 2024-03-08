@@ -61,20 +61,27 @@ import {
     CLEAR_ERRORS,
     VERIFY_LOGIN_FAIL,
     VERIFY_LOGIN_REQUEST,
-    VERIFY_LOGIN_SUCCESS
+    VERIFY_LOGIN_SUCCESS,
+    ADD_TO_WATCH_HISTORY_REQUEST,
+    ADD_TO_WATCH_HISTORY_SUCCESS,
+    ADD_TO_WATCH_HISTORY_FAIL,
+    ADD_TO_WATCH_HISTORY_RESET,
+    GET_WATCH_HISTORY_FAIL,
+    GET_WATCH_HISTORY_SUCCESS,
+    GET_WATCH_HISTORY_REQUEST
 } from '../Constants/userConstants'
 
 export const authReducer = (state = { user: {} }, action) => {
     switch (action.type) {
         case REGISTER_USER_REQUEST:
-            
+
             return {
                 ...state,
                 loading: true,
                 isRegistered: false
             }
         case VERIFY_LOGIN_REQUEST:
-            return{
+            return {
                 ...state,
                 loading: true,
                 isAuthenticated: false,
@@ -82,15 +89,15 @@ export const authReducer = (state = { user: {} }, action) => {
             }
         case LOGIN_REQUEST:
         case LOAD_USER_REQUEST:
-        
+
             return {
                 ...state,
                 loading: true,
                 isAuthenticated: false,
-                
+
             }
-        
-            
+
+
         case LOGIN_SUCCESS:
         case LOAD_USER_SUCCESS:
         case VERIFY_LOGIN_SUCCESS:
@@ -109,9 +116,9 @@ export const authReducer = (state = { user: {} }, action) => {
                 isRegistered: true,
             }
         case GET_USER_SUCCESS:
-            return{
+            return {
                 ...state,
-                user:action.payload
+                user: action.payload
             }
         case VERIFY_LOGIN_FAIL:
             return {
@@ -124,12 +131,12 @@ export const authReducer = (state = { user: {} }, action) => {
         case REGISTER_USER_FAIL:
         case LOGIN_FAIL:
         case LOAD_USER_FAIL:
-        
+
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
-                
+
                 user: null,
                 error: action.payload
             }
@@ -164,9 +171,16 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_USER_REQUEST:
         case DELETE_USER_REQUEST:
         case CHANGE_ROLE_REQUEST:
+        case ADD_TO_WATCH_HISTORY_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+            }
+        case ADD_TO_WATCH_HISTORY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isAdded: action.payload
             }
         case UPDATE_PROFILE_SUCCESS:
         case UPDATE_PASSWORD_SUCCESS:
@@ -176,7 +190,7 @@ export const userReducer = (state = {}, action) => {
                 ...state,
                 loading: false,
                 isUpdated: action.payload,
-              
+
             }
         case UPDATE_PROFILE_RESET:
         case UPDATE_PASSWORD_RESET:
@@ -191,6 +205,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_USER_FAIL:
         case DELETE_USER_FAIL:
         case CHANGE_ROLE_FAIL:
+        case ADD_TO_WATCH_HISTORY_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -206,6 +221,11 @@ export const userReducer = (state = {}, action) => {
             return {
                 ...state,
                 isDeleted: false
+            }
+        case ADD_TO_WATCH_HISTORY_RESET:
+            return {
+                ...state,
+                isAdded: false
             }
         case CLEAR_ERRORS:
             return {
@@ -287,20 +307,30 @@ export const allUsersReducer = (state = { users: [] }, action) => {
     }
 }
 
-export const userDetailsReducer = (state = { user: {} }, action) => {
+export const userDetailsReducer = (state = { user: {}, watchHistory: [] }, action) => {
     switch (action.type) {
         case USER_DETAILS_REQUEST:
+        case GET_WATCH_HISTORY_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
+        case GET_WATCH_HISTORY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                watchHistory: action.payload
+            }
         case USER_DETAILS_SUCCESS:
+
             return {
                 ...state,
                 loading: false,
                 user: action.payload
+
             }
         case USER_DETAILS_FAIL:
+        case GET_WATCH_HISTORY_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -320,20 +350,20 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
 export const userDepartmentReducer = (state = { users: [] }, action) => {
     switch (action.type) {
         case USER_DEPARTMENT_REQUEST:
-        
+
             return {
                 ...state,
                 loading: true,
             }
         case USER_DEPARTMENT_SUCCESS:
-        
+
             return {
                 ...state,
                 loading: false,
                 data: action.payload
             }
         case USER_DEPARTMENT_FAIL:
-        
+
             return {
                 ...state,
                 loading: false,
@@ -350,20 +380,20 @@ export const userDepartmentReducer = (state = { users: [] }, action) => {
 }
 export const userCourseReducer = (state = { users: [] }, action) => {
     switch (action.type) {
-        
+
         case USER_COURSE_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
-        
+
         case USER_COURSE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: action.payload
             }
-        
+
         case USER_COURSE_FAIL:
             return {
                 ...state,
@@ -387,7 +417,7 @@ export const addUserCourse = (state = {}, action) => {
             return {
                 ...state,
                 loading: true,
-                
+
             }
         case ADD_COURSE_SUCCESS:
             return {

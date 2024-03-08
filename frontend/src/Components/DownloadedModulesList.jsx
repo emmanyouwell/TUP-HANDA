@@ -22,7 +22,7 @@ export function DownloadedModulesList() {
     return (
         <div className="lg:w-[32rem] w-full">
             <Timeline>
-                {modules && modules.downloadedModules && modules.downloadedModules.length > 0 ? modules.downloadedModules.map((item, index) => <TimelineItem>
+                {modules && modules.downloadedModules && modules.downloadedModules.length > 0 ? modules.downloadedModules.map((item, index) => <TimelineItem key={item._id}>
                     {index + 1 == modules.downloadedModules.length ? '' : <TimelineConnector />}
                     <TimelineHeader>
                         <TimelineIcon className="p-0">
@@ -35,7 +35,7 @@ export function DownloadedModulesList() {
                         </Typography>
                     </TimelineHeader>
                     <TimelineBody className="pb-8">
-                        <Typography color="gary" className="font-normal text-gray-600">
+                        <Typography color="gray" className="font-normal text-gray-600">
                             {item.shortDesc}
                         </Typography>
                     </TimelineBody>
