@@ -20,7 +20,7 @@ export function DownloadedModulesList() {
     }, [])
 
     return (
-        <div className="w-[32rem]">
+        <div className="lg:w-[32rem] w-full">
             <Timeline>
                 {modules && modules.downloadedModules && modules.downloadedModules.length > 0 ? modules.downloadedModules.map((item, index) => <TimelineItem>
                     {index + 1 == modules.downloadedModules.length ? '' : <TimelineConnector />}

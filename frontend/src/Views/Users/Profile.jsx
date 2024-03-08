@@ -33,7 +33,7 @@ export function Profile() {
           <div className="relative mb-6 -mt-40 flex w-full px-4 min-w-0 flex-col break-words bg-white">
             <div className="container mx-auto">
               <div className="flex flex-col lg:flex-row justify-between">
-                <div className="relative flex gap-6 items-start">
+                <div className="relative flex flex-col items-center sm:flex-row gap-6 sm:items-start">
                   <div className="-mt-20 w-40">
                     <Avatar
                       src={user && user.avatar[0].url}
@@ -42,7 +42,7 @@ export function Profile() {
                       className="w-36 h-36 rounded-full object-cover"
                     />
                   </div>
-                  <div className="flex flex-col mt-2">
+                  <div className="flex flex-col items-center sm:items-baseline mt-2">
                     <Typography variant="h4" color="blue-gray">
                       {user && `${user.firstName} ${user.lastName}`}
                     </Typography>
@@ -50,53 +50,12 @@ export function Profile() {
                   </div>
                 </div>
 
-                <div className="mt-10 mb-10 flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
-                  <Link to="/profile/update"><Button className="bg-gray-900 w-fit lg:ml-auto">Edit Profile</Button></Link>
-                  <div className="flex justify-start py-4 pt-8 lg:pt-4">
+                <div className="mt-10 mb-10 sm:flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
+                  <Link to="/profile/update"><Button className="bg-gray-900 sm:w-fit w-full lg:ml-auto">Edit Profile</Button></Link>
+                  <div className="flex justify-start py-4 pt-8 lg:pt-4  hidden sm:block">
                     <div className="mr-4 p-3 text-center">
-                      <Typography
-                        variant="lead"
-                        color="blue-gray"
-                        className="font-bold uppercase"
-                      >
-                        2,000,000,000
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-blue-gray-500"
-                      >
-                        Friends
-                      </Typography>
-                    </div>
-                    <div className="mr-4 p-3 text-center">
-                      <Typography
-                        variant="lead"
-                        color="blue-gray"
-                        className="font-bold uppercase"
-                      >
-                        10
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-blue-gray-500"
-                      >
-                        Photos
-                      </Typography>
-                    </div>
-                    <div className="p-3 text-center lg:mr-4">
-                      <Typography
-                        variant="lead"
-                        color="blue-gray"
-                        className="font-bold uppercase"
-                      >
-                        89
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        className="font-normal text-blue-gray-500"
-                      >
-                        Comments
-                      </Typography>
+                      <br></br>
+                      <br></br>
                     </div>
                   </div>
 
@@ -130,15 +89,26 @@ export function Profile() {
         </section>
         <section>
           <div className="mb-6 flex w-full px-4 min-w-0 flex-col bg-white">
-            <div className="container mx-auto">
+            <div className="container mx-auto flex flex-col lg:flex-row gap-10">
+              <div className="lg:w-1/2 w-full">
               <h1 className="font-[Poppins] font-medium text-2xl">Modules downloaded</h1>
-              <Card className="mt-6 lg:w-1/2">
+              <Card className="mt-6 min-w-xs sm:w-full">
                 <CardBody className="overflow-scroll h-[500px]">
                   <DownloadedModulesList/>
                 </CardBody>
 
               </Card>
+              </div>
+             
+              <div className="lg:w-1/2 w-full">
+              <h1 className="font-[Poppins] font-medium text-2xl">Watch History</h1>
+              <Card className="mt-6  min-w-xs sm:w-full">
+                <CardBody className="overflow-scroll h-[500px]">
+                  <DownloadedModulesList/>
+                </CardBody>
 
+              </Card>
+              </div>
             </div>
           </div>
 

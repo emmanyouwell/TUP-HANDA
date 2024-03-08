@@ -38,6 +38,7 @@ export default withMT({
       },
       screens: {
         'tablet': '640px',
+        'xs': '280px'
       },
       fontFamily: {
         'Poppins': ['Poppins', 'sans-serif'],
