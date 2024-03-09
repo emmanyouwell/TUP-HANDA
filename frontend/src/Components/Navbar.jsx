@@ -51,7 +51,7 @@ const Navbar = () => {
   return (
     <div className=' w-full sticky top-0 left-0 z-20 border-b-2 border-warning' style={{boxShadow: '0px 3px 10px rgba(204,153,0,0.4)'}}>
       <div className='md:flex items-center justify-between bg-white py-4 md:px-10 px-7'>
-        <Link to="/">
+        <Link to="/" onClick={()=>setOpen(false)}>
           <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
         text-gray-800'>
 
@@ -97,6 +97,7 @@ const Navbar = () => {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-2 text-sm'
                           )}
+                          onClick={()=>setOpen(false)}
                         >
                           Modules
                         </Link>
@@ -110,6 +111,7 @@ const Navbar = () => {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-2 text-sm'
                           )}
+                          onClick={()=>setOpen(false)}
                         >
                           Videos
                         </Link>
@@ -123,6 +125,7 @@ const Navbar = () => {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-2 text-sm'
                           )}
+                          onClick={()=>setOpen(false)}
                         >
                           Exams
                         </Link>
@@ -139,18 +142,19 @@ const Navbar = () => {
           {
             Links.map((link) => (
               <li key={link.name} className='md:ml-8 md:text-xl md:my-0 my-7'>
-                <Link to={link.link} className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>{link.name}</Link>
+                <Link to={link.link} onClick={()=>setOpen(false)} className='text-gray-800 hover:text-gray-400 duration-500 font-Poppins font-medium'>{link.name}</Link>
               </li>
             ))
           }
 
           {user ? (<div className="flex items-center flex-row-reverse justify-end lg:flex-row lg:justify-center lg:mt-0 md:mt-8">
-            <span className="py-2 px-6 md:block lg:hidden xl:block xl:ml-8 text-sm font-[Poppins] font-medium">Welcome, {user && `${user.firstName}`}</span>
+           
 
             <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm rounded-full  hover:bg-gray-50">
-
+                <Menu.Button className="lg:ml-8 inline-flex justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm rounded-full  hover:bg-gray-50">
+                  <div className="flex flex-row-reverse lg:flex-row items-center">
+                  <span className="py-2 px-2 md:block lg:hidden xl:block text-sm font-[Poppins] font-medium">Welcome, {user && `${user.firstName}`}</span>
                   <figure className='md:ml-0 lg:ml-8 xl:ml-0 md:block lg:block'>
                     <img
                       src={user.avatar && user.avatar[0].url}
@@ -158,6 +162,8 @@ const Navbar = () => {
                       alt={user && user.firstName}
                     />
                   </figure>
+                  </div>
+                
                 </Menu.Button>
               </div>
 
@@ -180,6 +186,7 @@ const Navbar = () => {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-2 text-sm'
                           )}
+                          onClick={()=>setOpen(false)}
                         >
                           Dashboard
                         </Link>
@@ -195,6 +202,7 @@ const Navbar = () => {
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                             'block px-4 py-2 text-sm'
                           )}
+                          onClick={()=>setOpen(false)}
                         >
                           Profile
                         </Link>

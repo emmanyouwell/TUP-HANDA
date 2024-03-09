@@ -203,8 +203,8 @@ export function AdminSidebar() {
           <div onClick={toggleDrawer} className='text-3xl w-[auto] top-0 left-0 p-10 cursor-pointer lg:hidden z-20'>
             <ion-icon name={openDrawer ? 'close' : 'menu'}></ion-icon>
           </div>
-          <Drawer open={openDrawer} onClose={closeDrawer} className="p-4 ">
-            <Card className="h-screen w-full top-0 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+          <Drawer open={openDrawer} onClose={closeDrawer} className="p-4 h-screen bg-fixed">
+            <Card className="h-screen w-full sticky top-0 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
               <div className="mb-2 p-4">
                 <Link to="/">
                   <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
@@ -307,7 +307,7 @@ export function AdminSidebar() {
                   </ListItem>
                   <AccordionBody className="py-1">
                     <List className="p-0">
-                      <Link to="/admin/modules">
+                      <Link to="/admin/modules/archive">
                         <ListItem>
 
                           <ListItemPrefix>
@@ -317,7 +317,7 @@ export function AdminSidebar() {
 
                         </ListItem>
                       </Link>
-                      <Link to="/admin/videos">
+                      <Link to="/admin/videos/archive">
                         <ListItem>
                           <ListItemPrefix>
                             <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />

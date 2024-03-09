@@ -237,7 +237,9 @@ export const forgotPassword = (formData) => async (dispatch) => {
             }
         }
         dispatch({ type: FORGOT_PASSWORD_REQUEST })
-        const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
+        const {data} = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
+       
+        
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
             payload: data.message
@@ -247,11 +249,12 @@ export const forgotPassword = (formData) => async (dispatch) => {
         });
 
     } catch (error) {
+        
         dispatch({
             type: FORGOT_PASSWORD_FAIL,
-            payload: error.response.data.message
+            payload:error.response.data.error
         })
-        toast.error(error.response.data.message, {
+        toast.error(error.response.data.error, {
             position: toast.POSITION.BOTTOM_RIGHT
         });
     }

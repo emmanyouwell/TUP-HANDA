@@ -90,7 +90,7 @@ export function Profile() {
         </section>
         <section>
           <div className="mb-6 flex w-full px-4 min-w-0 flex-col bg-white">
-            <div className="container mx-auto flex flex-col lg:flex-row gap-10">
+            <div className="p-6 md:container md:mx-auto flex flex-col lg:flex-row gap-10">
               <div className="lg:w-1/2 w-full">
               <h1 className="font-[Poppins] font-medium text-2xl">Modules downloaded</h1>
               <Card className="mt-6 min-w-xs sm:w-full bg-gray-50">
@@ -103,7 +103,7 @@ export function Profile() {
              
               <div className="lg:w-1/2 w-full">
               <h1 className="font-[Poppins] font-medium text-2xl">Watch History</h1>
-              <Card className="mt-6  min-w-xs sm:w-full bg-gray-50" >
+              <Card className="mt-6 sm:w-full bg-gray-50" >
                 <CardBody className="overflow-scroll h-[500px]">
                   <WatchHistoryList/>
                   

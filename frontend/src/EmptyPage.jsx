@@ -11,7 +11,7 @@ const EmptyPage = () => {
           There's nothing here
         </h2>
         <p className='mt-2 text-center text-sm text-gray-600'>
-            The page you're looking for is currently empty.
+            Sorry we couldn't find what you were looking for.
         </p>
         <img src={myImage} alt="MyImage"  /> {/* Add this line */}
         

@@ -64,7 +64,14 @@ exports.registerUser = async (req, res, next) => {
     // sendToken(user, 200, res)
     const confirmationToken = user.getConfirmEmailToken()
     await user.save({ validateBeforeSave: false })
-    const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+    let confirmEmailUrl = ''
+    if (process.env.SMTP_HOST === 'smtp.gmail.com') {
+        confirmEmailUrl = `${req.protocol}://tup-handa.vercel.app/confirm/${confirmationToken}`
+    }
+    else {
+        confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+    }
+
     const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
     try {
         await sendEmail({
@@ -127,7 +134,13 @@ exports.loginUser = async (req, res, next) => {
     if (!user.isVerified && isPasswordMatched) {
         const confirmationToken = user.getConfirmEmailToken()
         await user.save({ validateBeforeSave: false })
-        const confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+        let confirmEmailUrl = ''
+        if (process.env.SMTP_HOST === 'smtp.gmail.com') {
+            confirmEmailUrl = `${req.protocol}://tup-handa.vercel.app/confirm/${confirmationToken}`
+        }
+        else {
+            confirmEmailUrl = `${req.protocol}://localhost:5173/confirm/${confirmationToken}`
+        }
         const message = `Please click the link to activate your email:<a href=${confirmEmailUrl}>\n\n${confirmEmailUrl}\n\n</a>If you have not requested this email, then ignore it.`
         try {
             await sendEmail({
@@ -175,30 +188,44 @@ exports.logout = async (req, res, next) => {
 }
 
 exports.forgotPassword = async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email })
+    const { email } = req.body
+    const user = await User.findOne({ email })
     if (!user) {
-        return res.status(404).json({ error: 'User not found with this email' })
+        console.log('No user found with this email')
+        return res.status(404).json({ error: 'No user found with this email' })
+
     }
-    const resetToken = user.getResetPasswordToken()
-    await user.save({ validateBeforeSave: false })
-    const resetUrl = `${req.protocol}://localhost:5173/password/reset/${resetToken}`
-    const message = `Your password reset token is as follow:<a href=${resetUrl}>\n\n${resetUrl}\n\n</a>If you have not requested this email, then ignore it.`
-    try {
-        await sendEmail({
-            email: user.email,
-            subject: 'TUP Handa Password Recovery',
-            message
-        })
-        res.status(200).json({
-            success: true,
-            message: `Email sent to: ${user.email}`
-        })
-    } catch (error) {
-        user.resetPasswordToken = undefined
-        user.resetPasswordExpire = undefined
+    else {
+
+        const resetToken = user.getResetPasswordToken()
         await user.save({ validateBeforeSave: false })
-        return res.status(500).json({ error: error.message })
+        let resetUrl = ''
+        if (process.env.SMTP_HOST === 'smtp.gmail.com') {
+            resetUrl = `${req.protocol}://tup-handa.vercel.app/confirm/${resetToken}`
+        }
+        else {
+            resetUrl = `${req.protocol}://localhost:5173/confirm/${resetToken}`
+        }
+        const message = `Your password reset token is as follow:<a href=${resetUrl}>\n\n${resetUrl}\n\n</a>If you have not requested this email, then ignore it.`
+        try {
+            await sendEmail({
+                email: user.email,
+                subject: 'TUP Handa Password Recovery',
+                message
+            })
+            res.status(200).json({
+                success: true,
+                message: `Email sent to: ${user.email}`
+            })
+        } catch (error) {
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpire = undefined
+            await user.save({ validateBeforeSave: false })
+            return res.status(500).json({ error: error.message })
+        }
     }
+
+
 }
 
 exports.resetPassword = async (req, res, next) => {
@@ -576,13 +603,13 @@ exports.addToWatchHistory = async (req, res, next) => {
         }
         const videoId = req.params.id; // Get the video's ID from req.params
         const videoExists = user.watchHistory.some(video => video.video.toString() === videoId);
-    
+
         if (videoExists) {
-          user.watchHistory = user.watchHistory.map(video =>
-            video.video.toString() === videoId ? { video: videoId, date: Date.now() } : video
-          );
+            user.watchHistory = user.watchHistory.map(video =>
+                video.video.toString() === videoId ? { video: videoId, date: Date.now() } : video
+            );
         } else {
-          user.watchHistory.push({ video: videoId, date: Date.now() });
+            user.watchHistory.push({ video: videoId, date: Date.now() });
         }
         await user.save();
 
@@ -594,14 +621,16 @@ exports.addToWatchHistory = async (req, res, next) => {
 
 exports.getWatchHistory = async (req, res, next) => {
     try {
-      const user = await User.findById(req.user.id).populate('watchHistory.video');
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-      user.watchHistory.sort((a, b) => new Date(b.watchedAt) - new Date(a.watchedAt));
-      res.status(200).json({ watchHistory: user.watchHistory });
+        const user = await User.findById(req.user.id).populate('watchHistory.video');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        // Filter out videos that don't exist
+        user.watchHistory = user.watchHistory.filter(item => item.video != null);
+        user.watchHistory.sort((a, b) => new Date(b.watchedAt) - new Date(a.watchedAt));
+        res.status(200).json({ watchHistory: user.watchHistory });
     } catch (error) {
         console.log(error.message)
-      res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
-  };
+};

@@ -23,7 +23,7 @@ const Dashboard = () => {
 
       <div className="container mx-auto">
         <div className="flex flex-col">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
             <div className='flex justify-center items-center'>
               {loading ? <div className='flex justify-center items-center p-10'><Loader /></div> :
