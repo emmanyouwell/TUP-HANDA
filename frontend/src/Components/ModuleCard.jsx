@@ -41,7 +41,7 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
             });
 
         });
-      toast.dark('Downloading PDF', {autoclose:10000})
+        toast.dark('Downloading PDF', { autoclose: 10000 })
     };
     useEffect(() => {
         if (success) {
@@ -54,25 +54,26 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
     return (
         <>
 
-            <Card variant="gradient" color="white" className="w-96 mt-10 h-full flex flex-col justify-between">
+            <Card variant="gradient" color="white" className="sm:w-96 mt-10 h-full flex flex-col justify-between">
                 <CardHeader shadow={false} floated={false} className="h-96 transition duration-500 ease-in-out transform hover:scale-105 hover:cursor-pointer" onClick={handleOpen}>
                     <img
                         src={img && img}
                         alt="card-image"
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-contain bg-gray-100"
                     />
-                     
+
                 </CardHeader>
-                
+
                 <CardBody className="flex-grow">
 
                     <div className="mb-10 flex flex-col">
                         <Typography color="blue-gray" className="font-medium">
-                            {title}
+                            <a href={link}>{title}</a>
                         </Typography>
+                        <Typography>Click on the title to preview</Typography>
                         <div className="flex">
-                        <Chip color="light-green" variant="gradient" className="mt-4 rounded-full" value={category.name ? category.name : category} />
-                    </div>
+                            <Chip color="light-green" variant="gradient" className="mt-4 rounded-full" value={category.name ? category.name : category} />
+                        </div>
                     </div>
                     <Typography
                         variant="small"
@@ -83,7 +84,7 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
                     </Typography>
                 </CardBody>
                 <CardFooter className="pt-0 flex justify-between items-center gap-5">
-                    
+
                     <Button
                         ripple={false}
                         fullWidth={true}

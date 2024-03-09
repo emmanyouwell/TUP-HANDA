@@ -73,9 +73,12 @@ const Modules = () => {
   };
   return (
     <>
-      <div className="sm:container sm:mx-auto text-center sm:text-left  p-10 mt-10">
-        <> <h1 className="mb-5 font-bold text-3xl md:text-4xl lg:text-3xl font-[Poppins]">Read our downloadable modules!</h1>
+      <div className="sm:container sm:mx-auto sm:text-left  p-10 mt-10">
+        <> 
+        <div className="text-center sm:text-left">
+        <h1 className="mb-5 font-bold text-3xl md:text-4xl lg:text-3xl font-[Poppins]">Read our downloadable modules!</h1>
           <p className='mb-5 italic'>If the PDF failed to load, please check your internet connection and try again</p>
+          </div>
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="overflow-x-auto whitespace-nowrap w-full">
               <Tabs value={category} className="w-max">

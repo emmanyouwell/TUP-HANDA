@@ -44,8 +44,8 @@ const VideoCard = ({ id, title, description, link, category, shortDesc }) => {
 
         <>
 
-            <Card variant="gradient" color="white" className="w-96 mt-10 h-full flex flex-col justify-between">
-                <CardHeader shadow={false} floated={false} className="h-96 transition duration-500 ease-in-out transform hover:scale-105 hover:cursor-pointer">
+            <Card variant="gradient" color="white" className="sm:w-96 mt-10 h-full flex flex-col justify-between">
+                <CardHeader shadow={false} floated={false} className="h-70 transition duration-500 ease-in-out transform hover:scale-105 hover:cursor-pointer">
 
                     {/* <video className="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40 " controls>
                         <source src={link} type="video/mp4" />
@@ -55,7 +55,7 @@ const VideoCard = ({ id, title, description, link, category, shortDesc }) => {
                    
                   <YouTube
                     videoId={link.split('/embed/')[1]}
-                    className="h-96"
+                    className="h-60"
                     iframeClassName="relative w-full h-full overflow-hidden rounded-xl bg-clip-border text-white shadow-lg shadow-blue-gray-500/40"
                     onPlay={addToWatchHistoryHandler}
                     
