@@ -135,7 +135,7 @@ const Modules = () => {
             modules && modules.length > 0 ?
               <div className="grid justify-items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-6 mb-20">
                 {modules.map(m => <div key={m._id} className="col-span-full lg:col-span-3 2xl:col-span-2 ">
-                  <ModuleCard img={m.img.url} link={m.file.url} title={m.title} id={m._id} description={m.description} shortDesc={m.shortDesc} category={m.category ? m.category : 'None'} />
+                  <ModuleCard img={m.img.url} link={m.file.url} title={m.title} id={m._id} questions={m.questions} description={m.description} shortDesc={m.shortDesc} category={m.category ? m.category : 'None'} />
                 </div>)}
               </div> : <EmptyPage />}
           {/* Pagination */}

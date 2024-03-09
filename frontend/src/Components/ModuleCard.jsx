@@ -18,11 +18,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUserCourse, clearErrors } from '../Actions/userActions';
 import { ADD_COURSE_RESET } from '../Constants/userConstants';
 import { toast } from 'react-toastify'
-const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) => {
+import ExamCard from '../Exam/ExamCard'
+const ModuleCard = ({ id, title, description, img, link, category, shortDesc, questions }) => {
     const [open, setOpen] = useState(false);
+    const [exam, setExam] = useState(false)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [score, setScore] = useState(0);
     const handleOpen = () => setOpen(!open);
+    const answerQuiz = () => setExam(!exam);
     const dispatch = useDispatch()
     const { success, error } = useSelector(state => state.myModules)
+
+    const handleAnswer = (answer) => {
+        if (answer === questions[currentQuestionIndex].correctAnswer) {
+            setScore(score + 1);
+        }
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+    };
     const onButtonClick = () => {
         dispatch(addUserCourse(id))
         // using Java Script method to get PDF file
@@ -89,9 +101,9 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
                         ripple={false}
                         fullWidth={true}
                         className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                        onClick={handleOpen}
+                        onClick={answerQuiz}
                     >
-                        Read More
+                        Answer quiz
                     </Button>
                     <Button
                         ripple={false}
@@ -105,7 +117,23 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
                     </Button>
                 </CardFooter>
             </Card>
+            <Dialog open={exam} handler={answerQuiz} className="max-h-[80vh] overflow-auto">
+                <DialogHeader>Disaster Risk Reduction including Emergency Preparedness</DialogHeader>
+                <DialogBody className="">
+                {currentQuestionIndex >= questions.length ?<Typography variant="h1"> Your score: {score}/{questions.length}</Typography>: <ExamCard
+                question={questions[currentQuestionIndex].text}
+                answers={questions[currentQuestionIndex].answers}
+                onAnswer={handleAnswer}
+            />}
+               
+                </DialogBody>
+                <DialogFooter className="space-x-2">
 
+                    <Button variant="gradient" color="amber" onClick={answerQuiz}>
+                        Close
+                    </Button>
+                </DialogFooter>
+            </Dialog>
             <Dialog open={open} handler={handleOpen} className="max-h-[80vh] overflow-auto">
                 <DialogHeader>{title && title}</DialogHeader>
                 <DialogBody className="">
