@@ -42,6 +42,7 @@ import EditCategory from './Views/Category/Admin/EditCategory';
 import CategoryArchive from './Views/Admin/Archive/CategoryArchive';
 import ModuleArchive from './Views/Admin/Archive/ModuleArchive';
 import VideoArchive from './Views/Admin/Archive/VideoArchive';
+import ExamPage from './Exam/ExamPage';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -82,6 +83,7 @@ function MainContent() {
             <Login />
           </ErrorBoundary>
           } />
+          <Route path="/exam1" element={<ExamPage />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
           <Route path="/email-activation" element={<EmailActivation />} exact="true" />

@@ -6,6 +6,11 @@ export default withMT({
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  variants: {
+    extend: {
+      scale: ['active'],
+    }
+  },
   theme: {
     extend: {
       colors:{
