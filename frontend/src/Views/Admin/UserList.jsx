@@ -29,7 +29,7 @@ const UserList = () => {
     }
     return (
         <>
-            <div className="container p-10 mx-auto mt-5 flex min-h-screen justify-center items-center">
+            <div className="sm:container p-10 sm:mx-auto mt-5 flex justify-center items-center">
                 
                 <UserTable keyword={keyword} setKeyword={setKeyword} users={users} usersCount={count} resPerPage={resPerPage} filteredUsersCount={filteredUsersCount} currentPage={currentPage} setCurrentPage={setCurrentPage} loading={loading}/>
                 

@@ -31,7 +31,7 @@ const CategoryList = () => {
   }
   return (
     <>
-      <div className="container mx-auto mt-5 p-10 flex justify-center items-center">
+      <div className="sm:container sm:mx-auto mt-5 p-10 flex justify-center items-center">
         <CategoryTable header="Category List" loading={loading} category={categories} categoryCount={count} resPerPage={resPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} keyword={keyword} setKeyword={setKeyword} /> 
         
       </div>

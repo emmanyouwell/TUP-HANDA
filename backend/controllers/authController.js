@@ -201,10 +201,10 @@ exports.forgotPassword = async (req, res, next) => {
         await user.save({ validateBeforeSave: false })
         let resetUrl = ''
         if (process.env.SMTP_HOST === 'smtp.gmail.com') {
-            resetUrl = `${req.protocol}://tup-handa.vercel.app/confirm/${resetToken}`
+            resetUrl = `${req.protocol}://tup-handa.vercel.app/password/reset/${resetToken}`
         }
         else {
-            resetUrl = `${req.protocol}://localhost:5173/confirm/${resetToken}`
+            resetUrl = `${req.protocol}://localhost:5173/password/reset/${resetToken}`
         }
         const message = `Your password reset token is as follow:<a href=${resetUrl}>\n\n${resetUrl}\n\n</a>If you have not requested this email, then ignore it.`
         try {
