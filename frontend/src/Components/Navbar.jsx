@@ -21,7 +21,7 @@ const Navbar = () => {
   
 
   const logoutHandler = () => {
-
+    setOpen(false);
     dispatch(logoutUser());
     toast.success('Logged out', {
       position: toast.POSITION.BOTTOM_RIGHT
@@ -218,6 +218,7 @@ const Navbar = () => {
                               active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                               'block w-full px-4 py-2 text-left text-sm'
                             )}
+                            
                           >
                             Sign out
                           </Link>
