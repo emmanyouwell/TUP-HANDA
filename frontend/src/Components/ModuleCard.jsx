@@ -107,7 +107,7 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc }) 
 
             <Dialog open={open} handler={handleOpen} className="max-h-[80vh] overflow-auto">
                 <DialogHeader>{title && title}</DialogHeader>
-                <DialogBody className="max-h-[80vh] overflow-auto">
+                <DialogBody className="">
                     <Card
                         className="h-[auto] w-full cursor-pointer overflow-hidden transition-opacity hover:opacity-90 mb-8"
                         onClick={handleOpen}
