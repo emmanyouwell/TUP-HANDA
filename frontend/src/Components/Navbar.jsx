@@ -229,7 +229,7 @@ const Navbar = () => {
                 </Menu.Items>
               </Transition>
             </Menu>
-          </div>) : <Link to="/login"><button className="btn btn-warning py-2 px-6 text-white rounded-lg md:ml-8 text-lg">Login</button></Link>}
+          </div>) : <Link to="/login" onClick={()=>setOpen(false)}><button className="btn btn-warning py-2 px-6 text-white rounded-lg md:ml-8 text-lg">Login</button></Link>}
 
 
         </ul>
