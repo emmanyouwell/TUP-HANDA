@@ -2,25 +2,15 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 const Section1 = () => {
     return (
-
         <>
-        
             <section>
                 <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
                     <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-2 lg:items-center lg:gap-x-16">
                         <div className="mx-auto max-w-lg text-center lg:mx-0 ltr:lg:text-left rtl:lg:text-right">
                             <h2 className="text-3xl font-bold sm:text-4xl">Stay ready, stay safe with TUP Handa</h2>
-
                             <p className="mt-4 text-gray-600">
                             TUP HANDA is an innovative online platform designed to provide comprehensive training modules focused on disaster awareness and preparedness. It offers users a convenient and accessible way to learn essential skills and knowledge to effectively respond to various disasters. Through interactive courses, tutorials, and resources, TUP HANDA equips individuals and communities with the tools they need to mitigate risks and stay safe during emergencies.
-
-
-
-
-
-
                             </p>
-
                             <Link
                                 to="/modules"
                                 className="mt-8 inline-block rounded bg-warning px-12 py-3 text-sm font-medium text-white transition hover:bg-primary hover:text-black focus:outline-none focus:ring focus:ring-yellow-400"
@@ -28,11 +18,9 @@ const Section1 = () => {
                                 See modules
                             </Link>
                         </div>
-
                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            <div
+                                className="block rounded-xl border border-gray-200 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -60,11 +48,10 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Seismic safety and preparedness guidance.
                                 </p>
-                            </a>
+                            </div>
 
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            <div
+                                className="block rounded-xl border border-gray-200 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -92,10 +79,9 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Preparing for tropical storm emergencies.
                                 </p>
-                            </a>
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            </div>
+                            <div
+                                className="block rounded-xl border border-gray-200 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -123,11 +109,10 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Prevention, safety, and response strategies.
                                 </p>
-                            </a>
+                            </div>
 
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            <div
+                                className="block rounded-xl border border-gray-100 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -155,13 +140,9 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Essentials for survival and readiness.
                                 </p>
-                            </a>
-
-                            
-
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            </div>
+                            <div
+                                className="block rounded-xl border border-gray-100 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -189,11 +170,9 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Routes and procedures for safety.
                                 </p>
-                            </a>
-
-                            <a
-                                className="block rounded-xl border border-gray-100 p-4 shadow-sm hover:border-gray-200 hover:ring-1 hover:ring-gray-200 focus:outline-none focus:ring"
-                                href="#"
+                            </div>
+                            <div
+                                className="block rounded-xl border border-gray-100 p-4 shadow-sm"
                             >
                                 <span className="inline-block rounded-lg bg-gray-50 p-3">
                                     <svg
@@ -221,7 +200,7 @@ const Section1 = () => {
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
                                 Critical contact information for emergencies.
                                 </p>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>

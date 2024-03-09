@@ -9,6 +9,7 @@ import Announcement from '../Components/Announcement'
 import Accordion from '../Components/Accordion'
 import Navbar from '../Components/Navbar'
 import ChecklistComponent from '../Components/ChecklistComponent'
+import { Typography } from '@material-tailwind/react'
 function Home() {
     
     useEffect(()=>{
@@ -23,17 +24,17 @@ function Home() {
 
                 <Section1 />
 
-                <section className="mx-auto p-10">
+                <section className="sm:mx-auto p-10">
                     <ChecklistComponent/>
                 </section>
 
-                <section className="container mx-auto p-10">
+                {/* <section className="container mx-auto p-10">
                     <Testimonials />
-                </section>
+                </section> */}
 
-                <section className="container mx-auto p-10">
+                <section className="sm:container sm:mx-auto p-10">
                     <article className="prose mb-5">
-                        <h1>Frequently Asked Questions </h1>
+                    <Typography variant="h1">Frequently Asked Questions</Typography>
 
                     </article>
                     <Accordion />

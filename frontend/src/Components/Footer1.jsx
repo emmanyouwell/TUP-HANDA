@@ -2,12 +2,12 @@ import React from 'react'
 import logo from '../assets/TUPHANDA.png'
 const Footer1 = () => {
   return (
-    <footer className="footer p-10 bg-yellow-700 text-base-content">
-  <aside>
-    <img src={logo} className="w-24 h-16 object-contain" alt="logo" />
-    <p>TUP Handa<br/>Building a resilient community</p>
-  </aside> 
-  <nav>
+    <footer className="footer p-10 bg-yellow-700 text-base-content flex justify-center items-center">
+      <aside className="flex justify-center items-center">
+        <img src={logo} className="w-24 h-16 object-contain" alt="logo" />
+        <p>TUP Handa<br />Building a resilient community</p>
+      </aside>
+      {/* <nav>
     <h6 className="footer-title">Services</h6> 
     <a className="link link-hover">Branding</a>
     <a className="link link-hover">Design</a>
@@ -20,14 +20,14 @@ const Footer1 = () => {
     <a className="link link-hover">Contact</a>
     <a className="link link-hover">Jobs</a>
     <a className="link link-hover">Press kit</a>
-  </nav> 
-  <nav>
+  </nav>  */}
+      {/* <nav>
     <h6 className="footer-title">Legal</h6> 
     <a className="link link-hover">Terms of use</a>
     <a className="link link-hover">Privacy policy</a>
     <a className="link link-hover">Cookie policy</a>
-  </nav>
-</footer>
+  </nav> */}
+    </footer>
   )
 }
 
