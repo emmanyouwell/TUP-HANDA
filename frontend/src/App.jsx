@@ -43,6 +43,7 @@ import CategoryArchive from './Views/Admin/Archive/CategoryArchive';
 import ModuleArchive from './Views/Admin/Archive/ModuleArchive';
 import VideoArchive from './Views/Admin/Archive/VideoArchive';
 import ExamPage from './Exam/ExamPage';
+import AddQuestions from './Views/Modules/Admin/AddQuestions';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -61,158 +62,164 @@ function MainContent() {
   // const {user} = useSelector(state => state.auth)
   const isAdminRoute = location.pathname.startsWith('/admin');
   let isAdminUser = false;
-  if (getUser()){
+  if (getUser()) {
     isAdminUser = getUser().role === 'admin';
   }
-  
-  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1024px'})
+
+  const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1024px' })
 
   return (
     <>
-    
-    <div className={`flex  ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
-      {isAdminUser && isAdminRoute && <AdminSidebar />}
 
-      <ScrollToTop>
-        <Routes>
-          {/* Open routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={
-          <ErrorBoundary>
-            <Login />
-          </ErrorBoundary>
-          } />
-          <Route path="/exam1" element={<ExamPage />} />
-          <Route path="/password/forgot" element={<ForgotPassword />} />
-          <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
-          <Route path="/email-activation" element={<EmailActivation />} exact="true" />
-          <Route path="/confirm/:token" element={<EmailActivated />} exact="true" />
-          {/* Protected Routes */}
-          <Route path="/modules" element={
-            <ProtectedRoute>
-              <Modules />
-            </ProtectedRoute>
-          } />
-          <Route path="/modules/typhoons" element={
-            <ProtectedRoute>
-              <WaterModule />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/modules/fires" element={
-            <ProtectedRoute>
-              <FireModule />
-            </ProtectedRoute>
-          } />
-          <Route path="/modules/earthquakes" element={
-            <ProtectedRoute>
-              <EarthModule />
-            </ProtectedRoute>
-          } />
-          <Route path="/hotlines" element={
-            <ProtectedRoute>
-              <Hotline />
-            </ProtectedRoute>
-          } />
-           <Route path="/modules/videos" element={
-            <ProtectedRoute>
-              <VideoModules />
-            </ProtectedRoute>
-          } />
+      <div className={`flex  ${isAdminUser && isAdminRoute && isDesktopOrLaptop ? 'flex-row' : 'flex-col'}`}>
+        {isAdminUser && isAdminRoute && <AdminSidebar />}
+
+        <ScrollToTop>
+          <Routes>
+            {/* Open routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={
+              <ErrorBoundary>
+                <Login />
+              </ErrorBoundary>
+            } />
+
+            <Route path="/exam1" element={<ExamPage />} />
+            <Route path="/password/forgot" element={<ForgotPassword />} />
+            <Route path="/password/reset/:token" element={<ResetPassword />} exact="true" />
+            <Route path="/email-activation" element={<EmailActivation />} exact="true" />
+            <Route path="/confirm/:token" element={<EmailActivated />} exact="true" />
+            {/* Protected Routes */}
+            <Route path="/modules" element={
+              <ProtectedRoute>
+                <Modules />
+              </ProtectedRoute>
+            } />
+            <Route path="/modules/typhoons" element={
+              <ProtectedRoute>
+                <WaterModule />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/modules/fires" element={
+              <ProtectedRoute>
+                <FireModule />
+              </ProtectedRoute>
+            } />
+            <Route path="/modules/earthquakes" element={
+              <ProtectedRoute>
+                <EarthModule />
+              </ProtectedRoute>
+            } />
+            <Route path="/hotlines" element={
+              <ProtectedRoute>
+                <Hotline />
+              </ProtectedRoute>
+            } />
+            <Route path="/modules/videos" element={
+              <ProtectedRoute>
+                <VideoModules />
+              </ProtectedRoute>
+            } />
             <Route path="/profile" element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          } />
-          <Route path="/profile/update" element={
-            <ProtectedRoute>
-              <UpdateProfile />
-            </ProtectedRoute>
-          } exact="true" />
-         
-          <Route path="/quiz" element={<GoogleFormComponent />} />
-          {/* Admin routes */}
-          <Route path="/admin/modules" element={
-            <ProtectedRoute isAdmin={true}>
-              <ModuleList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/dashboard" element={
-            <ProtectedRoute isAdmin={true}>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/modules/new" element={
-            <ProtectedRoute isAdmin={true}>
-              <CreateModule />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/modules/:id" element={
-            <ProtectedRoute>
-              <EditModule />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/modules/archive" element={
-            <ProtectedRoute isAdmin={true}>
-              <ModuleArchive />
-            </ProtectedRoute>
-          }/>
-          <Route path="/admin/videos/new" element={
-            <ProtectedRoute isAdmin={true}>
-              <CreateVideo />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/videos" element={
-            <ProtectedRoute isAdmin={true}>
-              <VideoList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/videos/:id" element={
-            <ProtectedRoute isAdmin={true}>
-              <EditVideo />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/videos/archive" element={
-            <ProtectedRoute isAdmin={true}>
-              <VideoArchive/>
-            </ProtectedRoute>
-          }/>
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile/update" element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            } exact="true" />
 
-          <Route path="/admin/users" element={
-            <ProtectedRoute>
-              <UserList />
-            </ProtectedRoute>
-          } />
-          <Route path="/admin/category" element={
-            <ProtectedRoute isAdmin={true}>
-              <CategoryList />
-            </ProtectedRoute>
-          }/>
-          <Route path="/admin/category/new" element={
-            <ProtectedRoute isAdmin={true}>
-              <CreateCategory/>
-            </ProtectedRoute>
-          }/>
-          <Route path="/admin/category/:id" element={
-            <ProtectedRoute isAdmin={true}>
-              <EditCategory/>
-            </ProtectedRoute>
-          }/>
-          <Route path="/admin/category/archive" element={
-            <ProtectedRoute isAdmin={true}>
-              <CategoryArchive/>
-            </ProtectedRoute>
-          }/>
+            <Route path="/quiz" element={<GoogleFormComponent />} />
+            {/* Admin routes */}
+            <Route path="/admin/modules" element={
+              <ProtectedRoute isAdmin={true}>
+                <ModuleList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/dashboard" element={
+              <ProtectedRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/modules/new" element={
+              <ProtectedRoute isAdmin={true}>
+                <CreateModule />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/modules/:id" element={
+              <ProtectedRoute isAdmin={true}>
+                <EditModule />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/modules/archive" element={
+              <ProtectedRoute isAdmin={true}>
+                <ModuleArchive />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/videos/new" element={
+              <ProtectedRoute isAdmin={true}>
+                <CreateVideo />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/videos" element={
+              <ProtectedRoute isAdmin={true}>
+                <VideoList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/videos/:id" element={
+              <ProtectedRoute isAdmin={true}>
+                <EditVideo />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/videos/archive" element={
+              <ProtectedRoute isAdmin={true}>
+                <VideoArchive />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/questions/:id" element={
+              <ProtectedRoute isAdmin={true}>
+                <AddQuestions />
+              </ProtectedRoute>
 
-          <Route path="*" element={<NotFoundPage/>} />
+            } />
+            <Route path="/admin/users" element={
+              <ProtectedRoute isAdmin={true}>
+                <UserList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/category" element={
+              <ProtectedRoute isAdmin={true}>
+                <CategoryList />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/category/new" element={
+              <ProtectedRoute isAdmin={true}>
+                <CreateCategory />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/category/:id" element={
+              <ProtectedRoute isAdmin={true}>
+                <EditCategory />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/category/archive" element={
+              <ProtectedRoute isAdmin={true}>
+                <CategoryArchive />
+              </ProtectedRoute>
+            } />
 
-        </Routes>
-        <ToastContainer position="bottom-right" />
-      </ScrollToTop>
-      
-    </div>
-    {!isAdminRoute && <Footer1/>}
+            <Route path="*" element={<NotFoundPage />} />
+
+          </Routes>
+          <ToastContainer position="bottom-right" />
+        </ScrollToTop>
+
+      </div>
+      {!isAdminRoute && <Footer1 />}
     </>
   );
 }
@@ -220,12 +227,12 @@ function App() {
 
   return (
     <BrowserRouter>
-    
+
       <HeaderComponent />
-      
+
       <MainContent />
-      
-      
+
+
     </BrowserRouter>
   )
 

@@ -5,7 +5,7 @@ import {
     ChevronUpDownIcon,
 
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon, ArchiveBoxIcon, ArrowPathIcon} from "@heroicons/react/24/solid";
+import { PencilIcon, UserPlusIcon, ArchiveBoxIcon, ArrowPathIcon, BookOpenIcon} from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
@@ -211,6 +211,13 @@ export function SortableTable({ header, modules, modulesCount, resPerPage, curre
                                                     <Tooltip content="Edit module">
                                                         <IconButton variant="text">
                                                             <PencilIcon className="h-4 w-4" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Link>
+                                                <Link to={`/admin/questions/${_id}`}>
+                                                    <Tooltip content="Add exam">
+                                                        <IconButton variant="text">
+                                                            <BookOpenIcon className="h-4 w-4" />
                                                         </IconButton>
                                                     </Tooltip>
                                                 </Link>

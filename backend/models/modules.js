@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const moduleSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: [true, 'Please enter Module title'],
         maxLength: [250, 'Course name cannot exceed 250 characters']
     },
-    img:{
+    img: {
         public_id: {
             type: String,
             required: true
@@ -16,7 +16,7 @@ const moduleSchema = new mongoose.Schema({
             required: true
         }
     },
-    file:{
+    file: {
         public_id: {
             type: String,
             required: true
@@ -26,19 +26,32 @@ const moduleSchema = new mongoose.Schema({
             required: true
         }
     },
-    description:{
+    description: {
         type: String,
         required: [true, 'Please enter Module description'],
     },
-    shortDesc:{
+    shortDesc: {
         type: String,
         required: [true, 'Please enter Module short description'],
-    
+
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Categories'
     },
+    questions: [
+        {
+            text: {
+                type: String,
+            },
+            answers: {
+                type: [String],
+            },
+            correctAnswer: {
+                type: String,
+            },
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now
