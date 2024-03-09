@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const upload = require("../utils/multer")
 
-const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser, getAdminUsers, updateRole, getUserPerDepartment, getUserPerCourse, addDownloadedModule, getDownloadedModules, confirmEmail, addToWatchHistory, getWatchHistory} = require('../controllers/authController')
+const {registerUser, loginUser, logout, forgotPassword, resetPassword, updatePassword, getUserProfile, updateProfile, allUsers, getUserDetails, deleteUser, updateUser, getAdminUsers, updateRole, getUserPerDepartment, getUserPerCourse, addDownloadedModule, getDownloadedModules, confirmEmail, addToWatchHistory, getWatchHistory, updateExamTaken} = require('../controllers/authController')
 
 const {isAuthenticatedUser, authorizeRoles} = require('../middleware/auth')
 
@@ -20,6 +20,7 @@ router.get('/me/modules/downloaded',isAuthenticatedUser, getDownloadedModules)
 router.get('/confirm/:token', confirmEmail)
 router.put('/me/watchHistory/:id', isAuthenticatedUser, addToWatchHistory)
 router.get('/me/watchHistory', isAuthenticatedUser, getWatchHistory)
+router.put('/me/examTaken', isAuthenticatedUser, updateExamTaken)
 //Admin routes
 router.get('/admin/users', isAuthenticatedUser, authorizeRoles('admin'), allUsers)
 router.get('/admin/users/all', isAuthenticatedUser, authorizeRoles('admin'), getAdminUsers)

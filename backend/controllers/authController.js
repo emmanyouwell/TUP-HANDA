@@ -634,3 +634,31 @@ exports.getWatchHistory = async (req, res, next) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+exports.updateExamTaken = async (req, res) => {
+    try {
+      
+      const { moduleId, attempts } = req.body;
+  
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      const examIndex = user.examTaken.findIndex(exam => exam.moduleId.toString() === moduleId);
+      if (examIndex === -1) {
+        // If the user hasn't taken this module's exam before, add a new exam
+        user.examTaken.push({ moduleId, attempts });
+      } else {
+        // If the user has taken this module's exam before, append to the attempts
+        user.examTaken[examIndex].attempts.push(...attempts);
+      }
+  
+      await user.save();
+  
+      res.status(200).json({ examTaken: user.examTaken });
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).json({ error: error.message });
+    }
+  };

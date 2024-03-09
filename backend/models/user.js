@@ -99,6 +99,26 @@ const userSchema = new mongoose.Schema({
             default: Date.now
         }
     }],
+    examTaken: [
+        {
+          moduleId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Modules', // assuming you have a Module model
+          },
+          attempts: [
+            {
+              score: {
+                type: Number,
+                required: true,
+              },
+              takenAt: {
+                type: Date,
+                default: Date.now,
+              },
+            },
+          ],
+        },
+      ],
     isVerified: {
         type: Boolean,
         default: false

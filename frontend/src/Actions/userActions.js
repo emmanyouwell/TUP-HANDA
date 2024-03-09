@@ -66,6 +66,10 @@ import {
     GET_WATCH_HISTORY_REQUEST,
     GET_WATCH_HISTORY_SUCCESS,
     GET_WATCH_HISTORY_FAIL,
+    UPDATE_EXAM_TAKEN_REQUEST,
+    UPDATE_EXAM_TAKEN_SUCCESS,
+    UPDATE_EXAM_TAKEN_FAIL,
+    
     CLEAR_ERRORS
 } from '../Constants/userConstants'
 
@@ -121,7 +125,7 @@ export const register = (userData) => async (dispatch) => {
 
 
 export const login = (email, password, next) => async (dispatch) => {
-    
+
     try {
         dispatch({ type: LOGIN_REQUEST })
         const config = {
@@ -144,7 +148,7 @@ export const login = (email, password, next) => async (dispatch) => {
                 position: toast.POSITION.BOTTOM_RIGHT
 
             })
-            
+
             next('/login/?redirect=email-activation')
         }
 
@@ -157,7 +161,7 @@ export const login = (email, password, next) => async (dispatch) => {
                 payload: data.user
             })
             authenticate(data, () => { })
-            
+
         }
     } catch (error) {
         dispatch({
@@ -237,9 +241,9 @@ export const forgotPassword = (formData) => async (dispatch) => {
             }
         }
         dispatch({ type: FORGOT_PASSWORD_REQUEST })
-        const {data} = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
-       
-        
+        const { data } = await axios.post(`${process.env.REACT_APP_API}/api/v1/password/forgot`, formData, config)
+
+
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
             payload: data.message
@@ -249,10 +253,10 @@ export const forgotPassword = (formData) => async (dispatch) => {
         });
 
     } catch (error) {
-        
+
         dispatch({
             type: FORGOT_PASSWORD_FAIL,
-            payload:error.response.data.error
+            payload: error.response.data.error
         })
         toast.error(error.response.data.error, {
             position: toast.POSITION.BOTTOM_RIGHT
@@ -555,53 +559,85 @@ export const getUserCourse = () => async (dispatch) => {
 export const addToWatchHistory = (id) => async (dispatch) => {
     try {
         dispatch({
-          type: ADD_TO_WATCH_HISTORY_REQUEST,
+            type: ADD_TO_WATCH_HISTORY_REQUEST,
         });
-    
+
         const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${getToken()}`
-          }
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
         };
-    
+
         const { data } = await axios.put(`${process.env.REACT_APP_API}/api/v1/me/watchHistory/${id}`, {}, config);
-    
+
         dispatch({
-          type: ADD_TO_WATCH_HISTORY_SUCCESS,
-          payload: data.success
+            type: ADD_TO_WATCH_HISTORY_SUCCESS,
+            payload: data.success
         });
-      } catch (error) {
+    } catch (error) {
         dispatch({
-          type: ADD_TO_WATCH_HISTORY_FAIL,
-          payload: error.response.data.message
+            type: ADD_TO_WATCH_HISTORY_FAIL,
+            payload: error.response.data.message
         });
-      }
+    }
 }
 export const getWatchHistory = () => async (dispatch) => {
     try {
-      dispatch({
-        type: GET_WATCH_HISTORY_REQUEST,
-      });
-  
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${getToken()}`
-        }
-      };
-  
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/watchHistory`, config);
-  
-      dispatch({
-        type: GET_WATCH_HISTORY_SUCCESS,
-        payload: data.watchHistory
-      });
+        dispatch({
+            type: GET_WATCH_HISTORY_REQUEST,
+        });
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`
+            }
+        };
+
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/me/watchHistory`, config);
+
+        dispatch({
+            type: GET_WATCH_HISTORY_SUCCESS,
+            payload: data.watchHistory
+        });
     } catch (error) {
         console.log(error.message)
-      dispatch({
-        type: GET_WATCH_HISTORY_FAIL,
-        payload: error.response.data.message
-      });
+        dispatch({
+            type: GET_WATCH_HISTORY_FAIL,
+            payload: error.response.data.message
+        });
     }
-  };
+};
+
+export const updateExamTaken = (examTakenUpdate) => async (dispatch) => {
+    try {
+        dispatch({
+            type: UPDATE_EXAM_TAKEN_REQUEST,
+        });
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${getToken()}`,
+            },
+        };
+
+        const { data } = await axios.put(
+            `${process.env.REACT_APP_API}/api/v1/me/examTaken`,
+            examTakenUpdate,
+            config
+        );
+
+        dispatch({
+            type: UPDATE_EXAM_TAKEN_SUCCESS,
+            payload: data.examTaken,
+        });
+        toast.success('Exam taken successfully', { autoclose: 10000 })
+    } catch (error) {
+        dispatch({
+            type: UPDATE_EXAM_TAKEN_FAIL,
+            payload: error.response.data.error,
+        });
+    }
+};

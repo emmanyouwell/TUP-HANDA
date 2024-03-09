@@ -68,7 +68,11 @@ import {
     ADD_TO_WATCH_HISTORY_RESET,
     GET_WATCH_HISTORY_FAIL,
     GET_WATCH_HISTORY_SUCCESS,
-    GET_WATCH_HISTORY_REQUEST
+    GET_WATCH_HISTORY_REQUEST,
+    UPDATE_EXAM_TAKEN_REQUEST,
+    UPDATE_EXAM_TAKEN_SUCCESS,
+    UPDATE_EXAM_TAKEN_RESET,
+    UPDATE_EXAM_TAKEN_FAIL
 } from '../Constants/userConstants'
 
 export const authReducer = (state = { user: {} }, action) => {
@@ -172,6 +176,7 @@ export const userReducer = (state = {}, action) => {
         case DELETE_USER_REQUEST:
         case CHANGE_ROLE_REQUEST:
         case ADD_TO_WATCH_HISTORY_REQUEST:
+        case UPDATE_EXAM_TAKEN_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -186,6 +191,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_SUCCESS:
         case UPDATE_USER_SUCCESS:
         case CHANGE_ROLE_SUCCESS:
+        case UPDATE_EXAM_TAKEN_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -196,6 +202,7 @@ export const userReducer = (state = {}, action) => {
         case UPDATE_PASSWORD_RESET:
         case UPDATE_USER_RESET:
         case CHANGE_ROLE_RESET:
+        case UPDATE_EXAM_TAKEN_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -206,6 +213,7 @@ export const userReducer = (state = {}, action) => {
         case DELETE_USER_FAIL:
         case CHANGE_ROLE_FAIL:
         case ADD_TO_WATCH_HISTORY_FAIL:
+        case UPDATE_EXAM_TAKEN_FAIL:
             return {
                 ...state,
                 loading: false,

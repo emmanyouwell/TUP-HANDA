@@ -16,19 +16,36 @@ import {
 } from "@material-tailwind/react";
 import { useDispatch, useSelector } from 'react-redux'
 import { addUserCourse, clearErrors } from '../Actions/userActions';
+import { updateExamTaken, clearErrors as clearExamError } from '../Actions/userActions';
 import { ADD_COURSE_RESET } from '../Constants/userConstants';
 import { toast } from 'react-toastify'
+import { UPDATE_EXAM_TAKEN_RESET } from '../Constants/userConstants';
 import ExamCard from '../Exam/ExamCard'
+import Loader from './Loader';
 const ModuleCard = ({ id, title, description, img, link, category, shortDesc, questions }) => {
     const [open, setOpen] = useState(false);
     const [exam, setExam] = useState(false)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
+    const {loading, isUpdated, error: examError} = useSelector(state => state.user)
     const handleOpen = () => setOpen(!open);
     const answerQuiz = () => setExam(!exam);
     const dispatch = useDispatch()
     const { success, error } = useSelector(state => state.myModules)
-
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const saveAttempt = () =>{
+        const data = {
+            moduleId: id, 
+            attempts: [
+                {
+                    score: score
+                }
+            ]
+        }
+        dispatch(updateExamTaken(data))
+        // console.log(id)
+    }
+   
     const handleAnswer = (answer) => {
         if (answer === questions[currentQuestionIndex].correctAnswer) {
             setScore(score + 1);
@@ -62,7 +79,14 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc, qu
         if (error) {
             dispatch(clearErrors())
         }
-    }, [success, error])
+        if (examError){
+            dispatch(clearExamError())
+        }
+        if (isUpdated){
+            dispatch({type: UPDATE_EXAM_TAKEN_RESET})
+            
+        }
+    }, [success, error, dispatch, isUpdated, examError])
     return (
         <>
 
@@ -120,6 +144,7 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc, qu
             <Dialog open={exam} handler={answerQuiz} className="max-h-[80vh] overflow-auto">
                 <DialogHeader>Disaster Risk Reduction including Emergency Preparedness</DialogHeader>
                 <DialogBody className="">
+                
                 {currentQuestionIndex >= questions.length ?<Typography variant="h1"> Your score: {score}/{questions.length}</Typography>: <ExamCard
                 question={questions[currentQuestionIndex].text}
                 answers={questions[currentQuestionIndex].answers}
@@ -128,7 +153,10 @@ const ModuleCard = ({ id, title, description, img, link, category, shortDesc, qu
                
                 </DialogBody>
                 <DialogFooter className="space-x-2">
-
+                {currentQuestionIndex >= questions.length ?
+                <Button variant="gradient" color="amber" onClick={()=>{answerQuiz(); saveAttempt()}}>
+                        Save
+                    </Button>: ''}
                     <Button variant="gradient" color="amber" onClick={answerQuiz}>
                         Close
                     </Button>
