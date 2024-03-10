@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateModule, clearErrors } from '../../../Actions/modulesActions';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Formik, Field, Form, FieldArray } from 'formik';
 import Loader from '../../../Components/Loader';
 import { UPDATE_MODULE_RESET } from '../../../Constants/moduleConstants';
@@ -106,7 +106,13 @@ const AddQuestions = () => {
                                                             <button type="button" onClick={() => push({ text: '', answers: [''], correctAnswer: '' })} className="bg-blue-500 text-white p-2 rounded-md">
                                                                 Add Question
                                                             </button>
+                                                            <div>
+                                                            <Link to="/admin/modules">
+                                                            <button className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 mr-2">Cancel</button>
+                                                            </Link>
                                                             <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ">Submit</button>
+                                                            </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 )}

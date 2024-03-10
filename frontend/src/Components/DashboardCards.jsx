@@ -31,7 +31,7 @@ function hslToHex(h, s, l) {
       setColors(getRandomHueColor())
     },[])
     return (
-      <Card className="mt-6 w-96 text-gray-800" style={{backgroundColor: bgColor}}>
+      <Card className="mt-6 w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark text-gray-800" style={{backgroundColor: bgColor}}>
         <CardBody className="relative">
         <i className={`fa-solid ${icon} text-6xl p-4 absolute right-0`} style={{color: '#eeba0b'}}></i>
           <Typography variant="h3" className="mb-2">
@@ -43,7 +43,7 @@ function hslToHex(h, s, l) {
         </CardBody>
         <CardFooter className="pt-0">
           <Link to={link} className="inline-block">
-            <Button size="sm" variant="text" className="flex items-center gap-2 text-black" >
+            <Button size="sm" variant="text" className="flex items-center gap-2 text-[#dec84f]">
                 View more
               <svg
                 xmlns="http://www.w3.org/2000/svg"

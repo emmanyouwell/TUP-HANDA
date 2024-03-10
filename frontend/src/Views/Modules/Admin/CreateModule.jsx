@@ -288,7 +288,7 @@ const CreateModule = () => {
                                     </div>
 
                                     <div className="mt-6 flex items-center justify-end gap-x-6">
-                                        <Link to="/profile">
+                                        <Link to="/admin/modules">
                                             <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
                                                 Cancel
                                             </button>
