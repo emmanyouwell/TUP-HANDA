@@ -261,18 +261,30 @@ exports.updatePassword = async (req, res, next) => {
 
 
 exports.getUserProfile = async (req, res, next) => {
-    const user = await User.findById(req.user.id)
-
-    if (!user) {
+    const user = await User.findById(req.user.id).populate({
+        path: 'examTaken',
+        populate: {
+          path: 'moduleId',
+          model: 'Modules' // replace with your actual Module model name
+        }
+      });
+      
+      if (!user) {
         return res.status(404).json({
-            success: false,
-            message: 'Course not found'
+          success: false,
+          message: 'User not found'
         })
-    }
-    res.status(200).json({
+      }
+      
+      // Sort attempts for each examTaken
+      user.examTaken.forEach(exam => {
+        exam.attempts.sort((a, b) => new Date(b.takenAt) - new Date(a.takenAt));
+      });
+      
+      res.status(200).json({
         success: true,
         user
-    })
+      })
 }
 
 exports.updateProfile = async (req, res, next) => {
@@ -404,6 +416,14 @@ exports.updateProfile = async (req, res, next) => {
 
 exports.allUsers = async (req, res, next) => {
     const users = await User.find()
+  .populate({
+    path: 'examTaken',
+    populate: {
+      path: 'moduleId',
+      model: 'Modules' // replace with your actual Module model name
+    },
+    options: { sort: { 'attempts.takenAt': -1 } }
+  });
     res.status(200).json({
         success: true,
         users

@@ -110,7 +110,8 @@ export const authReducer = (state = { user: {} }, action) => {
                 loading: false,
                 isAuthenticated: true,
                 isVerified: true,
-                user: action.payload
+                user: action.payload,
+                
             }
         case REGISTER_USER_SUCCESS:
             return {
@@ -140,7 +141,7 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
-
+                
                 user: null,
                 error: action.payload
             }

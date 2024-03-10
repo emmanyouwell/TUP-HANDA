@@ -44,6 +44,7 @@ import ModuleArchive from './Views/Admin/Archive/ModuleArchive';
 import VideoArchive from './Views/Admin/Archive/VideoArchive';
 import ExamPage from './Exam/ExamPage';
 import AddQuestions from './Views/Modules/Admin/AddQuestions';
+import MyExams from './Views/Users/MyExams';
 function HeaderComponent() {
   const location = useLocation()
   const isAdminRoute = location.pathname.startsWith('/admin');
@@ -84,6 +85,8 @@ function MainContent() {
                 <Login />
               </ErrorBoundary>
             } />
+
+            <Route path="/me/exams" element={<MyExams/>} />
 
             <Route path="/exam1" element={<ExamPage />} />
             <Route path="/password/forgot" element={<ForgotPassword />} />
