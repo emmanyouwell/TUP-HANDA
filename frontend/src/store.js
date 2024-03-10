@@ -2,7 +2,7 @@ import { legacy_createStore as createStore, combineReducers, applyMiddleware } f
 import {thunk} from 'redux-thunk';
 import { authReducer, userReducer, forgotPasswordReducer, allUsersReducer, userDetailsReducer, userDepartmentReducer, userCourseReducer, addUserCourse  } from './Reducers/userReducers';
 import { checklistReducer } from './Reducers/checklistReducers';
-import { archiveModuleReducer, moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer, restoreModuleReducer } from './Reducers/moduleReducers';
+import { archiveModuleReducer, moduleReducer, modulesDetailsReducer, modulesReducer, newModulesReducer, restoreModuleReducer, allDownloadedModulesReducer } from './Reducers/moduleReducers';
 import { newVideosReducer, videoDetailsReducer, videosReducer, videoReducer, restoreVideoReducer, archiveVideoReducer } from './Reducers/videoReducer';
 import { archiveCategoryReducer, categoriesReducer, categoryDetailsReducer, categoryReducer, newCategoriesReducer, restoreCategoryReducer} from './Reducers/categoryReducers';
 const reducer = combineReducers({
@@ -24,7 +24,7 @@ const reducer = combineReducers({
     module: moduleReducer,
     resModule: restoreModuleReducer,
     archiveModule: archiveModuleReducer,
-    
+    allDownloadedModules: allDownloadedModulesReducer,
     newVideo: newVideosReducer,
     videoDetails: videoDetailsReducer,
     videos: videosReducer,

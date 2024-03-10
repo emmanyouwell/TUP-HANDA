@@ -566,10 +566,25 @@ exports.getUserPerDepartment = async (req, res, next) => {
 exports.getUserPerCourse = async (req, res, next) => {
     const usersPerCourse = await User.aggregate([
         {
+            $lookup: {
+                from: "courses", // use the actual name of the Course collection
+                localField: "course",
+                foreignField: "name", // change this to match on the course name
+                as: "courseInfo"
+            }
+        },
+        {
+            $unwind: "$courseInfo"
+        },
+        {
             $group: {
                 _id: "$course",
+                courseCode: { $first: "$courseInfo.code" }, // assuming the course code is stored in the 'code' field
                 totalUsers: { $sum: 1 }
             }
+        },
+        {
+            $sort: { totalUsers: -1 }
         }
     ])
     res.status(200).json({

@@ -27,6 +27,9 @@ import {
     ARCHIVED_MODULE_REQUEST,
     ARCHIVED_MODULE_SUCCESS,
     ARCHIVED_MODULE_FAIL,
+    ALL_MODULES_DOWNLOADED_REQUEST,
+    ALL_MODULES_DOWNLOADED_SUCCESS,
+    ALL_MODULES_DOWNLOADED_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/moduleConstants';
@@ -253,3 +256,29 @@ export const restoreArchivedModules = (id) => async (dispatch) => {
         })
     }
 }
+
+export const getAllDownloadedModules = () => async (dispatch) => {
+    try {
+      dispatch({ type: ALL_MODULES_DOWNLOADED_REQUEST });
+  
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${getToken()}`
+        }
+      };
+  
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/modules/downloaded`, config);
+  
+      dispatch({
+        type: ALL_MODULES_DOWNLOADED_SUCCESS,
+        payload: data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_MODULES_DOWNLOADED_FAIL,
+        payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      });
+    }
+  };

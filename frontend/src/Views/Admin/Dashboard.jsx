@@ -8,11 +8,19 @@ import { getAdminVideos } from '../../Actions/videoActions'
 import Loader from '../../Components/Loader'
 import UserDepartmentCharts from '../../Components/Charts/UserDepartmentCharts'
 import UserCourseCharts from '../../Components/Charts/UserCourseCharts'
+import DownloadedModulesChart from '../../Components/Charts/DownloadedModulesCharts'
+import DownloadedModules from '../../Components/ApexCharts/DownloadedModules'
+import CardDataStats from '../../Components/template/CardDataStats'
+import UsersPerDepartmentApex from '../../Components/ApexCharts/UsersPerDepartmentApex'
+import UsersPerCourseApex from '../../Components/ApexCharts/UserPerCourseApex'
 const Dashboard = () => {
   const dispatch = useDispatch()
   const { usersCount, loading, error } = useSelector(state => state.allUsers);
   const { loading: moduleLoading, modulesCount, error: moduleError } = useSelector(state => state.modules);
   const { loading: videoLoading, videosCount, error: videoError } = useSelector(state => state.videos);
+ 
+
+
   useEffect(() => {
     dispatch(getAdminUsers());
     dispatch(getAdminModules());
@@ -21,39 +29,37 @@ const Dashboard = () => {
   return (
     <>
 
-      <div className="container mx-auto">
-        <div className="flex flex-col">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="mx-auto max-w-screen-2xl p-10 md:p-6 2xl:p-10">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
 
-            <div className='flex justify-center items-center'>
-              {loading ? <div className='flex justify-center items-center p-10'><Loader /></div> :
-                <DashboardCards icon="fa-users" title="Users" data={usersCount && usersCount} textColor="white" bgColor="#f27059" link="/admin/users" />}
+          <div className='flex justify-center items-center'>
 
-            </div>
-            <div className='flex justify-center items-center'>
-              {moduleLoading ? <div className='flex justify-center items-center p-10'><Loader /></div> :
-                <DashboardCards icon="fa-book" title="Modules" data={modulesCount && modulesCount} textColor="white" bgColor="#60d394" link="/admin/modules" />}
+            <DashboardCards icon="fa-users" title="Users" data={usersCount && usersCount} bgColor="WHITE" link="/admin/users" />
 
-            </div>
-            <div className='flex justify-center items-center'>
-              {videoLoading ? <div className='flex justify-center items-center p-10'><Loader /></div> :
-                <DashboardCards icon="fa-book" title="Videos" data={videosCount && videosCount} textColor="white" bgColor="#3fa7d6" link="/admin/videos" />}
-
-            </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-20">
-            <div className="flex justify-center items-center">
-              <UserDepartmentCharts />
-            </div>
-            <div className="flex justify-center items-center">
-              <UserCourseCharts />
-            </div>
+          <div className='flex justify-center items-center'>
+
+            <DashboardCards icon="fa-book" title="Modules" data={modulesCount && modulesCount} textColor="#60d394" bgColor="WHITE" link="/admin/modules" />
+
+          </div>
+          <div className='flex justify-center items-center'>
+
+            <DashboardCards icon="fa-video" title="Videos" data={videosCount && videosCount} textColor="#3fa7d6" bgColor="WHITE" link="/admin/videos" />
+
           </div>
 
         </div>
-
-
+        <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+          <UsersPerDepartmentApex />
+          <UsersPerCourseApex />
+          <div className="col-span-full ">
+            <DownloadedModules />
+          </div>
+        </div>
       </div>
+
+
+
     </>
   )
 }

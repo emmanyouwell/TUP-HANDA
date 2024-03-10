@@ -27,6 +27,9 @@ import {
     ARCHIVED_MODULE_REQUEST,
     ARCHIVED_MODULE_SUCCESS,
     ARCHIVED_MODULE_FAIL,
+    ALL_MODULES_DOWNLOADED_REQUEST,
+    ALL_MODULES_DOWNLOADED_SUCCESS,
+    ALL_MODULES_DOWNLOADED_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/moduleConstants';
@@ -263,4 +266,17 @@ export const archiveModuleReducer = (state = {archivedModules: []}, action) => {
         default:
             return state
     }
+}
+
+export const allDownloadedModulesReducer = (state = { downloadedModules: [] }, action) => {
+    switch (action.type) {
+        case ALL_MODULES_DOWNLOADED_REQUEST:
+          return { loading: true, downloadedModules: [] };
+        case ALL_MODULES_DOWNLOADED_SUCCESS:
+          return { loading: false, downloadedModules: action.payload };
+        case ALL_MODULES_DOWNLOADED_FAIL:
+          return { loading: false, error: action.payload, downloadedModules: [] };
+        default:
+          return state;
+      }
 }
