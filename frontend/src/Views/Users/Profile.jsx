@@ -69,18 +69,27 @@ export function Profile() {
                     {user ? `${user.address}, ${user.city}, ${user.country} ${user.postalCode}` : "City, Country"}
                   </Typography>
                 </div>
+                {user && user.department && (user.department !== "Faculty" && user.department !== "Staff")?
                 <div className="flex items-center gap-2">
                   <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                   <Typography className="font-medium text-blue-gray-500">
-                    {user ? user.course : "Course"}
+                    {user && user.course ? user.course : "Course"} 
                   </Typography>
-                </div>
-                <div className="flex items-center gap-2">
-                  <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                </div>: <div className="flex items-center gap-2">
+                  <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                   <Typography className="font-medium text-blue-gray-500">
-                    {user ? `${user.department}` : "Department"}
+                    {user && user.department ? user.department : ""}
                   </Typography>
-                </div>
+                </div>}
+                {(user && user.department && (user.department !== "Faculty" && user.department !== "Staff"))?
+                <div className="flex items-center gap-2">
+                <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                <Typography className="font-medium text-blue-gray-500">
+                  {user && user.department ? `${user.department}` : "Department"}
+                </Typography>
+              </div> : ""
+              }
+               
               </div>
 
             </div>

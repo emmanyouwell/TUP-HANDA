@@ -108,7 +108,7 @@ const Register = () => {
             phone: Yup.string().required('Phone number is required'),
             confirmPass: Yup.string().required('Confirm password is required').oneOf([Yup.ref('password'), null], 'Passwords must match'),
             department: Yup.string().required('Department is required'),
-            course: Yup.string().required('Course is required'),
+            
         })
     })
     //   const GoogleRegister = useGoogleLogin({
@@ -299,7 +299,8 @@ const Register = () => {
                                         </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="department" className="block text-sm font-medium leading-6 text-gray-900">
+                                       { selectedDepartment !== 'Faculty' && selectedDepartment !== 'Staff' ? <>
+                                       <label htmlFor="department" className="block text-sm font-medium leading-6 text-gray-900">
                                             Course
                                         </label>
                                         <div className="mt-2">
@@ -326,6 +327,8 @@ const Register = () => {
                                                 {Formik.errors.course && Formik.touched.course && Formik.errors.course}
                                             </small>
                                         </div>
+                                       </>: ''}
+                                        
                                     </div>
                                 </div>
 

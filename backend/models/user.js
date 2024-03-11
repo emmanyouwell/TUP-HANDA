@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     course: {
         type: String,
-        required: [true, 'Please enter your name'],
+       
         maxLength: [150, 'Your name cannot exceed 30 characters']
     },
     firstName: {

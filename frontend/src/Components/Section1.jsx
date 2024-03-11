@@ -165,10 +165,10 @@ const Section1 = () => {
                                     </svg>
                                 </span>
 
-                                <h2 className="mt-2 font-bold">Evacuation Plan</h2>
+                                <h2 className="mt-2 font-bold">Training Modules</h2>
 
                                 <p className="hidden sm:mt-1 sm:block sm:text-sm sm:text-gray-600">
-                                Routes and procedures for safety.
+                                Guidance for readiness during emergencies.
                                 </p>
                             </div>
                             <div
