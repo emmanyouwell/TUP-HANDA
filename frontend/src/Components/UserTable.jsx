@@ -183,7 +183,7 @@ export function UserTable({ users, usersCount, resPerPage, currentPage, setCurre
                                                     </IconButton>
                                                 </Tooltip>
 
-                                                <Tooltip content="Delete module">
+                                                <Tooltip content="Delete user">
                                                     <IconButton variant="text">
                                                         <TrashIcon className="h-5 w-5" onClick={() => deleteHandler(_id)} />
                                                     </IconButton>
