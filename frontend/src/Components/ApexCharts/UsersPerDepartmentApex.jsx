@@ -81,7 +81,7 @@ const UsersPerDepartmentApex = () => {
                     type: 'donut',
                 },
                 colors: color,
-                labels: userData.map(item => item._id || 'Unknown'),
+                labels: userData.map(item => item._id.department || 'Unknown'),
                 legend: {
                     show: false,
                     position: 'bottom',
