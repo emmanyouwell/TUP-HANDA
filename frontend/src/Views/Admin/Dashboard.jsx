@@ -13,6 +13,7 @@ import DownloadedModules from '../../Components/ApexCharts/DownloadedModules'
 import CardDataStats from '../../Components/template/CardDataStats'
 import UsersPerDepartmentApex from '../../Components/ApexCharts/UsersPerDepartmentApex'
 import UsersPerCourseApex from '../../Components/ApexCharts/UserPerCourseApex'
+import VideoViewsApex from '../../Components/ApexCharts/VideoViewsApex'
 const Dashboard = () => {
   const dispatch = useDispatch()
   const { usersCount, loading, error } = useSelector(state => state.allUsers);
@@ -54,6 +55,9 @@ const Dashboard = () => {
           <UsersPerCourseApex />
           <div className="col-span-full ">
             <DownloadedModules />
+          </div>
+          <div className="col-span-full ">
+            <VideoViewsApex />
           </div>
         </div>
       </div>

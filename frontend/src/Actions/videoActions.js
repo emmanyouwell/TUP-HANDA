@@ -27,6 +27,9 @@ import {
     RESTORE_VIDEO_SUCCESS,
     RESTORE_VIDEO_RESET,
     RESTORE_VIDEO_FAIL,
+    FETCH_VIDEO_VIEWS_REQUEST,
+    FETCH_VIDEO_VIEWS_SUCCESS,
+    FETCH_VIDEO_VIEWS_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/videoConstants';
@@ -239,4 +242,31 @@ export const restoreArchivedVideos = (id) => async (dispatch) => {
             payload: error.response.data.message
         })
     }
+}
+
+export const fetchVideoViews = () => async (dispatch) => {
+    try{
+        dispatch({ type: FETCH_VIDEO_VIEWS_REQUEST });
+
+        const config = {
+          headers: {
+            'Authorization': `Bearer ${getToken()}`
+          }
+        };
+    
+        const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/admin/videos/views`, config);
+        // console.log(data)
+        dispatch({
+          type: FETCH_VIDEO_VIEWS_SUCCESS,
+          payload: data
+        });
+    }catch (error){
+        dispatch({
+            type: FETCH_VIDEO_VIEWS_FAIL,
+            payload: error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message
+          });
+    }
+
 }

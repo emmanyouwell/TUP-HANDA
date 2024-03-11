@@ -29,14 +29,19 @@ exports.allDownloadedModules = async (req, res) => {
           moduleName: '$module.title', // replace 'name' with your actual module name field
           downloadCount: '$count'
         }
+      },
+      {
+        $group: {
+          _id: null,
+          totalDownloads: { $sum: '$downloadCount' },
+          modules: { $push: '$$ROOT' }
+        }
       }
     ]);
 
-    
-
     res.status(200).json({
       success: true,
-      data: result
+      data: result[0] || {}
     });
   } catch (error) {
     res.status(500).json({
@@ -46,4 +51,3 @@ exports.allDownloadedModules = async (req, res) => {
     });
   }
 };
-

@@ -27,6 +27,9 @@ import {
     RESTORE_VIDEO_SUCCESS,
     RESTORE_VIDEO_RESET,
     RESTORE_VIDEO_FAIL,
+    FETCH_VIDEO_VIEWS_REQUEST,
+    FETCH_VIDEO_VIEWS_SUCCESS,
+    FETCH_VIDEO_VIEWS_FAIL,
     CLEAR_ERRORS,
 
 } from '../Constants/videoConstants';
@@ -76,7 +79,7 @@ export const videosReducer = (state = { videos: [] }, action) => {
     }
 }
 
-export const videoDetailsReducer = (state = { videos: {} }, action) => {
+export const videoDetailsReducer = (state = { videos: {}, videoViews: [] }, action) => {
     switch (action.type) {
 
         case VIDEO_DETAILS_REQUEST:
@@ -84,20 +87,34 @@ export const videoDetailsReducer = (state = { videos: {} }, action) => {
                 ...state,
                 loading: true
             }
-
+        case FETCH_VIDEO_VIEWS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
         case VIDEO_DETAILS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 videos: action.payload
             }
-
+        case FETCH_VIDEO_VIEWS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                videoViews: action.payload
+            }
         case VIDEO_DETAILS_FAIL:
             return {
                 ...state,
                 error: action.payload
             }
-
+        case FETCH_VIDEO_VIEWS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
         case CLEAR_ERRORS:
             return {
                 ...state,
@@ -257,3 +274,5 @@ export const archiveVideoReducer = (state = {archivedVideos: []}, action) => {
             return state
     }
 }
+
+

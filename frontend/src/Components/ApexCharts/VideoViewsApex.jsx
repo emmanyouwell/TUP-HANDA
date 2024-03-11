@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { getAllDownloadedModules } from '../../Actions/modulesActions';
+
+import { fetchVideoViews, clearErrors } from '../../Actions/videoActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const DownloadedModules = () => {
+const VideoViewsApex = () => {
     const dispatch = useDispatch();
 
-    const allDownloadedModules = useSelector(state => state.allDownloadedModules);
-    const { loading, error, downloadedModules } = allDownloadedModules;
+    
+    const {videoViews, loading, error} = useSelector(state => state.videoDetails);
 
     const [state, setState] = useState({
         series: [
@@ -81,10 +82,14 @@ const DownloadedModules = () => {
     });
 
     useEffect(() => {
-        dispatch(getAllDownloadedModules());
-    }, [dispatch]);
+        if (error){
+            dispatch(clearErrors());
+        }
+        dispatch(fetchVideoViews());
+    }, [dispatch, error]);
     useEffect(() => {
-        if (downloadedModules.modules && Array.isArray(downloadedModules.modules)) {
+        if (videoViews.videos && Array.isArray(videoViews.videos)) {
+            
             const options = {
                 colors: ['#eeba0b', '#80CAEE'],
                 chart: {
@@ -127,7 +132,7 @@ const DownloadedModules = () => {
                 },
 
                 xaxis: {
-                    categories: downloadedModules.modules.map(module => module.moduleName),
+                    categories: videoViews.videos.map(video => video.videoDetails.title),
                 },
                 legend: {
                     position: 'top',
@@ -147,8 +152,8 @@ const DownloadedModules = () => {
             setState({
                 series: [
                     {
-                        name: 'Downloads',
-                        data: downloadedModules.modules.map(module => module.downloadCount)
+                        name: 'Views',
+                        data: videoViews.videos.map(video => video.views)
                     }
                 ],
                 options,
@@ -156,7 +161,7 @@ const DownloadedModules = () => {
 
 
         }
-    }, [downloadedModules])
+    }, [videoViews])
 
 
     const handleReset = () => {
@@ -170,7 +175,7 @@ const DownloadedModules = () => {
             <div className="mb-4 justify-between gap-4 sm:flex">
                 <div>
                     <h4 className="text-xl font-semibold text-black dark:text-white">
-                        Total Downloads {downloadedModules.totalDownloads && `(${downloadedModules.totalDownloads})`}
+                        Total Views {videoViews.totalViews && `(${videoViews.totalViews})`}
                     </h4>
                 </div>
                 
@@ -189,4 +194,4 @@ const DownloadedModules = () => {
         </div>
     );
 }
-export default DownloadedModules;
+export default VideoViewsApex;

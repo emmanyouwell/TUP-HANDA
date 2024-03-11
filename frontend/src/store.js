@@ -25,6 +25,7 @@ const reducer = combineReducers({
     resModule: restoreModuleReducer,
     archiveModule: archiveModuleReducer,
     allDownloadedModules: allDownloadedModulesReducer,
+    
     newVideo: newVideosReducer,
     videoDetails: videoDetailsReducer,
     videos: videosReducer,

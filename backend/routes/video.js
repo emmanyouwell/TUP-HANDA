@@ -4,6 +4,7 @@ const upload = require("../utils/multer")
 
 const {createVideo, getVideos, getSingleVideo, updateVideo, deleteVideo, getAdminVideos, getArchivedVideos, restoreArchivedVideos} = require('../controllers/videoController')
 const {isAuthenticatedUser, authorizeRoles} = require('../middleware/auth')
+const { getVideoViews } = require('../controllers/VideoViewsController')
 router.post('/admin/video/new', isAuthenticatedUser, authorizeRoles('admin'), createVideo)
 router.get('/admin/videos', getVideos)
 router.get('/admin/video/:id', getSingleVideo)
@@ -11,4 +12,5 @@ router.route('/admin/video/:id', isAuthenticatedUser,).put(updateVideo).delete(d
 router.get('/admin/all/videos', getAdminVideos)
 router.get('/admin/videos/archive', isAuthenticatedUser, authorizeRoles('admin'), getArchivedVideos)
 router.route('/admin/videos/restore/:id', isAuthenticatedUser, authorizeRoles('admin')).delete(restoreArchivedVideos)
+router.get('/admin/videos/views', getVideoViews)
 module.exports = router

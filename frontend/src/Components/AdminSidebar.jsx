@@ -213,11 +213,7 @@ export function AdminSidebar() {
 
           <div className='flex justify-between sticky border-b-2 border-warning bg-white shadow-md items-center text-3xl w-[auto] top-0 left-0 p-6 cursor-pointer xl:hidden z-20'>
             <ion-icon name={openDrawer ? 'close' : 'menu'} onClick={toggleDrawer}></ion-icon>
-            <img
-                    src={user.avatar && user.avatar[0].url}
-                    className="w-[50px] h-[50px] rounded-full object-cover"
-                    alt={user && user.firstName}
-                  />
+            <img src={logo} alt="logo" className="w-24 h-12 object-contain" />
           </div>
           <Drawer open={openDrawer} onClose={closeDrawer} className="p-4 h-screen bg-fixed">
           <Card className="h-screen w-full sticky top-0 bottom-0 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
