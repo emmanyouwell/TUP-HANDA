@@ -277,9 +277,9 @@ exports.getUserProfile = async (req, res, next) => {
       }
       
       // Sort attempts for each examTaken
-      user.examTaken.forEach(exam => {
-        exam.attempts.sort((a, b) => new Date(b.takenAt) - new Date(a.takenAt));
-      });
+    //   user.examTaken.forEach(exam => {
+    //     exam.attempts.sort((a, b) => new Date(b.takenAt) - new Date(a.takenAt));
+    //   });
       
       res.status(200).json({
         success: true,
