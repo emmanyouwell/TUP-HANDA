@@ -94,7 +94,7 @@ const EarthModule = () => {
                     <h1 className="font-black text-6xl text-end text-gray-100 drop-shadow-lg relative z-10 mb-10" data-aos="fade-left">During</h1>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-10 relative">
                         <div className="md:col-span-2 lg:row-span-1 xl:row-span-2 xl:col-span-2 col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
-                            <img src={img2} className="h-auto w-100" alt="Guidelines during a typhoon/flood by Philstar" />
+                            <img src={img2} className="" alt="Guidelines during a typhoon/flood by Philstar" />
 
                         </div>
                         {/* <div className="md:col-span-1 lg:row-span-1 xl:row-span-1 2xl:row-span-3  col-span-2 flex flex-col justify-center items-align h-full w-full bg-white-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-40 border border-gray-100 p-4 text-white" data-aos="flip-right">
