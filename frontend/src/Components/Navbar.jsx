@@ -117,20 +117,7 @@ const Navbar = () => {
                         </Link>
                       )}
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link
-                          to="#"
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                          onClick={()=>setOpen(false)}
-                        >
-                          Exams
-                        </Link>
-                      )}
-                    </Menu.Item>
+                    
                     
                    
                   </div>
