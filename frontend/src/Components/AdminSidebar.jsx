@@ -179,15 +179,6 @@ export function AdminSidebar() {
                       Category
                     </ListItem>
                   </Link>
-                  <Link to="/admin/users">
-                    <ListItem>
-                      <ListItemPrefix>
-                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                      </ListItemPrefix>
-                      Users
-                    </ListItem>
-                  </Link>
-
                 </List>
               </AccordionBody>
             </Accordion>
@@ -345,20 +336,18 @@ export function AdminSidebar() {
                       Category
                     </ListItem>
                   </Link>
-                  <Link to="/admin/users">
-                    <ListItem>
-                      <ListItemPrefix>
-                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                      </ListItemPrefix>
-                      Users
-                    </ListItem>
-                  </Link>
-
                 </List>
               </AccordionBody>
             </Accordion>
             <hr className="my-2 border-blue-gray-50" />
-
+           
+              {/* <ListItem>
+                <ListItemPrefix>
+                  <DocumentChartBarIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                Report
+              </ListItem>
+             */}
             <Link to="/" onClick={logoutHandler}>
               <ListItem>
                 <ListItemPrefix>
