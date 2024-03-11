@@ -135,7 +135,7 @@ const UpdateProfile = () => {
               return true;
             }),
             department: Yup.string().required('Department is required'),
-            course: Yup.string().required('Course is required')
+            
 
         })
     })
@@ -300,27 +300,27 @@ const UpdateProfile = () => {
                                         </div>
                                     </div>
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="department" className="block text-sm font-medium leading-6 text-gray-900">
+                                    { selectedDepartment !== 'Faculty' && selectedDepartment !== 'Staff' ? <>
+                                       <label htmlFor="department" className="block text-sm font-medium leading-6 text-gray-900">
                                             Course
                                         </label>
                                         <div className="mt-2">
-
                                             <select
                                                 id="course"
                                                 name="course"
                                                 autoComplete="course-name"
                                                 onChange={Formik.handleChange}
-                                                value={course.find(c => c.name === Formik.values.course)?.name || ''}
+                                                value={Formik.values.course}
                                                 onBlur={Formik.handleBlur}
                                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
+
                                                 <option value="">Select a course</option>
                                                 {course.map((c) => (
                                                     <option key={c._id} value={c.name}>
                                                         {c.code} - {c.name}
                                                     </option>
                                                 ))}
-
                                             </select>
                                         </div>
                                         <div className="text-error italic">
@@ -328,6 +328,7 @@ const UpdateProfile = () => {
                                                 {Formik.errors.course && Formik.touched.course && Formik.errors.course}
                                             </small>
                                         </div>
+                                       </>: ''}
                                     </div>
                                 </div>
 

@@ -162,7 +162,7 @@ const UsersPerDepartmentApex = () => {
                     <div className="flex w-full items-center">
                         <span className="mr-2 block h-3 w-full max-w-3 rounded-full" style={{backgroundColor: `${colors[index]}`}}></span>
                         <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                            <span> {item._id} </span>
+                            <span> {item._id.code} </span>
                             <span> {((item.totalUsers/totalUsers) * 100).toFixed(2)}% </span>
                         </p>
                     </div>

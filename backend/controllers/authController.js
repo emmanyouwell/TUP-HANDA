@@ -550,8 +550,19 @@ exports.updateRole = async (req, res, next) => {
 exports.getUserPerDepartment = async (req, res, next) => {
     const usersPerDepartment = await User.aggregate([
         {
+            $lookup: {
+                from: "departments", // use the actual name of the departments collection
+                localField: "department",
+                foreignField: "name",
+                as: "departmentData"
+            }
+        },
+        {
+            $unwind: "$departmentData"
+        },
+        {
             $group: {
-                _id: "$department",
+               _id: { department:"$department", code: "$departmentData.code" },
                 totalUsers: { $sum: 1 }
             }
         }
