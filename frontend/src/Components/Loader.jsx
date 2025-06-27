@@ -1,5 +1,5 @@
 import React from 'react'
-import loader from '../assets/loader.gif'
+import loader from '../assets/image/loader.gif'
 const Loader = () => {
     return (
         <div className="flex flex-col justify-center items-center">

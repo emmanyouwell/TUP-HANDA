@@ -25,8 +25,6 @@ exports.createModule = async (req, res, next) => {
     try {
         const result = await cloudinary.v2.uploader.upload(req.body.image, {
             folder: 'TUPHANDA_ASSETS',
-            
-            
         });
 
         imageLink = {

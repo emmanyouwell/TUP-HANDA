@@ -49,7 +49,7 @@ const CreateModule = () => {
             formData.append('pdf', file)
             formData.set('shortDesc', values.shortDesc)
             formData.set('category', values.category)
-
+            console.log('form submitted: ', formData)
             //create module action
             dispatch(createModules(formData))
         },
